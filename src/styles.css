@@ -1,10 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
 @font-face {
-    font-family: 'Afcad';
-    src: url('./assests/font/Afacad/static/Afacad-Regular.ttf');
+  font-family: "Afacad";
+  src: url("assets/fonts/Afacad/static/Afacad-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
- 
-html, body { height: 100%; }
-body { margin: 0; font-family: 'Afcad', sans-serif; list-style: none;
- 
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "afacad";
+  height: 100%;
 }
