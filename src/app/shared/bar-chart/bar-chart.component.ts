@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @Component({
@@ -8,6 +8,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   styleUrl: './bar-chart.component.css'
 })
 export class BarChartComponent {
+ @Input() barChartName!:string;
   data=[
     {
       "name": "Germany",
@@ -59,4 +60,8 @@ export class BarChartComponent {
   axisFormat=(val:any)=>{
        return '$'+val;
   }
+  xAxisTickFormat(value: string): string {
+    return ' ' + value; // Add a space before the value
+  }
+  
 }
