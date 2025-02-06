@@ -1,0 +1,33 @@
+<div class="navbar">
+  <nav class="primary">
+    <a routerLink="/analysis" routerLinkActive="selected" class="navigation"
+      >Analysis</a
+    >
+    <a routerLink="/department" routerLinkActive="selected" class="navigation"
+      >Departments</a
+    >
+    <a routerLink="/product" routerLinkActive="selected" class="navigation"
+      >Product</a
+    >
+    <a routerLink="/operator" routerLinkActive="selected" class="navigation"
+      >Operator</a
+    >
+  </nav>
+  <div class="secondary">
+    <div class="btn-group">
+      <button class="btn selected">Revenue</button>
+      <button class="btn">Quantity</button>
+    </div>
+    <div class="filter">
+      <div class="domain">Dec 30 - Jan 30</div>
+      <div class="dropdown">Year</div>
+    </div>
+    <div class="profile">
+      <img [src]="image_path" alt="P" class="profile-img" />
+      <div class="profile-details">
+        <div class="name">Dinesh Raja</div>
+        <div class="role">Intern</div>
+      </div>
+    </div>
+  </div>
+</div>
