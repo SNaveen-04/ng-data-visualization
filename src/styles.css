@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Afcad';
+    src: url('./assests/font/Afacad/static/Afacad-Regular.ttf');
+}
+ 
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Afcad', sans-serif; list-style: none;
+ 
+}
