@@ -1,0 +1,11 @@
+:host{
+  flex: 1;
+  height: 300px;
+  margin-bottom: 0;
+}
+.container{
+  margin-top: 30px;
+}
+p{
+  margin-left: 70px;
+}
