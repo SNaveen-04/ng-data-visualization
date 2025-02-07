@@ -4,7 +4,7 @@ import { HorizontalBarChartComponent } from '../../shared/d3-bar-chart/horizonta
 
 @Component({
   selector: 'app-store-analysis',
-  imports: [HorizontalBarChartComponent],
+  imports: [HorizontalBarChartComponent, LineChartComponent],
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
 })
