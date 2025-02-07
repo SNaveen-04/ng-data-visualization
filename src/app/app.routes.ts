@@ -7,8 +7,8 @@ export const routes: Routes = [
     redirectTo: 'analysis',
     pathMatch: 'full',
   },
-  {
-    path: '**',
-    component: DropDownComponent,
-  },
+  // {
+  //   path: '**',
+  //   component: DropDownComponent,
+  // },
 ];

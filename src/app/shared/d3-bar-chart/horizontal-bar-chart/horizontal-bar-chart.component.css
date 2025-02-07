@@ -1,8 +1,15 @@
-.bar {
-    fill: steelblue;
+  p{
+    margin: 0;
+    margin-left: 50px;
   }
-  
-  .bar:hover {
-    fill: orange;
+  .container{
+    background-color: white;
+    border-radius: 20px;
+    width: 400px;
+   
   }
+#chart{
+   /* border: solid black 5px; */
+   
+}
   
