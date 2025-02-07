@@ -127,3 +127,4 @@ export class CustomerInsightsComponent {
           .attr('fill', (line, index) => (index === 0 ? '#000000' : '#666666'));
       });
   }
+}
