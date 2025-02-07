@@ -46,6 +46,11 @@ export class HorizontalBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.createChart();
 
+var width = window.innerWidth;
+var height = window.innerHeight;
+
+console.log('Width: ' + width + 'px');
+console.log('Height: ' + height + 'px');
 
   }
   private createChart(): void {

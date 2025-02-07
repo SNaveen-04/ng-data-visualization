@@ -5,23 +5,23 @@
 }
 
 .dropdown {
-  height: 80px;
+  height: 50px;
 }
 
 .analysis {
   margin: 10px 50px;
-  flex: 1;
+  height: min-content;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 30px;
+  gap: 15px;
   justify-content: center;
   width: calc(100vw - 100px);
   box-sizing: border-box;
 }
 
 .analysis > div {
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
 }
@@ -30,7 +30,7 @@
   width: 70%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   justify-content: space-between;
 }
 
@@ -40,9 +40,9 @@
   background-color: white;
   /* box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.12); */
   /*  */
-  /* display: flex;
+  display: flex;
   justify-content: center;
-  align-items: center; */
+  align-items: center;
   /*  */
 }
 
@@ -51,7 +51,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  gap: 25px;
+  gap: 15px;
 }
 
 .top,
@@ -73,20 +73,18 @@
 .analysis > .group-2 {
   width: 30%;
   height: 820px;
-  gap: 35px;
+  gap: 15px;
 }
 
 .customer-insights {
-  height: 40%;
+  height: 260px;
+  color: #404040;
+  font-size: 19px;
+  padding-top: 24px;
+  padding-left: 30px;
   background-color: white;
   /* box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.12); */
   border-radius: 40px;
-
-  /*  */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /*  */
 }
 
 .cross-selling {
@@ -100,3 +98,25 @@
   justify-content: center;
   /*  */
 }
+
+/* @media screen and (max-width: 1440px) {
+  .trends {
+    height: 300px;
+  }
+
+  .top,
+  .least {
+    height: 200px;
+  }
+
+  .customer-insights {
+    height: 20%;
+  }
+  .cross-selling {
+    height: 50%;
+  }
+  .analysis {
+    flex: none;
+    height: max-content;
+  }
+} */

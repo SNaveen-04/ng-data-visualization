@@ -14,14 +14,6 @@ html {
   background-color: #F7F7F7;
 }
 
-html,
-body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
 
 .x.axis .ng-star-inserted {
   stroke-dasharray: 5, 10 !important;
