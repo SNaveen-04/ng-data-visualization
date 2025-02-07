@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
-import { HorizontalBarChartComponent } from "./shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component";
+
 @Component({
   selector: 'app-root',
-  imports: [NavbarComponent, RouterOutlet, HorizontalBarChartComponent],
+  imports: [NavbarComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
