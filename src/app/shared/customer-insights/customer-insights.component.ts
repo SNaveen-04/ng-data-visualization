@@ -6,6 +6,7 @@ interface Data {
   name: string;
   value: number;
 }
+
 @Component({
   selector: 'app-customer-insights',
   imports: [],
@@ -126,4 +127,3 @@ export class CustomerInsightsComponent {
           .attr('fill', (line, index) => (index === 0 ? '#000000' : '#666666'));
       });
   }
-}
