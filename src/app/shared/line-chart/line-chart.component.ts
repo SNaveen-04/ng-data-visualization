@@ -14,10 +14,11 @@ export class LineChartComponent {
   @ViewChild('chart') chart: any;
   public getScreenWidth: any;
   view: [number, number] = [760, 400];
-
+  colors: string[] = [];
   data = [
     {
       name: 'Kazakhstan',
+      color: '#000',
       series: [
         {
           value: 2394,
@@ -46,7 +47,9 @@ export class LineChartComponent {
   curve = curveCatmullRom;
 
   constructor() {
-    // Object.assign(this, { data });
+    Object.assign(this, { data });
+    this.colors = data.map((d) => d.color);
+    this.customScheme.domain = this.colors;
   }
 
   ngAfterViewInit() {
@@ -65,10 +68,6 @@ export class LineChartComponent {
   }
 
   yAxisFormat(d: number) {
-    return d / 1000 + 'k';
-  }
-
-  onResize(event: any) {
-    // this.view = [event.target.innerWidth - 400, 500];
+    return '$' + d;
   }
 }
