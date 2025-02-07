@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LineChartComponent } from './shared/line-chart/line-chart.component';
-import { BarChartComponent } from './shared/bar-chart/bar-chart.component';
 import { StoreAnalysisComponent } from './pages/store-analysis/store-analysis.component';
 import { ProductAnalysisComponent } from './pages/product-analysis/product-analysis.component';
 import { DepartmentAnalysisComponent } from './pages/department-analysis/department-analysis.component';
@@ -26,10 +25,10 @@ export const routes: Routes = [
   },
   {
     path: 'operator',
-    component: LineChartComponent,
+    component: OperatorAnalysisComponent,
   },
   {
     path: '**',
-    component: BarChartComponent,
+    component: LineChartComponent,
   },
 ];
