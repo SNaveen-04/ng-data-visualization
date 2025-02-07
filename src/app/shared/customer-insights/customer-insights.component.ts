@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { customerData } from '../../../data';
 
@@ -19,6 +19,8 @@ export class CustomerInsightsComponent {
   colors: string[] = ['#50C878', '#F4C542'];
   tooltip: any;
   textSvg: any;
+   
+  @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
 
   ngOnInit(): void {
     this.customerInsightsData.forEach((element) => {
@@ -38,7 +40,8 @@ export class CustomerInsightsComponent {
       .range(this.colors);
 
     const svg = d3
-      .select('svg')
+      .select(this.chartContainer.nativeElement)
+      .append('svg')
       .attr('width', width)
       .attr('height', height)
       .append('g')

@@ -9,4 +9,8 @@ import { HorizontalBarChartComponent } from '../../shared/d3-bar-chart/horizonta
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
 })
-export class StoreAnalysisComponent {}
+export class StoreAnalysisComponent {
+
+
+  
+}

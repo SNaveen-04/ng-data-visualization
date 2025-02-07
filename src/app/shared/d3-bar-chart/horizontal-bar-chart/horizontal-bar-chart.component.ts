@@ -93,6 +93,7 @@ console.log('Height: ' + height + 'px');
     // Add color to the country labels and move them up
     yAxis.selectAll('.tick text')
       .attr('font-size', '14px')
+      .attr('font-family','afacad')
       .attr('fill', 'grey') // Replace 'yourColor' with the desired color (e.g., 'black', '#ff0000', etc.)
       .attr('dy', '-0.1em'); // Move the text up
 
@@ -119,6 +120,7 @@ console.log('Height: ' + height + 'px');
       .attr('font-weight', 'lighter') // Set font weight
       .attr('fill', 'black')
       .text(d => d.value)
+      .attr('font-family','afacad')
       .attr('text-baseline', 'start')
       .attr('alignment-baseline', 'middle') // Vertical alignment
       .attr('font-size', '14px');  // Consistent font size
