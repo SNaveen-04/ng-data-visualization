@@ -4,7 +4,7 @@ import { LineChartComponent } from '../../shared/line-chart/line-chart.component
 
 @Component({
   selector: 'app-store-analysis',
-  imports: [LineChartComponent,CustomerInsightsComponent],
+  imports: [LineChartComponent, CustomerInsightsComponent],
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
 })
