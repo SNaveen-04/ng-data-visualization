@@ -1,53 +1,56 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, } from '@angular/core';
 import * as d3 from 'd3';
 interface ChartData {
   name: string;
   value: number;
 }
+
 @Component({
   selector: 'app-horizontal-bar-chart',
   templateUrl: './horizontal-bar-chart.component.html',
   styleUrls: ['./horizontal-bar-chart.component.css']
 })
 export class HorizontalBarChartComponent implements OnInit {
+  data1: ChartData[] = [
+    {
+      "name": "Germany",
+      "value": 50000,
+    },
+    {
+      "name": "United States",
+      "value": 40000,
+    },
+    {
+      "name": "France",
+      "value": 30000,
+    },
+    {
+      "name": "United Kingdom",
+      "value": 20000,
+    },
+    {
+      "name": "Spain",
+      "value": 10000,
+    }
+  ];
+  
   @Input() title="Top selling products";
   @Input() color='#50C878';
+  @Input() data:any[]=this.data1;
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
-//  data3= {   name: "test",   "series": [     {       name: "20",       value: 160272.79  ,role:'developer'   },     {       name: "2025-01-25",       value: 176171.81     },     {       name: "2025-01-26",       value: 202409.59     },     {       name: "2025-01-27",       value: 148498.63     },     {       name: "2025-01-28",       value: 189548.09     }    ] }
-//  data:any[]=this.data3["series"];
-data:ChartData[]=[ {
-  name: "Germany",
-  value: 50000,
-
-},
-{
-  "name": "United States",
-  "value": 40000,
-
-},
-{
-  "name": "France",
-  "value": 30000,
-
-},
-{
-  "name": "United Kingdom",
-  "value": 20000,
-
-},
-{
-  "name": "Spain",
-  "value": 10000,
-}
-];
-
   constructor() {}
-
   ngOnInit(): void {
     this.createChart();
   }
-
   private createChart(): void {
+    if(this.title==='Top selling products')
+    {
+       this.data.sort((a,b)=>b.value-a.value);
+    }
+    else{
+       this.data.sort((a,b)=>a.value-b.value);
+    }
+
     const element = this.chartContainer.nativeElement;
     const data = this.data;
 
