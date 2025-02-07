@@ -1,0 +1,24 @@
+<ngx-charts-line-chart
+  [results]="data"
+  [view]="[400, 400]"
+  [showXAxisLabel]="true"
+  [yAxis]="true"
+  [xAxis]="true"
+  [scheme]="customScheme"
+  [showGridLines]="true"
+  [yAxisTickFormatting]="yAxisFormat"
+  [xAxisTickFormatting]="xAxisFormat"
+  [curve]="curve"
+  [autoScale]="true"
+></ngx-charts-line-chart>
+
+<ng-template #customMarkersTemplate let-marker="marker">
+  <svg:circle
+    cx="0"
+    cy="0"
+    r="5"
+    [attr.fill]="marker.fill"
+    stroke="none"
+    pointer-events="all"
+  ></svg:circle>
+</ng-template>
