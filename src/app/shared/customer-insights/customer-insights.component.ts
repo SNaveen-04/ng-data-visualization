@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { customerData } from '../../../data';
 
@@ -19,7 +19,8 @@ export class CustomerInsightsComponent {
   colors: string[] = ['#50C878', '#F4C542'];
   tooltip: any;
   textSvg: any;
-  private el = inject(ElementRef);
+
+  @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
 
   ngOnInit(): void {
     this.customerInsightsData.forEach((element) => {
@@ -29,7 +30,6 @@ export class CustomerInsightsComponent {
   }
 
   private createDonutChart() {
-    const element = this.el.nativeElement;
     const width = 350;
     const height = 200;
     const radius = Math.max(width, height) / 2 - 45;
@@ -40,7 +40,7 @@ export class CustomerInsightsComponent {
       .range(this.colors);
 
     const svg = d3
-      .select(element)
+      .select(this.chartContainer.nativeElement)
       .append('svg')
       .attr('width', width)
       .attr('height', height)
