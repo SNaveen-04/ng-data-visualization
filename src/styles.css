@@ -9,10 +9,11 @@ body,
 html {
   margin: 0;
   padding: 0;
-  font-family: "Afacad";
+  font-family: "afacad";
   height: 100%;
-  background-color: #f7f7f7;
+  background-color: #F7F7F7;
 }
+
 
 .x.axis .ng-star-inserted {
   stroke-dasharray: 5, 10 !important;
