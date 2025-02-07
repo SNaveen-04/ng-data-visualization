@@ -10,5 +10,27 @@ html {
   margin: 0;
   padding: 0;
   font-family: "afacad";
+  height: 100%;
+  background-color: #F7F7F7;
+}
 
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.x.axis .ng-star-inserted {
+  stroke-dasharray: 5, 10 !important;
+}
+
+.gridline-path.gridline-path-horizontal {
+  stroke-dasharray: 8, 10;
+}
+
+.gridline-path.gridline-path-vertical {
+  stroke: none !important;
 }
