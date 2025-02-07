@@ -30,11 +30,8 @@
     "@angular-devkit/build-angular": "^19.0.6",
     "@angular/cli": "^19.0.6",
     "@angular/compiler-cli": "^19.0.0",
-<<<<<<< HEAD
     "@types/d3-shape": "^3.1.7",
-=======
     "@types/d3": "^7.4.3",
->>>>>>> 33bd8ce3b567ae06835152b06004acc4f5f3516d
     "@types/jasmine": "~5.1.0",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
