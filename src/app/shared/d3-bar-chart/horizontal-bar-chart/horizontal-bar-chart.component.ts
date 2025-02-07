@@ -11,6 +11,10 @@ interface ChartData {
   styleUrls: ['./horizontal-bar-chart.component.css']
 })
 export class HorizontalBarChartComponent implements OnInit {
+
+
+
+
   data1: ChartData[] = [
     {
       "name": "Germany",
@@ -41,6 +45,8 @@ export class HorizontalBarChartComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {
     this.createChart();
+
+
   }
   private createChart(): void {
     if(this.title==='Top selling products')
@@ -50,13 +56,14 @@ export class HorizontalBarChartComponent implements OnInit {
     else{
        this.data.sort((a,b)=>a.value-b.value);
     }
+    const brower_width=300,browser_height=250;
+    // const brower_width=500,browser_height=280;   //monitor
 
     const element = this.chartContainer.nativeElement;
     const data = this.data;
     const margin = { top: 10, right: 0, bottom: 40, left: 150 }; // Reduced top margin
-    const width = 500 - margin.left - margin.right; // Adjust width
-    const height = 280 - margin.top - margin.bottom; // Adjust height
-
+    const width = brower_width - margin.left - margin.right; // Adjust width
+    const height = browser_height - margin.top - margin.bottom; // Adjust height
     const svg = d3.select(element)
       .append('svg')
       .attr('width', width + margin.left + margin.right + 100)  // Adjust for additional space
