@@ -9,3 +9,18 @@
 p{
   margin-left: 70px;
 }
+
+#tooltip {   
+  position: absolute;           
+  text-align: center;           
+  width: auto;                  
+  height: auto;                 
+  padding: 5px;             
+  font: 15px afacad;        
+  background-color: rgb(35, 35, 35);
+  color: rgb(255, 255, 255); /* Add this line to change text color to white */
+  border: 0px;             
+  /* pointer-events: none;          */
+  opacity: 0;
+  transition: opacity 0.2s;
+}
