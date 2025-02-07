@@ -8,6 +8,6 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  barChartName:string="Top selling products"
-   title="App c"
+  barChartName: string = 'Top selling products';
+  title = 'App component';
 }
