@@ -10,5 +10,6 @@ import { DropDownComponent } from "./shared/drop-down/drop-down.component";
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'visualization-project';
+  barChartName:string="Top selling products"
+ 
 }
