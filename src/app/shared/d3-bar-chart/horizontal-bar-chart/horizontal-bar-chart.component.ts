@@ -117,8 +117,8 @@ console.log('Height: ' + height + 'px');
       .attr('class', 'value-label')
       .attr('y', d => (y(d.name) ?? 0) + (y.bandwidth() / 2-4))  // Bar value adjust
       .attr('x', d => (x(d.value) ?? 0) + 10)  // Bar value space adjust
-      .attr('font-weight', 'lighter') // Set font weight
-      .attr('fill', 'black')
+      .attr('font-weight', '400') // Set font weight
+      .attr('fill', '#404040')
       .text(d => d.value)
       .attr('font-family','afacad')
       .attr('text-baseline', 'start')
