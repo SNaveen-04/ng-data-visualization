@@ -1,3 +1,22 @@
+.heading {
+  padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+span {
+  display: inline-block;
+}
+
+.legend-container {
+  width: 50%;
+  background-color: aliceblue;
+}
+
 .x.axis .ng-star-inserted {
   stroke-dasharray: 10, 10 !important;
+}
+
+.ngx-charts .gridline-path {
+  stroke-width: 2 !important;
 }
