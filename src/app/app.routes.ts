@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { DropDownComponent } from './shared/drop-down/drop-down.component';
+import { LineChartComponent } from './shared/line-chart/line-chart.component';
 
 export const routes: Routes = [
   {
@@ -9,6 +9,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    component: DropDownComponent,
+    component: LineChartComponent,
   },
 ];
