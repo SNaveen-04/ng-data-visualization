@@ -76,16 +76,14 @@
 }
 
 .customer-insights {
-  height: 40%;
+  height: 260px;
+  color: #404040;
+  font-size: 19px;
+  padding-top: 24px;
+  padding-left: 30px;
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.12);
   border-radius: 40px;
-
-  /*  */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /*  */
 }
 
 .cross-selling {

@@ -1,16 +1,14 @@
 import { Component } from '@angular/core';
-import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import * as d3 from 'd3';
-import { customerData } from '../../data';
+import { customerData } from '../../../data';
 
 interface Data {
   name: string;
   value: number;
 }
-
 @Component({
   selector: 'app-customer-insights',
-  imports: [NgxChartsModule],
+  imports: [],
   templateUrl: './customer-insights.component.html',
   styleUrl: './customer-insights.component.css',
 })
@@ -18,6 +16,8 @@ export class CustomerInsightsComponent {
   customerInsightsData = customerData;
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
+  tooltip: any;
+  textSvg: any;
 
   ngOnInit(): void {
     this.customerInsightsData.forEach((element) => {
@@ -28,7 +28,7 @@ export class CustomerInsightsComponent {
 
   private createDonutChart() {
     const width = 350;
-    const height = 145;
+    const height = 200;
     const radius = Math.max(width, height) / 2 - 45;
 
     const color = d3
@@ -41,7 +41,7 @@ export class CustomerInsightsComponent {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', `translate(70, ${height / 2})`);
+      .attr('transform', `translate(70, 110)`);
 
     const pie = d3
       .pie<Data>()
@@ -58,14 +58,23 @@ export class CustomerInsightsComponent {
       .data(pie(this.customerInsightsData))
       .enter()
       .append('g')
-      .attr('class', 'arc')
-      .attr('fill', '50C878');
+      .attr('class', 'arc');
 
     arcs
       .append('path')
       .attr('d', arc)
-      .attr('fill', '50C878')
-      .attr('fill', (d) => color(d.data.name));
+      .attr('fill', (d) => color(d.data.name))
+      .each(function (d) {
+        (this as any)._current = d;
+      })
+      .transition()
+      .duration(1000)
+      .attrTween('d', function (d) {
+        const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+        return function (t) {
+          return arc(interpolate(t)) as string;
+        };
+      });
 
     arcs
       .append('text')
@@ -87,7 +96,7 @@ export class CustomerInsightsComponent {
       .enter()
       .append('g')
       .attr('class', 'legend-group')
-      .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 3})`);
+      .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
 
     legendGroup
       .append('rect')
