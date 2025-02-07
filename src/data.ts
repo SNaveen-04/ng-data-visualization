@@ -1,10 +1,10 @@
 export const customerData = [
   {
     name: 'Repeated customer',
-    value: 8940000,
+    value: 1750,
   },
   {
-    name: 'USA',
-    value: 5000000,
+    name: 'New customer',
+    value: 574,
   },
 ];
