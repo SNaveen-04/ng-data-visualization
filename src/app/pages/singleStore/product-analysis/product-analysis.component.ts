@@ -3,6 +3,7 @@ import { CustomerInsightsComponent } from '../../../shared/customer-insights/cus
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { data } from '../../data';
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
+import { DropDownComponent } from "../../../shared/drop-down/drop-down.component";
 
 @Component({
   selector: 'app-product-analysis',
@@ -10,7 +11,8 @@ import { LineChartComponent } from '../../../shared/line-chart/line-chart.compon
     CustomerInsightsComponent,
     CrossSellingProductsComponent,
     LineChartComponent,
-  ],
+    DropDownComponent
+],
   templateUrl: './product-analysis.component.html',
   styleUrl: './product-analysis.component.css',
 })

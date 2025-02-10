@@ -3,6 +3,7 @@ import { CustomerInsightsComponent } from '../../../shared/customer-insights/cus
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
 import { ProductSalesComponent } from '../../../shared/product-sales/product-sales.component';
 import { data } from '../../data';
+import { DropDownComponent } from "../../../shared/drop-down/drop-down.component";
 
 @Component({
   selector: 'app-operator-analysis',
@@ -10,7 +11,8 @@ import { data } from '../../data';
     CustomerInsightsComponent,
     LineChartComponent,
     ProductSalesComponent,
-  ],
+    DropDownComponent
+],
   templateUrl: './operator-analysis.component.html',
   styleUrl: './operator-analysis.component.css',
 })

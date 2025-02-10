@@ -1,0 +1,13 @@
+<div class="input">
+  <input type="text" [(ngModel)]="value" />
+  <span class="drop-down-arrow">
+    <img [src]="image_path" alt="P" class="profile-img" height="8" width="8"
+  /></span>
+</div>
+<div class="drop-down">
+  <ul class="list">
+    @for(list of listElements;track list){
+    <li class="option" (click)="select(list)">{{ list }}</li>
+    }
+  </ul>
+</div>
