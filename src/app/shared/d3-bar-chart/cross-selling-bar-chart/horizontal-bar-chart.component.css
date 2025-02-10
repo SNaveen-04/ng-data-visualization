@@ -1,18 +1,23 @@
 :host{
   flex: 1;
-  height: 300px;
+  height: 250px;    
+  
+  /* heigth adjusted from 300px to 250 px  */
   margin-bottom: 0;
 }
 #chart{
-  height: 250px;
   width: 300px;
+  height: 190px;
 }
 .container{
-  margin-top: 30px;
+  margin-top: 0px;
 }
 p{
-  margin-left: 10px;
+  font-family: Afacad;
+  margin-left: 30px;
+  margin-bottom: 0px;
 }
+
 #tooltip {   
   position: absolute;           
   text-align: center;           

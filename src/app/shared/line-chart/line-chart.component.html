@@ -1,13 +1,44 @@
 <div class="heading">
   <span class="title"> Sales trends </span>
   <div class="legend-container">
-    @for (d of data; track d.name) {
-    <span class="legend">{{ d.name }}</span>
+    @for (d of chartData(); track d.name;let idx=$index) {
+    <span class="legend">
+      <svg
+        width="46"
+        height="17"
+        viewBox="0 0 46 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M2 14.5223C4.5917 13.1118 6.80916 10.3495 9.32407 8.60244C10.6551 7.67785 12.1554 5.70704 13.5802 5.51744C15.2809 5.29111 17.0826 6.62318 18.679 7.47683C22.9133 9.74097 27.3869 12.8005 31.8148 13.0215C34.3367 13.1474 37.4426 13.5916 39.6358 10.7703C40.9452 9.08592 42.5226 7.2181 44 6.26784"
+          [attr.stroke]="colors[idx % colors.length]"
+          stroke-opacity="1"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <circle
+          cx="14"
+          cy="4.5"
+          r="3"
+          [attr.fill]="colors[idx % colors.length]"
+          style="fill-opacity: 1"
+        />
+        <circle
+          cx="35"
+          cy="12.5"
+          r="3"
+          [attr.fill]="colors[idx % colors.length]"
+          style="fill-opacity: 1"
+        />
+      </svg>
+      {{ d.name }}</span
+    >
     }
   </div>
 </div>
 <ngx-charts-line-chart
-  [results]="data"
+  [results]="chartData()"
   [view]="view"
   [showXAxisLabel]="true"
   [yAxis]="true"
@@ -15,13 +46,13 @@
   [scheme]="customScheme"
   [showGridLines]="true"
   [xAxisTickFormatting]="xAxisFormat"
+  [yAxisTickFormatting]="yAxisFormat"
   [curve]="curve"
   class="chart"
   [showXAxisLabel]="true"
   [xAxisLabel]="'Month'"
   [showYAxisLabel]="true"
   [yAxisLabel]="'Sales'"
-  (window:resize)="onResize($event)"
   [roundDomains]="true"
   #chart
 ></ngx-charts-line-chart>
