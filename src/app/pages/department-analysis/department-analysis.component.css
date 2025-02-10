@@ -1,6 +1,6 @@
-/* .dropdown {
-   height: 50px; 
-} */
+.dropdown {
+  height: 50px;
+}
 
 /* Size should be adjusted to 500 px */
 .analysis {
@@ -28,7 +28,7 @@
   /*  */
 }
 
-.analysis>.group-2 {
+.analysis > .group-2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -38,7 +38,7 @@
 }
 
 .customer-insights {
-  height: 260px;
+  height: 220px;
   color: #404040;
   font-size: 19px;
   padding-top: 24px;
