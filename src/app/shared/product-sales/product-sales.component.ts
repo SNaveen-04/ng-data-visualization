@@ -8,12 +8,12 @@ interface Data {
 }
 
 @Component({
-  selector: 'app-customer-insights',
+  selector: 'app-product-sales',
   imports: [],
-  templateUrl: './customer-insights.component.html',
-  styleUrl: './customer-insights.component.css',
+  templateUrl: './product-sales.component.html',
+  styleUrl: './product-sales.component.css',
 })
-export class CustomerInsightsComponent {
+export class ProductSalesComponent {
   customerInsightsData = customerData;
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
@@ -32,7 +32,7 @@ export class CustomerInsightsComponent {
   private createDonutChart() {
     const width = 350;
     const height = 200;
-    const radius = Math.max(width, height) / 2 - 45;
+    const radius = Math.min(width, height) / 2 - 30;
 
     const color = d3
       .scaleOrdinal<string, string>()
@@ -54,8 +54,8 @@ export class CustomerInsightsComponent {
 
     const arc = d3
       .arc<d3.PieArcDatum<Data>>()
-      .innerRadius(radius / 2.3)
-      .outerRadius(radius / 2);
+      .innerRadius(0)
+      .outerRadius(radius);
 
     const arcs = svg
       .selectAll('.arc')
@@ -78,8 +78,8 @@ export class CustomerInsightsComponent {
             `<span style="display: inline-block; width:12px;height:12px; background-color:${color(
               d.data.name
             )}; margin-right: 5px"></span>
-           ${d.data.name}
-              ${d.data.value}`
+             ${d.data.name}
+                ${d.data.value}`
           );
       })
       .on('mouseout', () => {
@@ -96,20 +96,6 @@ export class CustomerInsightsComponent {
         return (t) => arc(interpolate(t)) as string;
       });
 
-    arcs
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '1.1em')
-      .style('font-size', '15px')
-      .attr('fill', '#666666')
-      .text('Total customer');
-    arcs
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '-0.1em')
-      .style('font-size', '20px')
-      .text(this.totalCustomer);
-
     const legendGroup = svg
       .selectAll('.legend-group')
       .data(customerData)
@@ -120,8 +106,8 @@ export class CustomerInsightsComponent {
 
     legendGroup
       .append('rect')
-      .attr('width', 5)
-      .attr('height', 30)
+      .attr('width', 12)
+      .attr('height', 12)
       .attr('x', -10)
       .attr('y', -10)
       .attr('rx', 3)
