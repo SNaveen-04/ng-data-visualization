@@ -11,7 +11,7 @@ import { CrossSellingBarChartComponent } from '../../shared/d3-bar-chart/cross-s
     LineChartComponent,
     CustomerInsightsComponent,
     HorizontalBarChartComponent,
-    CrossSellingBarChartComponent
+    CrossSellingBarChartComponent,
   ],
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
@@ -27,21 +27,21 @@ export class StoreAnalysisComponent {
     }[];
   }[];
 
-  // constructor() {
-  //   Object.assign(this, { data });
-  // }
+  constructor() {
+    Object.assign(this, { data });
+  }
 
   ngOnInit() {
-    this.httpService.getLineChartData().subscribe({
-      next: (data) => {
-        this.data = data as {
-          name: string;
-          color: string;
-          series: { name: string; value: string }[];
-        }[];
-        // console.log(this.data);
-      },
-      error: (error) => console.log(error),
-    });
+    // this.httpService.getLineChartData().subscribe({
+    //   next: (data) => {
+    //     this.data = data as {
+    //       name: string;
+    //       color: string;
+    //       series: { name: string; value: string }[];
+    //     }[];
+    //     console.log(this.data);
+    //   },
+    //   error: (error) => console.log(error),
+    // });
   }
 }

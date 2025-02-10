@@ -1,9 +1,0 @@
-<mat-form-field>
-  <mat-label>Favorite Food</mat-label>
-  <mat-select [(value)]="selectedFood">
-    <mat-option></mat-option>
-    @for (option of foods; track option) {
-    <mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
