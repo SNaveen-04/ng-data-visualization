@@ -1,6 +1,7 @@
 export const data = [
   {
     name: 'Kazakhstan',
+    color: 'red',
     series: [
       {
         value: 2394,
@@ -26,6 +27,7 @@ export const data = [
   },
   {
     name: 'Bangladesh',
+    color: 'black',
     series: [
       {
         value: 1,
@@ -51,6 +53,7 @@ export const data = [
   },
   {
     name: 'Georgia',
+    color: 'green',
     series: [
       {
         value: 2399,
@@ -76,6 +79,7 @@ export const data = [
   },
   {
     name: 'Botswana',
+    color: 'pink',
     series: [
       {
         value: 2965,
@@ -101,6 +105,7 @@ export const data = [
   },
   {
     name: 'Comoros',
+    color: 'yellow',
     series: [
       {
         value: 5374,
