@@ -1,6 +1,8 @@
 .dropdown {
   height: 50px;
 }
+
+/* Size should be adjusted to 500 px */
 .analysis {
   margin: 10px 50px;
   flex: 1;
