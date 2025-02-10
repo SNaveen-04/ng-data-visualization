@@ -1,7 +1,7 @@
 <div class="heading">
   <span class="title"> Sales trends </span>
   <div class="legend-container">
-    @for (d of data; track d.name) {
+    @for (d of chartData(); track d.name;let idx=$index) {
     <span class="legend">
       <svg
         width="46"
@@ -12,7 +12,7 @@
       >
         <path
           d="M2 14.5223C4.5917 13.1118 6.80916 10.3495 9.32407 8.60244C10.6551 7.67785 12.1554 5.70704 13.5802 5.51744C15.2809 5.29111 17.0826 6.62318 18.679 7.47683C22.9133 9.74097 27.3869 12.8005 31.8148 13.0215C34.3367 13.1474 37.4426 13.5916 39.6358 10.7703C40.9452 9.08592 42.5226 7.2181 44 6.26784"
-          [attr.stroke]="d.color"
+          [attr.stroke]="colors[idx % colors.length]"
           stroke-opacity="1"
           stroke-width="2"
           stroke-linecap="round"
@@ -21,14 +21,14 @@
           cx="14"
           cy="4.5"
           r="3"
-          [attr.fill]="d.color"
+          [attr.fill]="colors[idx % colors.length]"
           style="fill-opacity: 1"
         />
         <circle
           cx="35"
           cy="12.5"
           r="3"
-          [attr.fill]="d.color"
+          [attr.fill]="colors[idx % colors.length]"
           style="fill-opacity: 1"
         />
       </svg>
@@ -38,7 +38,7 @@
   </div>
 </div>
 <ngx-charts-line-chart
-  [results]="data"
+  [results]="chartData()"
   [view]="view"
   [showXAxisLabel]="true"
   [yAxis]="true"

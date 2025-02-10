@@ -1,7 +1,6 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, input, ViewChild } from '@angular/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { curveCatmullRom } from 'd3-shape';
-import { data } from './data';
 import { CustomLinerChartService } from './CustomLineChartService';
 @Component({
   selector: 'app-line-chart',
@@ -11,60 +10,61 @@ import { CustomLinerChartService } from './CustomLineChartService';
 })
 export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
+  format = input<'Month' | 'Year'>();
+  chartData = input.required<
+    {
+      name: string;
+      color: string;
+      series: {
+        name: string;
+        value: string;
+      }[];
+    }[]
+  >();
+
+  get data() {
+    return this.chartData();
+  }
   @ViewChild('chart') chart: any;
-  public getScreenWidth: any;
   view: [number, number] = [760, 400];
   colors: string[] = [];
-  data = [
-    {
-      name: 'Kazakhstan',
-      color: '#000',
-      series: [
-        {
-          value: 2394,
-          name: '2016-09-20T11:02:58.070Z',
-        },
-        {
-          value: 2714,
-          name: '2016-09-17T17:26:35.797Z',
-        },
-        {
-          value: 2697,
-          name: '2016-09-16T13:26:47.646Z',
-        },
-        {
-          value: 5269,
-          name: '2016-09-20T20:17:01.389Z',
-        },
-        {
-          value: 17213,
-          name: '2016-09-23T06:15:35.222Z',
-        },
-      ],
-    },
-  ];
 
   curve = curveCatmullRom;
 
-  constructor() {
-    Object.assign(this, { data });
-    this.colors = data.map((d) => d.color);
+  ngOnInit() {
+    this.colors = ['red', 'green', 'yellow'];
     this.customScheme.domain = this.colors;
+    console.log('OnInit');
+    console.log(this.chartData());
   }
 
-  ngAfterViewInit() {
+  ngAfterViewChecked() {
     this.customLinerChartService.showDots(this.chart);
   }
 
   customScheme: Color = {
-    domain: ['#50C878', '#F4C542'],
+    domain: [],
     name: 'customScheme',
     selectable: true,
     group: ScaleType.Ordinal,
   };
 
   xAxisFormat(d: string) {
-    return new Date(d).getDay();
+    const months = [
+      'JAN',
+      'FEB',
+      'MAR',
+      'APR',
+      'MAY',
+      'JUN',
+      'JUL',
+      'AUG',
+      'SEP',
+      'OCT',
+      'NOV',
+      'DEC',
+    ];
+    return months[new Date(d).getMonth()];
   }
 
   yAxisFormat(d: number) {
