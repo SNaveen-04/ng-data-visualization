@@ -52,6 +52,7 @@
   border-radius: 5px;
   background-color: white;
   font-family: "Afacad";
+  cursor: pointer;
 }
 
 .btn-group > .btn.selected {
@@ -96,11 +97,6 @@
 .primary > .navigation:hover {
   padding-bottom: 16px;
   border-bottom: 1px solid black;
-}
-
-.btn-group > .btn:hover {
-  background-color: #50c878;
-  color: white;
 }
 /*  */
 

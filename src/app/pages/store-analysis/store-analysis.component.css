@@ -63,7 +63,6 @@
   border-radius: 40px;
   display: flex;
   flex-direction: row;
-
   /*  */
   justify-content: center;
   align-items: center;
@@ -88,14 +87,17 @@
 }
 
 .cross-selling {
-  height: calc(100% - 260px);
+  p{
+    margin-left: 30px;
+  }
+  /* height: calc(100% - 260px); */
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
   /*  */
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   /*  */
 }
 

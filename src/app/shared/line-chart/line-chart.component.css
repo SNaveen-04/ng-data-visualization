@@ -1,5 +1,5 @@
 .heading {
-  padding: 10px 50px;
+  padding: 20px 50px;
   display: flex;
   justify-content: space-between;
 }
@@ -9,8 +9,14 @@ span {
 }
 
 .legend-container {
-  width: 50%;
-  background-color: aliceblue;
+  display: inline-flex;
+  justify-content: end;
+  width: 80%;
+}
+.legend {
+  margin: 1px;
+  display: inline-block;
+  font-size: small;
 }
 
 .x.axis .ng-star-inserted {
