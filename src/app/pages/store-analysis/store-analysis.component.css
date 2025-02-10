@@ -39,11 +39,7 @@
   border-radius: 40px;
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
-  /*  */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /*  */
+
 }
 
 .selling {
@@ -57,16 +53,17 @@
 .top,
 .least {
   flex: 1;
+    color: #404040;
+      font-size: 19px;
+      padding-top: 24px;
+      padding-left: 30px;
   height: 300px;
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
   display: flex;
   flex-direction: row;
-  /*  */
-  justify-content: center;
-  align-items: center;
-  /*  */
+
 }
 
 .analysis > .group-2 {
@@ -87,38 +84,12 @@
 }
 
 .cross-selling {
-  p{
-    margin-left: 30px;
-  }
-  /* height: calc(100% - 260px); */
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
-  /*  */
-  /* display: flex;
-  align-items: center;
-  justify-content: center; */
-  /*  */
+        color: #404040;
+        font-size: 19px;
+        padding-top: 24px;
+        padding-left: 30px;
+
 }
-
-/* @media screen and (max-width: 1440px) {
-  .trends {
-    height: 300px;
-  }
-
-  .top,
-  .least {
-    height: 200px;
-  }
-
-  .customer-insights {
-    height: 20%;
-  }
-  .cross-selling {
-    height: 50%;
-  }
-  .analysis {
-    flex: none;
-    height: max-content;
-  }
-} */
