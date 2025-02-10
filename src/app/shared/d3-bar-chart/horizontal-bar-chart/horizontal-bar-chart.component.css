@@ -3,6 +3,10 @@
   height: 300px;
   margin-bottom: 0;
 }
+#chart{
+  height: 250px;
+  width: 300px;
+}
 .container{
   margin-top: 30px;
 }
