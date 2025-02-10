@@ -16,17 +16,29 @@
 p{
   margin-left: 10px;
 }
-#tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: auto;                  
-  height: auto;                 
-  padding: 5px;             
-  font: 15px afacad;        
-  background-color: rgb(35, 35, 35);
-  color: rgb(255, 255, 255); /* Add this line to change text color to white */
-  border: 0px;             
+#tooltip {
+  position: absolute;
+  text-align: center;
+  width: auto;
+  height: auto;
+  padding: 5px;
+  font: 12px afacad;
+  background-color: rgb(0, 0, 0, 0.75);
+  color: rgb(255, 255, 255);
+  border: 0px;
   /* pointer-events: none;          */
   opacity: 0;
   transition: opacity 0.2s;
+  border-radius: 5px;
+}
+
+#tooltip::before {
+  content: "";
+  position: absolute;
+  left: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent rgba(0, 0, 0, 0.75) transparent transparent;
 }
