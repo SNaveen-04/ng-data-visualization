@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
-import { LineChartComponent } from '../../shared/line-chart/line-chart.component';
-import { ProductSalesComponent } from '../../shared/product-sales/product-sales.component';
-import { data } from '../data';
+import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
+import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
+import { ProductSalesComponent } from '../../../shared/product-sales/product-sales.component';
+import { data } from '../../data';
 
 @Component({
   selector: 'app-operator-analysis',
