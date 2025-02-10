@@ -63,7 +63,7 @@
   border-radius: 40px;
   display: flex;
   flex-direction: row;
-
+   padding-left: 50px;
   /*  */
   justify-content: center;
   align-items: center;

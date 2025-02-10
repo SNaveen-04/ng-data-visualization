@@ -5,9 +5,10 @@
   </div>
   <div class="group-2">
     <div class="customer-insights">
-      Customer Insights
       <app-customer-insights />
     </div>
-    <div class="customer-insights">Cross Selling</div>
+    <div class="customer-insights"> 
+      <app-horizontal-bar-chart [data]="data1" color="#50C878" title="Top Selling products" [brower_width]="300" [browser_height]="250"></app-horizontal-bar-chart>
+    </div>
   </div>
 </div>

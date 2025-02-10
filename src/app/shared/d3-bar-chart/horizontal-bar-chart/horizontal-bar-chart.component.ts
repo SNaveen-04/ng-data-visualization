@@ -13,48 +13,39 @@ interface ChartData {
 })
 export class HorizontalBarChartComponent implements OnInit {
 
-
-
-
   data1: ChartData[] = [
     {
       "name": "Germany",
-      "value": 50000,
+      "value": 50,
     },
     {
       "name": "United States",
-      "value": 40000,
+      "value": 40,
     },
     {
       "name": "France",
-      "value": 30000,
+      "value": 30,
     },
     {
-      "name": "United Kingdom",
-      "value": 20000,
+      "name": "Cheese Bread",
+      "value": 20,
     },
     {
       "name": "Spain",
-      "value": 10000,
+      "value": 10,
     }
   ];
   
   @Input() title="Top selling products";
   @Input() color='#50C878';
   @Input() data:any[]=this.data1;
+  @Input() brower_width = 300;
+  @Input() browser_height = 250;
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
     this.createChart();
-
-var width = window.innerWidth;
-var height = window.innerHeight;
-
-console.log('Width: ' + width + 'px');
-console.log('Height: ' + height + 'px');
-
   }
-  
 
   private createChart(): void {
     if(this.title==='Top selling products') {
@@ -62,24 +53,24 @@ console.log('Height: ' + height + 'px');
     } else {
       this.data.sort((a, b) => a.value - b.value);
     }
-    const brower_width = 300, browser_height = 250;
+
     const element = this.chartContainer.nativeElement;
     const data = this.data;
-    const margin = { top: 10, right: 0, bottom: 40, left: 150 };
-    const width = brower_width - margin.left - margin.right;
-    const height = browser_height - margin.top - margin.bottom;
+    const margin = { top: 10, right: 10, bottom: 40, left: 70 }; // Increased left margin to provide space for labels
+    const width = this.brower_width - margin.left - margin.right;
+    const height = this.browser_height - margin.top - margin.bottom;
     const svg = d3.select(element)
       .append('svg')
-      .attr('width', width + margin.left + margin.right + 100)
+      .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
   
-      const tooltip = d3.select('#tooltip');
+    const tooltip = d3.select('#tooltip');
 
     const x = d3.scaleLinear()
       .domain([0, d3.max(data, d => d.value) ?? 0])
-      .range([0, width]);
+      .range([0, width-10]);
   
     const y = d3.scaleBand()
       .domain(data.map(d => d.name))
@@ -143,6 +134,4 @@ console.log('Height: ' + height + 'px');
       .attr('alignment-baseline', 'middle')
       .attr('font-size', '14px');
   }
-  
-
 }
