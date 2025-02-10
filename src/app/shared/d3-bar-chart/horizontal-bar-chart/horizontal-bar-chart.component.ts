@@ -13,12 +13,30 @@ interface ChartData {
 })
 export class HorizontalBarChartComponent implements OnInit {
 
-  data1: ChartData[] = [
-    {
-      name: 'Germany',
-      value: 50000,
+      name: 'United States',
+      value: 30000,
     },
     {
+      name: 'France',
+      value: 40000,
+    },
+    {
+      name: 'Cheese Bread',
+      value: 10000,
+    },
+    {
+      name: 'Spain',
+      value: 20000,
+    },
+  ];
+
+  @Input() title = 'Top selling products';
+  @Input() color = '#50C878';
+  @Input() data: any[] = this.data1;
+  @Input() brower_width = 300;
+  @Input() browser_height = 250;
+  // brower_width=500    //this is width of svg for the desktop screen
+  barWidth = 0.8; // adjust this to handle the width of the bar
       "name": "United States",
       "value": 30000,
     },
@@ -102,28 +120,22 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('fill', this.color)
       .attr('rx', 5)
       .attr('ry', 5)
-      .on('mouseover', function(event, d) {
-        tooltip.transition()
-          .duration(200)
-          .style('opacity', .9);
-        tooltip.html(`${d.name}: ${d.value}`)
-          .style('left', (event.pageX + 5) + 'px')
-          .style('top', (event.pageY - 28) + 'px');
+      .on('mouseover', function (event, d) {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+          .html(`${d.name}: ${d.value}`)
+          .style('left', event.pageX + 5 + 'px')
+          .style('top', event.pageY - 28 + 'px');
       })
-      .on('mouseout', function() {
-        tooltip.transition()
-          .duration(500)
-          .style('opacity', 0);
+      .on('mouseout', function () {
+        tooltip.transition().duration(500).style('opacity', 0);
       })
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
-      .attr('width', d => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
-  
-    const labels = svg.selectAll('.bar-label')
-      .data(data)
-      .enter();
-  
+      .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
 
+
+    const labels = svg.selectAll('.bar-label').data(data).enter();
 
 
     labels
@@ -133,7 +145,7 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('x', d => (x(d.value) ?? 0) * this.barWidth + 10) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
       .attr('fill', 'black')
-      .text(d => d.value)
+      .text((d) => d.value)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')
       .attr('alignment-baseline', 'middle')
