@@ -10,6 +10,7 @@ import { DropDownComponent } from "../../shared/drop-down/drop-down.component";
   styleUrl: './department-analysis.component.css',
 })
 export class DepartmentAnalysisComponent {
+
   data!: {
     name: string;
     color: string;

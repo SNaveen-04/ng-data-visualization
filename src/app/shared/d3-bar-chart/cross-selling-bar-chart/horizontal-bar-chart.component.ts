@@ -6,12 +6,12 @@ interface ChartData {
 }
 
 @Component({
-  selector: 'app-horizontal-bar-chart',
+  selector: 'app-cross-selling-bar-chart',
   templateUrl: './horizontal-bar-chart.component.html',
   standalone:true,
   styleUrls: ['./horizontal-bar-chart.component.css']
 })
-export class HorizontalBarChartComponent implements OnInit {
+export class CrossSellingBarChartComponent implements OnInit {
 
   data1: ChartData[] = [
     {
@@ -25,14 +25,6 @@ export class HorizontalBarChartComponent implements OnInit {
     {
       "name": "France",
       "value": 40000,
-    },
-    {
-      "name": "Cheese Bread",
-      "value": 10000,
-    },
-    {
-      "name": "Spain",
-      "value": 20000,
     }
   ];
   
@@ -40,7 +32,7 @@ export class HorizontalBarChartComponent implements OnInit {
   @Input() color='#50C878';
   @Input() data:any[]=this.data1;
   @Input() brower_width = 300;
-  @Input() browser_height = 250;
+  @Input() browser_height = 190;
   // brower_width=500    //this is width of svg for the desktop screen
    barWidth=0.8;   // adjust this to handle the width of the bar
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
@@ -58,7 +50,7 @@ export class HorizontalBarChartComponent implements OnInit {
 
     const element = this.chartContainer.nativeElement;
     const data = this.data;
-    const margin = { top: 10, right: 10, bottom: 40, left: 100 }; // Increased left margin to provide space for labels
+    const margin = { top: 10, right: 10, bottom: 20, left: 100 }; // Reduced bottom margin
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
     const svg = d3.select(element)
@@ -72,12 +64,12 @@ export class HorizontalBarChartComponent implements OnInit {
 
     const x = d3.scaleLinear()
       .domain([0, d3.max(data, d => d.value) ?? 0])
-      .range([0, width-10]);
+      .range([0, width]);
   
     const y = d3.scaleBand()
       .domain(data.map(d => d.name))
       .range([0, height])
-      .padding(0.2);
+      .padding(0.3);
   
     const yAxis = svg.append('g')
       .call(d3.axisLeft(y));
@@ -98,7 +90,7 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('class', 'bar')
       .attr('y', d => (y(d.name) ?? 0) + 5)
       .attr('width', 0) // Start with width 0 for animation
-      .attr('height', y.bandwidth() - 20)
+      .attr('height', y.bandwidth() - 23)    // adjust for the bar height
       .attr('fill', this.color)
       .attr('rx', 5)
       .attr('ry', 5)
@@ -123,9 +115,6 @@ export class HorizontalBarChartComponent implements OnInit {
       .data(data)
       .enter();
   
-
-
-
     labels.append('text')
       .attr('class', 'value-label')
       .attr('y', d => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))

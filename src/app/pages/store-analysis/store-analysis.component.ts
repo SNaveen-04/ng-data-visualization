@@ -4,13 +4,14 @@ import { LineChartComponent } from '../../shared/line-chart/line-chart.component
 import { HorizontalBarChartComponent } from '../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../data';
 import { HttpServiceService } from '../../service/http-service.service';
-
+import { CrossSellingBarChartComponent } from '../../shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
   imports: [
     LineChartComponent,
     CustomerInsightsComponent,
     HorizontalBarChartComponent,
+    CrossSellingBarChartComponent
   ],
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
