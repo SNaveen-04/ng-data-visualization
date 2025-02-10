@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
 import { LineChartComponent } from "../../shared/line-chart/line-chart.component";
-import { HorizontalBarChartComponent } from '../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
+import { DepartmentBarChartComponent } from '../../shared/d3-bar-chart/department-bar-chart/horizontal-bar-chart.component';
 
 @Component({
   selector: 'app-department-analysis',
-  imports: [CustomerInsightsComponent, LineChartComponent,HorizontalBarChartComponent],
+  imports: [CustomerInsightsComponent, LineChartComponent,DepartmentBarChartComponent],
   templateUrl: './department-analysis.component.html',
   styleUrl: './department-analysis.component.css',
 })
