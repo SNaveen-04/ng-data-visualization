@@ -7,7 +7,7 @@ import {
 import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../../data';
 import { HttpServiceService } from '../../../service/http-service.service';
-import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component';
+import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 @Component({
   selector: 'app-store-analysis',

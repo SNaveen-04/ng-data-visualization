@@ -4,7 +4,7 @@ import { LineChartComponent } from '../../../shared/line-chart/line-chart.compon
 import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../../data';
 import { HttpServiceService } from '../../../service/http-service.service';
-import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component';
+import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
   imports: [
