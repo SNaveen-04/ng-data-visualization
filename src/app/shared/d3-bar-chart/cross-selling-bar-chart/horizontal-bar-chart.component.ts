@@ -106,8 +106,8 @@ export class CrossSellingBarChartComponent implements OnInit {
          ${d.name}
             ${d.value}`
         )
-          .style('left', event.pageX + 5 + 'px')
-          .style('top', event.pageY - 28 + 'px');
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY +10+ 'px');
       })
       .on('mouseout', function () {
         tooltip.transition().duration(500).style('opacity', 0);
