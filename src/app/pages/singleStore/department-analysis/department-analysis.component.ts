@@ -41,7 +41,6 @@ export class DepartmentAnalysisComponent {
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
-      console.log(this.selected);
       this.getDepartmentTrends(this.selected.id);
     }
   }

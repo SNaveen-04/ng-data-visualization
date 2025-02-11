@@ -29,6 +29,7 @@ export class HttpService {
       }
     );
   }
+
   getProductList() {
     return this.httpClient.get<
       {
@@ -36,5 +37,17 @@ export class HttpService {
         name: string;
       }[]
     >(this.api + 'product');
+  }
+
+  getProductTrends(id: any, timeFrame: string) {
+    return this.httpClient.post<LineChartData>(
+      this.api + 'analysis/trends?_for=product',
+      {
+        timeFrame: timeFrame,
+        productIds: [id],
+        storeId: 1,
+        targetValue: 'sales',
+      }
+    );
   }
 }
