@@ -7,9 +7,9 @@ interface ChartData {
 
 @Component({
   selector: 'app-cross-selling-bar-chart',
-  templateUrl: './horizontal-bar-chart.component.html',
+  templateUrl: './cross-selling-bar-chart.component.html',
   standalone: true,
-  styleUrls: ['./horizontal-bar-chart.component.css'],
+  styleUrls: ['./cross-selling-bar-chart.component.css'],
 })
 export class CrossSellingBarChartComponent implements OnInit {
   data1: ChartData[] = [
