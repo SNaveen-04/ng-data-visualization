@@ -6,10 +6,12 @@
 
 .dropdown {
   height: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .analysis {
-  margin: 10px 50px;
+  margin: 0px 50px;
   height: min-content;
   display: flex;
   flex-direction: row;

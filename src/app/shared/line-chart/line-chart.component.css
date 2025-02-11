@@ -14,9 +14,10 @@ span {
   width: 80%;
 }
 .legend {
-  margin: 1px;
+  margin: 2px;
   display: inline-block;
-  font-size: small;
+  font-size: 12px;
+  cursor: default;
 }
 
 .x.axis .ng-star-inserted {

@@ -10,14 +10,16 @@ export class MultiSelectDropDownComponent {
   selectedValue = input.required<string>();
   listElements = input.required<
     {
-      value: string;
+      id: string;
+      name: string;
       selected: boolean;
     }[]
   >();
   selected = output<string>();
   filteredElements = signal([
     {
-      value: '',
+      id: '',
+      name: '',
       selected: false,
     },
   ]);

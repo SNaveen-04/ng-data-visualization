@@ -1,5 +1,6 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { listData } from '../../type';
 @Component({
   selector: 'app-drop-down',
   imports: [FormsModule],
@@ -8,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class DropDownComponent {
   selectedValue = input.required<string>();
-  listElements = input.required<string[]>();
+  listElements = input.required<listData>();
   selected = output<string>();
 
   filterValue = signal('');
@@ -16,11 +17,15 @@ export class DropDownComponent {
   isListOpen = false;
 
   filteredList = computed(() => {
-    if (this.listElements().includes(this.filterValue())) {
+    if (
+      this.listElements()
+        .map((d) => d.name)
+        .includes(this.filterValue())
+    ) {
       return this.listElements();
     }
     return this.listElements().filter((value) =>
-      value.toLowerCase().includes(this.filterValue().toLowerCase())
+      value.name.toLowerCase().includes(this.filterValue().toLowerCase())
     );
   });
 

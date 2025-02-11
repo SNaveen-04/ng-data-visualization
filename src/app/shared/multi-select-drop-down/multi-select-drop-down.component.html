@@ -15,12 +15,12 @@
     <li
       [class]="{
         option: true,
-        selected: list.value == selectedValue()
+        selected: list.name == selectedValue()
       }"
-      (click)="select(list.value)"
+      (click)="select(list.name)"
     >
       <input type="checkbox" [(ngModel)]="list.selected" [id]="list" />
-      {{ list.value }}
+      {{ list.name }}
     </li>
     }
   </ul>

@@ -11,15 +11,15 @@
   }"
 >
   <ul class="list">
-    @for(list of filteredList();track list){
+    @for(list of filteredList();track list.id){
     <li
       [class]="{
         option: true,
-        selected: list == selectedValue()
+        selected: list.name == selectedValue()
       }"
-      (click)="select(list)"
+      (click)="select(list.name)"
     >
-      {{ list }}
+      {{ list.name }}
     </li>
     }
   </ul>

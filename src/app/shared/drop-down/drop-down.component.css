@@ -1,11 +1,13 @@
 :host {
   position: relative;
   display: flex;
+  height: 50px;
+  justify-content: center;
   flex-direction: column;
   width: 100%;
   padding-left: 30px;
   box-sizing: border-box;
-  padding-top: 20px;
+  /* padding-top: 20px; */
 }
 
 .drop-down-arrow {
