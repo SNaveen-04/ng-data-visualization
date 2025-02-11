@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { listData } from '../type';
+import { LineChartData } from '../shared/line-chart/line-chart.component';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,18 @@ export class HttpService {
     return this.httpClient.get<listData>(this.api + 'departments');
   }
 
+  getDepartmentTrends(id: any, timeFrame: string) {
+    return this.httpClient.post<LineChartData>(
+      this.api + 'analysis/trends?_for=department',
+      {
+        timeFrame: timeFrame,
+        departmentIds: [id],
+        storeId: 1,
+        targetValue: 'sales',
+      }
+    );
+  }
+
   getProductList() {
     return this.httpClient.get<
       {
@@ -24,5 +37,17 @@ export class HttpService {
         name: string;
       }[]
     >(this.api + 'product');
+  }
+
+  getProductTrends(id: any, timeFrame: string) {
+    return this.httpClient.post<LineChartData>(
+      this.api + 'analysis/trends?_for=product',
+      {
+        timeFrame: timeFrame,
+        productIds: [id],
+        storeId: 1,
+        targetValue: 'sales',
+      }
+    );
   }
 }

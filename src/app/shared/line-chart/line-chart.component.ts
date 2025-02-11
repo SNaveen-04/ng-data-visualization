@@ -2,6 +2,7 @@ import { Component, inject, input, ViewChild } from '@angular/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { curveCatmullRom } from 'd3-shape';
 import { CustomLinerChartService } from './CustomLineChartService';
+import { timeFrame } from '../../type';
 @Component({
   selector: 'app-line-chart',
   imports: [NgxChartsModule],
@@ -10,7 +11,7 @@ import { CustomLinerChartService } from './CustomLineChartService';
 })
 export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
-  format = input<'Month' | 'Year'>();
+  format = input<timeFrame>();
   chartData = input.required<LineChartData>();
 
   get data() {
@@ -23,8 +24,12 @@ export class LineChartComponent {
   curve = curveCatmullRom;
 
   ngOnInit() {
-    this.colors = ['red', 'green', 'yellow'];
+    this.colors = ['green', 'black', 'red', 'yellow'];
     this.customScheme.domain = this.colors;
+  }
+
+  ngOnChanges() {
+    console.log(this.chartData());
   }
 
   ngAfterViewChecked() {
@@ -38,7 +43,27 @@ export class LineChartComponent {
     group: ScaleType.Ordinal,
   };
 
-  xAxisFormat(d: string) {
+  getFormatter() {
+    if (this.format() === 'week') {
+      return this.weekFormatter;
+    } else {
+      if (this.format() === 'month') {
+        return this.monthFormatter;
+      } else {
+        return this.YearFormatter;
+      }
+    }
+  }
+
+  weekFormatter(date: string) {
+    const day = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+    return day[new Date(date).getDay()];
+  }
+
+  monthFormatter(date: string) {
+    return new Date(date).getDate();
+  }
+  YearFormatter(date: string) {
     const months = [
       'JAN',
       'FEB',
@@ -53,7 +78,7 @@ export class LineChartComponent {
       'NOV',
       'DEC',
     ];
-    return months[new Date(d).getMonth()];
+    return months[new Date(date).getMonth()];
   }
 
   yAxisFormat(d: number) {
@@ -63,7 +88,6 @@ export class LineChartComponent {
 
 export type LineChartData = {
   name: string;
-  color: string;
   series: {
     name: string;
     value: string;

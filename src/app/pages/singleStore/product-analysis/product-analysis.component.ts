@@ -10,7 +10,7 @@ import {
 } from '../../../shared/line-chart/line-chart.component';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { HttpService } from '../../../service/http-service.service';
-import { listData } from '../../../type';
+import { listData, timeFrame } from '../../../type';
 
 @Component({
   selector: 'app-product-analysis',
@@ -27,24 +27,51 @@ export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
 
   listElements: listData = [];
-  selected = '';
+  selected = {
+    id: '',
+    name: '',
+  };
+  isLoaded = false;
   crossSellingProducts = crossSellingProducts;
   customerData = customerData;
   LineChartdata!: LineChartData;
-
+  timeFrame: timeFrame = 'month';
   constructor() {
     Object.assign(this, { LineChartdata });
   }
+
   ngOnInit() {
+    this.getProductList();
+  }
+
+  getProductList() {
     this.httpService.getProductList().subscribe({
       next: (data) => {
         this.listElements = data;
-        this.selected = this.listElements[0].name;
+        this.selected = this.listElements[0];
+        this.getProductTrends(this.selected.id);
       },
       error: (e) => console.log(e),
     });
   }
-  select(value: string) {
-    this.selected = value;
+
+  getProductTrends(id: string) {
+    this.httpService
+      .getProductTrends(this.selected.id, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          this.LineChartdata = data;
+          console.log(data);
+          this.isLoaded = true;
+        },
+        error: (error) => console.log(error),
+      });
+  }
+
+  select(value: any) {
+    if (this.selected !== value) {
+      this.selected = value;
+      this.getProductTrends(this.selected.id);
+    }
   }
 }
