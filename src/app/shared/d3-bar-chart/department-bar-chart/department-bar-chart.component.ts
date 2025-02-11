@@ -7,9 +7,9 @@ interface ChartData {
 
 @Component({
   selector: 'app-department-bar-chart',
-  templateUrl: './department-bar-chart-component.html',
+  templateUrl: './department-bar-chart.component.html',
   standalone: true,
-  styleUrls: ['./department-bar-chart-component.css'],
+  styleUrls: ['./department-bar-chart.component.css'],
 })
 export class DepartmentBarChartComponent implements OnInit {
   data1: ChartData[] = [
