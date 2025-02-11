@@ -81,16 +81,17 @@ export class HorizontalBarChartComponent implements OnInit {
       .range([0, height])
       .padding(0.2);
 
-    const yAxis = svg.append('g').call(d3.axisLeft(y));
-
-    yAxis.selectAll('.domain, .tick line').attr('display', 'none');
-
-    yAxis
-      .selectAll('.tick text')
-      .attr('font-size', '14px')
-      .attr('font-family', 'afacad')
-      .attr('fill', 'grey')
-      .attr('dy', '-0.1em');
+    svg
+      .selectAll('.name')
+      .data(data)
+      .enter()
+      .append('text')
+      .attr('x', -100) // Position the names at the start of the x-axis
+      .attr('y', (d) => y(d.name)! + y.bandwidth() / 2)
+      .attr('alignment-baseline', 'middle')
+      .text((d) => d.name)
+      .attr('font-size', '15px')
+      .attr('fill', '#666666');
 
     svg
       .selectAll('.bar')
@@ -126,7 +127,7 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))
       .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 10) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
-      .attr('fill', 'black')
+      .attr('fill', '#2222222')
       .text((d) => d.value)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')
