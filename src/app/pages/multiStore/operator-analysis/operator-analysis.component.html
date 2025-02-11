@@ -1,16 +1,22 @@
-<div class="dropdown"></div>
+<div class="dropdown">
+  <app-drop-down
+    [listElements]="listElements"
+    [selectedValue]="selected"
+    (selected)="select($event)"
+  />
+</div>
 <div class="analysis">
   <div class="trends">
-    <app-line-chart [chartData]="data" />
+    <app-line-chart [chartData]="LineChartdata" />
   </div>
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights />
+      <app-customer-insights [customerInsightsData]="customerData" />
     </div>
     <div class="customer-insights">
       Product sales
-      <app-product-sales />
+      <app-product-sales [customerInsightsData]="customerData" />
     </div>
   </div>
 </div>

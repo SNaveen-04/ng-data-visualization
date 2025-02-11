@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
-import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
-import { data } from '../../data';
+import {
+  LineChartComponent,
+  LineChartData,
+} from '../../../shared/line-chart/line-chart.component';
+import { LineChartdata } from '../../../../data';
+import { customerData } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
+import { HttpService } from '../../../service/http-service.service';
+import { listData } from '../../../type';
 import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
 @Component({
   selector: 'app-department-analysis',
@@ -16,16 +22,26 @@ import { DepartmentBarChartComponent } from '../../../shared/department-bar-char
   styleUrl: './department-analysis.component.css',
 })
 export class DepartmentAnalysisComponent {
-  data!: {
-    name: string;
-    color: string;
-    series: {
-      name: string;
-      value: string;
-    }[];
-  }[];
+  private httpService = inject(HttpService);
+  customerData = customerData;
+  LineChartdata!: LineChartData;
+  listElements: listData = [];
+  selected = '';
 
   constructor() {
-    Object.assign(this, { data });
+    Object.assign(this, { LineChartdata });
+  }
+
+  ngOnInit() {
+    this.httpService.getDepartmentsList().subscribe({
+      next: (data) => {
+        this.listElements = data.map((d) => d);
+        this.selected = this.listElements[0].name;
+      },
+      error: (e) => console.log(e),
+    });
+  }
+  select(value: string) {
+    this.selected = value;
   }
 }

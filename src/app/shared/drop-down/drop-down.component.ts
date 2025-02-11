@@ -10,7 +10,7 @@ import { listData } from '../../type';
 export class DropDownComponent {
   selectedValue = input.required<string>();
   listElements = input.required<listData>();
-  selected = output<string>();
+  selected = output<any>();
 
   filterValue = signal('');
   image_path = 'assets/images/dropdown.png';
@@ -37,9 +37,9 @@ export class DropDownComponent {
     this.isListOpen = !this.isListOpen;
   }
 
-  select(value: string) {
+  select(value: any) {
     this.selected.emit(value);
-    this.filterValue.set(value);
+    this.filterValue.set(value.name);
     this.isListOpen = false;
   }
 }
