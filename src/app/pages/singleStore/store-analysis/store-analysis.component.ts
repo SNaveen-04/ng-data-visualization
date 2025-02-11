@@ -35,6 +35,16 @@ export class StoreAnalysisComponent {
     name: string;
     selected: boolean;
   }[] = [];
+  get selectedDepartments() {
+    return this.listElements
+      .filter((d) => d.selected)
+      .map((d) => {
+        return {
+          id: d.id,
+          name: d.name,
+        };
+      });
+  }
   selected = '';
   select(value: string) {
     console.log(value);
@@ -56,10 +66,10 @@ export class StoreAnalysisComponent {
       },
       error: (e) => console.log(e),
     });
-    // this.httpService.getLineChartData().subscribe({
+
+    // this.httpService.getDepartmentTrends(1).subscribe({
     //   next: (data) => {
-    //     this.data = data as LineChartData;
-    //     console.log(this.data);
+    //     console.log(data);
     //   },
     //   error: (error) => console.log(error),
     // });

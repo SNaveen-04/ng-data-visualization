@@ -5,18 +5,18 @@
     (selected)="select($event)"
   />
   <div>
-    <app-chips text="one" />
-    <app-chips text="one" />
-    <app-chips text="one" />
+    @for(dept of listElements;track dept.id){ @if(dept.selected){
+    <app-chips [department]="dept" />
+    } }
   </div>
 </div>
 <div class="analysis">
   <div class="group-1">
     <div class="trends">
-      <app-line-chart
+      <!-- <app-line-chart
         [chartData]="LineChartdata"
         [format]="'Year'"
-      ></app-line-chart>
+      ></app-line-chart> -->
     </div>
     <div class="selling">
       <div class="top">

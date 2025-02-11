@@ -1,4 +1,6 @@
 <span class="chip">
-  <span class="cancel"> <img src="assets/images/cancel.png" /> </span>
-  <span class="text"> {{ text() }} </span>
+  <span class="cancel" (click)="cancel()">
+    <img src="assets/images/cancel.png" />
+  </span>
+  <span class="text"> {{ department().name }} </span>
 </span>

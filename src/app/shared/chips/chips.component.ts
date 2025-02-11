@@ -7,5 +7,13 @@ import { Component, input } from '@angular/core';
   styleUrl: './chips.component.css',
 })
 export class ChipsComponent {
-  text = input.required<string>();
+  department = input.required<{
+    id: string;
+    name: string;
+    selected: boolean;
+  }>();
+
+  cancel() {
+    this.department().selected = false;
+  }
 }

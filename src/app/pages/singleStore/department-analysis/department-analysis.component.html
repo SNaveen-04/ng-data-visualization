@@ -1,13 +1,15 @@
 <div class="dropdown">
   <app-drop-down
     [listElements]="listElements"
-    [selectedValue]="selected"
+    [selectedValue]="selected.name"
     (selected)="select($event)"
   />
 </div>
 <div class="analysis">
   <div class="trends">
-    <app-line-chart [chartData]="LineChartdata" />
+    @if(isLoaded){
+    <app-line-chart [chartData]="LineChartdata" [format]="timeFrame" />
+    }
   </div>
   <div class="group-2">
     <div class="customer-insights">
