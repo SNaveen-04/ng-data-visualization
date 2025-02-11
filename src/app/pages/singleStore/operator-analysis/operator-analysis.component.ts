@@ -6,7 +6,7 @@ import {
 } from '../../../shared/line-chart/line-chart.component';
 import { ProductSalesComponent } from '../../../shared/product-sales/product-sales.component';
 import { customerData } from '../../../../data';
-import { data } from '../../data';
+import { LineChartdata } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { listData } from '../../../type';
 import { HttpService } from '../../../service/http-service.service';
@@ -25,11 +25,11 @@ import { HttpService } from '../../../service/http-service.service';
 export class OperatorAnalysisComponent {
   private httpService = inject(HttpService);
   customerData = customerData;
-  data!: LineChartData;
+  LineChartdata!: LineChartData;
   listElements: listData = [];
   selected = '';
   constructor() {
-    Object.assign(this, { data });
+    Object.assign(this, { LineChartdata });
   }
 
   ngOnInit() {

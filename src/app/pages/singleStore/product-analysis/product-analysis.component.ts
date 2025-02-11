@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
-import { data } from '../../data';
+import { LineChartdata } from '../../../../data';
 import { customerData } from '../../../../data';
 import { crossSellingProducts } from '../../../../data';
 import {
@@ -30,10 +30,10 @@ export class ProductAnalysisComponent {
   selected = '';
   crossSellingProducts = crossSellingProducts;
   customerData = customerData;
-  data!: LineChartData;
+  LineChartdata!: LineChartData;
 
   constructor() {
-    Object.assign(this, { data });
+    Object.assign(this, { LineChartdata });
   }
   ngOnInit() {
     this.httpService.getProductList().subscribe({

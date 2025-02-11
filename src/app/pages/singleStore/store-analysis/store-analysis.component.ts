@@ -5,7 +5,7 @@ import {
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
 import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
-import { data } from '../../data';
+import { LineChartdata } from '../../../../data';
 import { HttpService } from '../../../service/http-service.service';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 import { ChipsComponent } from '../../../shared/chips/chips.component';
@@ -29,7 +29,7 @@ export class StoreAnalysisComponent {
   public crossData = CrossSellingDepartments;
   customerData = customerData;
 
-  data!: LineChartData;
+  LineChartdata!: LineChartData;
   listElements: {
     id: string;
     name: string;
@@ -41,7 +41,7 @@ export class StoreAnalysisComponent {
     // this.selected = value;
   }
   constructor() {
-    Object.assign(this, { data });
+    Object.assign(this, { LineChartdata });
   }
 
   ngOnInit() {

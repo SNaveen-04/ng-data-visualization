@@ -4,7 +4,7 @@ import {
   LineChartComponent,
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
-import { data } from '../../data';
+import { LineChartdata } from '../../../../data';
 import { customerData } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { HttpService } from '../../../service/http-service.service';
@@ -24,12 +24,12 @@ import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/depart
 export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
   customerData = customerData;
-  data!: LineChartData;
+  LineChartdata!: LineChartData;
   listElements: listData = [];
   selected = '';
 
   constructor() {
-    Object.assign(this, { data });
+    Object.assign(this, { LineChartdata });
   }
 
   ngOnInit() {
