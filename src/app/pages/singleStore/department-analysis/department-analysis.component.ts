@@ -44,8 +44,6 @@ export class DepartmentAnalysisComponent {
     this.getDepartmentLists();
   }
 
-  ngOnViewInit() {}
-
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
@@ -73,6 +71,7 @@ export class DepartmentAnalysisComponent {
         this.selected = this.listElements[0];
         this.getDepartmentTrends();
         this.getProductPerformance();
+        this.getCustomerInsights();
       },
       error: (e) => console.log(e),
     });
@@ -87,6 +86,15 @@ export class DepartmentAnalysisComponent {
             .filter((_, index) => index < 5)
             .map((d) => d);
         },
+        error: (e) => console.log(e),
+      });
+  }
+
+  getCustomerInsights() {
+    this.httpService
+      .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
+      .subscribe({
+        next: (data) => console.log(data),
         error: (e) => console.log(e),
       });
   }
