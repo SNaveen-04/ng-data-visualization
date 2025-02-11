@@ -49,6 +49,7 @@ export const CrossSellingDepartments = [
       { deptName: 'Groceries', sales: 30 },
     ],
   },
+  
 ];
 
 export const LineChartdata = [

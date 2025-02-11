@@ -16,7 +16,7 @@ export class CrossSellingBarChartComponent implements OnInit {
   @Input() title = 'Top selling products';
   @Input() color = '#50C878';
   @Input() brower_width = 300;
-  @Input() browser_height = 190;
+  @Input() browser_height = 150;
   @Input() data!: Data[];
   // brower_width=500    //this is width of svg for the desktop screen
   barWidth = 0.8; // adjust this to handle the width of the bar
@@ -32,7 +32,7 @@ export class CrossSellingBarChartComponent implements OnInit {
     console.log('data : ', this.data);
 
     const element = this.chartContainer.nativeElement;
-    const margin = { top: -10, right: 10, bottom: 20, left: 100 };
+    const margin = { top: 0, right: 10, bottom: 0, left: 100 };
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
     const nameWidth = 0; // Width for name column
@@ -58,6 +58,8 @@ export class CrossSellingBarChartComponent implements OnInit {
       .padding(0.1); // Adjust padding as needed
 
     // Add department names (y-axis labels)
+    const offset = 50; // Adjust this value to reduce the space between deptName labels vertically
+
     svg
       .selectAll('.name')
       .data(this.data)
@@ -65,7 +67,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('text')
       .attr('class', 'name')
       .attr('x', -70)
-      .attr('y', (d) => y(d.deptName)! + y.bandwidth() / 2)
+      .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d.deptName)
       .attr('font-size', '15px')
@@ -79,7 +81,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('rect')
       .attr('class', 'bar')
       .attr('x', nameWidth + 20)
-      .attr('y', (d) => y(d.deptName)! + y.bandwidth() - 33)
+      .attr('y', (d, i) => i * offset + y.bandwidth() / 3)
       .attr('width', (d) => x(d.sales))
       .attr('height', y.bandwidth() / 4)
       .attr('fill', this.color)
@@ -94,7 +96,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('text')
       .attr('class', 'salesPercent')
       .attr('x', (d) => nameWidth + departmentWidth + x(d.sales) + 10)
-      .attr('y', (d) => y(d.deptName)! + y.bandwidth() / 2)
+      .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d.sales.toString())
       .attr('font-size', '15px')
