@@ -48,6 +48,7 @@ export class StoreAnalysisComponent {
   selected = '';
   select(value: string) {
     console.log(value);
+    // this.selected = value;
   }
   constructor() {
     Object.assign(this, { LineChartdata });

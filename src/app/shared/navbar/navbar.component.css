@@ -3,9 +3,11 @@
   margin: 0;
   padding-left: 50px;
   padding-right: 20px;
+  padding-bottom: 5px;
+  padding-top: 5px;
   justify-content: space-between;
   background-color: white;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .navbar,
@@ -34,7 +36,6 @@
 .primary > .navigation.selected {
   padding-bottom: 11px;
   border-bottom: 1px solid black;
-  font-size: 15px;
 }
 
 .secondary {

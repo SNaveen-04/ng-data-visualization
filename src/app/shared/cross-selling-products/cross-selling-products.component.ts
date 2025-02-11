@@ -1,6 +1,5 @@
 import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
-import { crossSellingProducts } from '../../../data';
 
 interface Data {
   name: string;
