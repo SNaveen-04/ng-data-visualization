@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
-import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
+import {
+  LineChartComponent,
+  LineChartData,
+} from '../../../shared/line-chart/line-chart.component';
 import { data } from '../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/department-bar-chart/horizontal-bar-chart.component';
@@ -16,16 +19,14 @@ import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/depart
   styleUrl: './department-analysis.component.css',
 })
 export class DepartmentAnalysisComponent {
-  data!: {
-    name: string;
-    color: string;
-    series: {
-      name: string;
-      value: string;
-    }[];
-  }[];
-
+  data!: LineChartData;
+  listElements = ['Fruits', 'Vegetables', 'Diary', 'Sweets'];
+  selected = this.listElements[0];
   constructor() {
     Object.assign(this, { data });
+  }
+  select(value: string) {
+    console.log(value);
+    this.selected = value;
   }
 }

@@ -11,16 +11,7 @@ import { CustomLinerChartService } from './CustomLineChartService';
 export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
   format = input<'Month' | 'Year'>();
-  chartData = input.required<
-    {
-      name: string;
-      color: string;
-      series: {
-        name: string;
-        value: string;
-      }[];
-    }[]
-  >();
+  chartData = input.required<LineChartData>();
 
   get data() {
     return this.chartData();
@@ -34,8 +25,6 @@ export class LineChartComponent {
   ngOnInit() {
     this.colors = ['red', 'green', 'yellow'];
     this.customScheme.domain = this.colors;
-    console.log('OnInit');
-    console.log(this.chartData());
   }
 
   ngAfterViewChecked() {
@@ -71,3 +60,12 @@ export class LineChartComponent {
     return '$' + d;
   }
 }
+
+export type LineChartData = {
+  name: string;
+  color: string;
+  series: {
+    name: string;
+    value: string;
+  }[];
+}[];

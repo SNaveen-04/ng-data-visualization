@@ -1,13 +1,26 @@
-<div class="input">
-  <input type="text" [(ngModel)]="value" />
+<div class="input" (click)="toggleVisible()">
+  <input type="text" [(ngModel)]="filterValue" />
   <span class="drop-down-arrow">
     <img [src]="image_path" alt="P" class="profile-img" height="8" width="8"
   /></span>
 </div>
-<div class="drop-down">
+<div
+  [class]="{
+    'drop-down': true,
+    visible: isListOpen && filteredList().length != 0
+  }"
+>
   <ul class="list">
-    @for(list of listElements;track list){
-    <li class="option" (click)="select(list)">{{ list }}</li>
+    @for(list of filteredList();track list){
+    <li
+      [class]="{
+        option: true,
+        selected: list == selectedValue()
+      }"
+      (click)="select(list)"
+    >
+      {{ list }}
+    </li>
     }
   </ul>
 </div>

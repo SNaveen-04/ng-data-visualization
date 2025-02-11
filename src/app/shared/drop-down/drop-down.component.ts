@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-drop-down',
@@ -7,53 +7,34 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './drop-down.component.css',
 })
 export class DropDownComponent {
-  value = 'Apple';
-  image_path = 'assets/images/dropdown.png';
+  selectedValue = input.required<string>();
+  listElements = input.required<string[]>();
+  selected = output<string>();
 
-  listElements = [
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-    'Apple',
-    'Mango',
-    'Orange',
-    'Cucumber',
-  ];
+  filterValue = signal('');
+  image_path = 'assets/images/dropdown.png';
+  isListOpen = false;
+
+  filteredList = computed(() => {
+    if (this.listElements().includes(this.filterValue())) {
+      return this.listElements();
+    }
+    return this.listElements().filter((value) =>
+      value.toLowerCase().includes(this.filterValue().toLowerCase())
+    );
+  });
+
+  ngOnChanges() {
+    this.filterValue.set(this.selectedValue());
+  }
+
+  toggleVisible() {
+    this.isListOpen = !this.isListOpen;
+  }
 
   select(value: string) {
-    console.log(value);
+    this.selected.emit(value);
+    this.filterValue.set(value);
+    this.isListOpen = false;
   }
 }
