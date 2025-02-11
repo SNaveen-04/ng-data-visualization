@@ -1,10 +1,11 @@
 .navbar {
   box-sizing: border-box;
   margin: 0;
-  padding: 0px 50px;
+  padding-left:50px;
+  padding-right:20px;
   justify-content: space-between;
   background-color: white;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .navbar,
@@ -25,7 +26,7 @@
 
 .primary > .navigation {
   display: inline-block;
-  padding: 17px 10px;
+  padding: 13px 10px;
   text-decoration: none;
   color: black;
 }
@@ -33,14 +34,15 @@
 .primary > .navigation.selected {
   padding-bottom: 16px;
   border-bottom: 1px solid black;
+  font-size: 18px;
+
 }
 
 .secondary {
-  gap: 15px;
+  gap: 20px;
 }
 
 .btn-group {
-  padding: 10px;
   gap: 5px;
 }
 
@@ -48,7 +50,7 @@
   height: 32px;
   padding: 5px;
   border: none;
-  font-size: 12px;
+  font-size: 14px;
   border-radius: 5px;
   background-color: white;
   font-family: "Afacad";
@@ -64,8 +66,8 @@
   gap: 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
   padding: 5px;
-  border-radius: 2px;
-  font-size: 12px;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .filter > .domain {
@@ -83,22 +85,17 @@
 }
 
 .profile > .profile-details > .name {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .profile > .profile-details > .role {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .profile-details > .role {
   color: rgba(0, 0, 0, 0.6);
 }
-/*  */
-.primary > .navigation:hover {
-  padding-bottom: 16px;
-  border-bottom: 1px solid black;
-}
-/*  */
+
 
 @media screen and (min-width: 1440px) {
   .navbar {

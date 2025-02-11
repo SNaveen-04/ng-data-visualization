@@ -49,12 +49,4 @@ export const CrossSellingDepartments = [
       { deptName: 'Groceries', sales: 30 },
     ],
   },
-  // {
-  //   name: 'Vegetable',
-  //   dept: [
-  //     { deptName: 'Vegetables', sales: 50 },
-  //     { deptName: 'Condiments', sales: 10 },
-  //     { deptName: 'Groceries', sales: 30 },
-  //   ],
-  // },
 ];
