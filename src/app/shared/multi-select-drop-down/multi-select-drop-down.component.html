@@ -1,0 +1,28 @@
+<div class="input" (click)="toggleVisible()">
+  <input type="text" value="Select department" readonly />
+  <span class="drop-down-arrow">
+    <img [src]="image_path" alt="P" class="profile-img" height="8" width="8"
+  /></span>
+</div>
+<div
+  [class]="{
+    'drop-down': true,
+    visible: isListOpen && filteredElements().length != 0
+  }"
+>
+  <ul class="list">
+    @for(list of filteredElements();track list){
+    <li
+      [class]="{
+        option: true,
+        selected: list.value == selectedValue()
+      }"
+      (click)="select(list.value)"
+    >
+      <input type="checkbox" [(ngModel)]="list.selected" [id]="list" />
+      {{ list.value }}
+    </li>
+    }
+  </ul>
+  <button (click)="close()">Apply filter</button>
+</div>

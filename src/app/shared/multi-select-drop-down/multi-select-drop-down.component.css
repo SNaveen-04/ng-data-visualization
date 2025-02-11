@@ -33,17 +33,27 @@ input {
   caret-color: #f3f3f3;
 }
 
+input[type="checkbox"] {
+  width: 10px;
+  margin: 10px;
+}
+
+input[type="checkbox"] {
+  border-color: #ffffff;
+  background-color: #ffffff;
+}
+
 .drop-down {
   visibility: hidden;
   position: absolute;
+  display: flex;
+  flex-direction: column;
   top: calc(100% + 10px);
   left: 40px;
   padding: 2px;
   max-height: 520px;
   background-color: white;
   box-shadow: 1px 1px 4px 0px #d6d6d6;
-  /* width: 200px; */
-  /* border-radius: 30px; */
   width: 180px;
   border-radius: 4px;
   z-index: 1;
@@ -56,22 +66,29 @@ input {
 .drop-down .list {
   max-height: 420px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0px;
   margin: 0px;
 }
 
 .option {
   text-align: left;
-  padding: 8px 20px;
-  margin: 8px;
+  padding: 8px;
+  margin: 5px;
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.option.selected {
+button {
+  margin: 10px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
   background-color: #50c878;
   color: white;
-  text-align: right;
 }
 
 /* .option:hover {

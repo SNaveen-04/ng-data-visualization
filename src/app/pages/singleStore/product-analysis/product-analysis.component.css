@@ -2,7 +2,6 @@
   height: 50px;
 }
 
-/* Size should be adjusted to 500 px */
 .analysis {
   margin: 10px 50px;
   flex: 1;
@@ -21,11 +20,9 @@
   border-radius: 40px;
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
-  /*  */
   display: flex;
   justify-content: center;
   align-items: center;
-  /*  */
 }
 
 .analysis > .group-2 {
@@ -49,7 +46,11 @@
 }
 
 .cross-selling {
-  height: 240px;
+  height: 220px;
+  color: #404040;
+  font-size: 19px;
+  padding-top: 24px;
+  padding-left: 30px;
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
