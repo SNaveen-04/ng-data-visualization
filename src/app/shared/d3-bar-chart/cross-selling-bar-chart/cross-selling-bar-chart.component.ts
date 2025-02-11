@@ -8,9 +8,9 @@ interface Data {
 
 @Component({
   selector: 'app-cross-selling-bar-chart',
-  templateUrl: './horizontal-bar-chart.component.html',
+  templateUrl: './cross-selling-bar-chart.component.html',
   standalone: true,
-  styleUrls: ['./horizontal-bar-chart.component.css'],
+  styleUrls: ['./cross-selling-bar-chart.component.css'],
 })
 export class CrossSellingBarChartComponent implements OnInit {
   @Input() title = 'Top selling products';
@@ -83,8 +83,30 @@ export class CrossSellingBarChartComponent implements OnInit {
       .attr('width', (d) => x(d.sales))
       .attr('height', y.bandwidth() / 4)
       .attr('fill', this.color)
+<<<<<<< HEAD:src/app/shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component.ts
       .attr('rx', 5) // Rounded corners
       .attr('ry', 5); // Rounded corners
+=======
+      .attr('rx', 5)
+      .attr('ry', 5)
+      .on('mouseover', function (event, d) {
+        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip
+        .html(
+          `<span style="display: inline-block; width:12px;height:12px; background-color:${"#50C878"}; margin-right: 5px"></span>
+         ${d.name}
+            ${d.value}`
+        )
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY +10+ 'px');
+      })
+      .on('mouseout', function () {
+        tooltip.transition().duration(500).style('opacity', 0);
+      })
+      .transition() // Add transition for animation
+      .duration(800) // Duration of the animation in milliseconds
+      .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+>>>>>>> 9cb9b6dec6e2799a92a13127fe10b6bcb0c7364f:src/app/shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component.ts
 
     // Add sales values (x-axis labels)
     svg

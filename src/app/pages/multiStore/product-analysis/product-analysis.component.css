@@ -1,0 +1,57 @@
+.dropdown {
+  height: 50px;
+}
+
+.analysis {
+  margin: 10px 50px;
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+  justify-content: center;
+  width: calc(100vw - 100px);
+  box-sizing: border-box;
+}
+
+.trends {
+  width: 70%;
+  height: 500px;
+  border-radius: 40px;
+  background-color: white;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.analysis > .group-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 500px;
+  width: 30%;
+  gap: 15px;
+}
+
+.customer-insights {
+  height: 220px;
+  color: #404040;
+  font-size: 19px;
+  padding-top: 24px;
+  padding-left: 30px;
+  background-color: white;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
+  border-radius: 40px;
+}
+
+.cross-selling {
+  height: 220px;
+  color: #404040;
+  font-size: 19px;
+  padding-top: 24px;
+  padding-left: 30px;
+  background-color: white;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
+  border-radius: 40px;
+}

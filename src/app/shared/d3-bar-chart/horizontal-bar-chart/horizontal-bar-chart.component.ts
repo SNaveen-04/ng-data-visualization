@@ -36,7 +36,7 @@ export class HorizontalBarChartComponent implements OnInit {
   ];
 
   @Input() title = 'Top selling products';
-  @Input() color = '#50C878';
+  @Input() color:string = '#50C878';
   @Input() data: any[] = this.data1;
   @Input() brower_width = 365;
   @Input() browser_height = 250;
@@ -92,7 +92,73 @@ export class HorizontalBarChartComponent implements OnInit {
       .text((d) => d.name)
       .attr('font-size', '15px')
       .attr('fill', '#666666');
+      if(this.title=='Top selling products')
+        {
+          svg
+          .selectAll('.bar')
+          .data(data)
+          .enter()
+          .append('rect')
+          .attr('class', 'bar')
+          .attr('y', (d) => (y(d.name) ?? 0) + 5)
+          .attr('width', 0) // Start with width 0 for animation
+          .attr('height', y.bandwidth() - 20)
+          .attr('fill', this.color)
+          .attr('rx', 5)
+          .attr('ry', 5)
+          .on('mouseover', function (event, d) {
+            tooltip.transition().duration(200).style('opacity', 0.9);
+            tooltip
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${"#50C878"}; margin-right: 5px"></span>
+             ${d.name}
+                ${d.value}`
+            )
+              .style('left', event.pageX + 10 + 'px')
+              .style('top', event.pageY +10+ 'px');
+          })
+          .on('mouseout', function () {
+            tooltip.transition().duration(500).style('opacity', 0);
+          })
+          .transition() // Add transition for animation
+          .duration(800) // Duration of the animation in milliseconds
+          .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+    
+        }
+        else
+        {
+          svg
+          .selectAll('.bar')
+          .data(data)
+          .enter()
+          .append('rect')
+          .attr('class', 'bar')
+          .attr('y', (d) => (y(d.name) ?? 0) + 5)
+          .attr('width', 0) // Start with width 0 for animation
+          .attr('height', y.bandwidth() - 20)
+          .attr('fill', this.color)
+          .attr('rx', 5)
+          .attr('ry', 5)
+          .on('mouseover', function (event, d) {
+            tooltip.transition().duration(200).style('opacity', 0.9);
+            tooltip
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${"#E74C3C"}; margin-right: 5px"></span>
+             ${d.name}
+                ${d.value}`
+            )
+              .style('left', event.pageX + 10 + 'px')
+              .style('top', event.pageY  +10+ 'px');
+          })
+          .on('mouseout', function () {
+            tooltip.transition().duration(500).style('opacity', 0);
+          })
+          .transition() // Add transition for animation
+          .duration(800) // Duration of the animation in milliseconds
+          .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+        }
 
+<<<<<<< HEAD
     svg
       .selectAll('.bar')
       .data(data)
@@ -119,6 +185,8 @@ export class HorizontalBarChartComponent implements OnInit {
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
       .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+=======
+>>>>>>> 9cb9b6dec6e2799a92a13127fe10b6bcb0c7364f
 
     const labels = svg.selectAll('.bar-label').data(data).enter();
 

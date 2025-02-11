@@ -1,10 +1,4 @@
-<div class="dropdown">
-  <app-multi-select-drop-down
-    [listElements]="listElements"
-    [selectedValue]="selected"
-    (selected)="select($event)"
-  />
-</div>
+<div class="dropdown"></div>
 <div class="analysis">
   <div class="group-1">
     <div class="trends">
@@ -17,23 +11,19 @@
       </div>
       <div class="least">
         Least selling product
-        <app-horizontal-bar-chart color="#E74C3C" title="Least selling product"></app-horizontal-bar-chart>   
+        <app-horizontal-bar-chart color="#E74C3C"></app-horizontal-bar-chart>
       </div>
     </div>
   </div>
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights [customerInsightsData]="customerData" />
+      <app-customer-insights />
     </div>
     <div class="cross-selling">
       <p>Cross selling department</p>
-      @for (item of crossData; track $index) {
-      <app-cross-selling-bar-chart
-        [title]="item.name"
-        [data]="item.dept"
-      ></app-cross-selling-bar-chart>
-      }
+      <app-cross-selling-bar-chart title="Fruits"></app-cross-selling-bar-chart>
+      <app-cross-selling-bar-chart title="Cereal"></app-cross-selling-bar-chart>
     </div>
   </div>
 </div>
