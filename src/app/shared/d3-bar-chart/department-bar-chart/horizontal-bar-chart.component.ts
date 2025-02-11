@@ -109,9 +109,13 @@ export class DepartmentBarChartComponent implements OnInit {
       .on('mouseover', function (event, d) {
         tooltip.transition().duration(200).style('opacity', 0.9);
         tooltip
-          .html(`${d.name}: ${d.value}`)
-          .style('left', event.pageX + 5 + 'px')
-          .style('top', event.pageY - 28 + 'px');
+        .html(
+          `<span style="display: inline-block; width:12px;height:12px; background-color:${"#50C878"}; margin-right: 5px"></span>
+         ${d.name}
+            ${d.value}`
+        )
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY +10+ 'px');
       })
       .on('mouseout', function () {
         tooltip.transition().duration(500).style('opacity', 0);
