@@ -1,0 +1,29 @@
+<div class="dropdown"></div>
+<div class="analysis">
+  <div class="group-1">
+    <div class="trends">
+      <app-line-chart [chartData]="data" [format]="'Year'"></app-line-chart>
+    </div>
+    <div class="selling">
+      <div class="top">
+        Top selling product
+        <app-horizontal-bar-chart></app-horizontal-bar-chart>
+      </div>
+      <div class="least">
+        Least selling product
+        <app-horizontal-bar-chart color="#E74C3C"></app-horizontal-bar-chart>
+      </div>
+    </div>
+  </div>
+  <div class="group-2">
+    <div class="customer-insights">
+      Customer Insights
+      <app-customer-insights />
+    </div>
+    <div class="cross-selling">
+      <p>Cross selling department</p>
+      <app-cross-selling-bar-chart title="Fruits"></app-cross-selling-bar-chart>
+      <app-cross-selling-bar-chart title="Cereal"></app-cross-selling-bar-chart>
+    </div>
+  </div>
+</div>

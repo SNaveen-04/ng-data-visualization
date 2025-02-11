@@ -5,6 +5,7 @@ import {
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
 import { ProductSalesComponent } from '../../../shared/product-sales/product-sales.component';
+import { customerData } from '../../../../data';
 import { data } from '../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { listData } from '../../../type';
@@ -23,6 +24,7 @@ import { HttpService } from '../../../service/http-service.service';
 })
 export class OperatorAnalysisComponent {
   private httpService = inject(HttpService);
+  customerData = customerData;
   data!: LineChartData;
   listElements: listData = [];
   selected = '';

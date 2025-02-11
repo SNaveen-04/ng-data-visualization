@@ -7,24 +7,28 @@ import {
 import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../../data';
 import { HttpService } from '../../../service/http-service.service';
-import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
-import { ChipsComponent } from "../../../shared/chips/chips.component";
+import { ChipsComponent } from '../../../shared/chips/chips.component';
+import { CrossSellingDepartments, customerData } from '../../../../data';
+import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
   imports: [
     LineChartComponent,
     CustomerInsightsComponent,
     HorizontalBarChartComponent,
-    CrossSellingBarChartComponent,
     MultiSelectDropDownComponent,
-    ChipsComponent
-],
+    ChipsComponent,
+    CrossSellingBarChartComponent,
+  ],
   templateUrl: './store-analysis.component.html',
   styleUrl: './store-analysis.component.css',
 })
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
+  public crossData = CrossSellingDepartments;
+  customerData = customerData;
+
   data!: LineChartData;
   listElements: {
     id: string;

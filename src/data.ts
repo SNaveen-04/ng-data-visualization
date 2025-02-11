@@ -31,3 +31,22 @@ export const crossSellingProducts = [
     sales: 90,
   },
 ];
+
+export const CrossSellingDepartments = [
+  {
+    name: 'Fruits',
+    dept: [
+      { deptName: 'Dairy', sales: 70 },
+      { deptName: 'Snacks', sales: 50 },
+      { deptName: 'Bakery', sales: 100 },
+    ],
+  },
+  {
+    name: 'Cereal',
+    dept: [
+      { deptName: 'Vegetables', sales: 50 },
+      { deptName: 'Condiments', sales: 10 },
+      { deptName: 'Groceries', sales: 30 },
+    ],
+  },
+];

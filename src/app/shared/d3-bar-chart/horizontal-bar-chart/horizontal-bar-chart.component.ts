@@ -36,9 +36,9 @@ export class HorizontalBarChartComponent implements OnInit {
   ];
 
   @Input() title = 'Top selling products';
-  @Input() color = '#50C878';
+  @Input() color: string = '#50C878';
   @Input() data: any[] = this.data1;
-  @Input() brower_width = 300;
+  @Input() brower_width = 365;
   @Input() browser_height = 250;
   // brower_width=500    //this is width of svg for the desktop screen
   barWidth = 0.8; // adjust this to handle the width of the bar
@@ -66,14 +66,14 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      .attr('transform', `translate(70,10)`);
 
     const tooltip = d3.select('#tooltip');
 
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.value) ?? 0])
-      .range([0, width - 10]);
+      .range([0, width - 40]);
 
     const y = d3
       .scaleBand()
@@ -86,46 +86,81 @@ export class HorizontalBarChartComponent implements OnInit {
       .data(data)
       .enter()
       .append('text')
-      .attr('x', -100) // Position the names at the start of the x-axis
+      .attr('x', -70) // Position the names at the start of the x-axis
       .attr('y', (d) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d.name)
       .attr('font-size', '15px')
       .attr('fill', '#666666');
-
-    svg
-      .selectAll('.bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr('y', (d) => (y(d.name) ?? 0) + 5)
-      .attr('width', 0) // Start with width 0 for animation
-      .attr('height', y.bandwidth() - 20)
-      .attr('fill', this.color)
-      .attr('rx', 5)
-      .attr('ry', 5)
-      .on('mouseover', function (event, d) {
-        tooltip.transition().duration(200).style('opacity', 0.9);
-        tooltip
-          .html(`${d.name}: ${d.value}`)
-          .style('left', event.pageX + 5 + 'px')
-          .style('top', event.pageY - 28 + 'px');
-      })
-      .on('mouseout', function () {
-        tooltip.transition().duration(500).style('opacity', 0);
-      })
-      .transition() // Add transition for animation
-      .duration(800) // Duration of the animation in milliseconds
-      .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+    if (this.title == 'Top selling products') {
+      svg
+        .selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('y', (d) => (y(d.name) ?? 0) + 5)
+        .attr('width', 0) // Start with width 0 for animation
+        .attr('height', y.bandwidth() - 20)
+        .attr('fill', this.color)
+        .attr('rx', 5)
+        .attr('ry', 5)
+        .on('mouseover', function (event, d) {
+          tooltip.transition().duration(200).style('opacity', 0.9);
+          tooltip
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
+             ${d.name}
+                ${d.value}`
+            )
+            .style('left', event.pageX + 10 + 'px')
+            .style('top', event.pageY + 10 + 'px');
+        })
+        .on('mouseout', function () {
+          tooltip.transition().duration(500).style('opacity', 0);
+        })
+        .transition() // Add transition for animation
+        .duration(800) // Duration of the animation in milliseconds
+        .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+    } else {
+      svg
+        .selectAll('.bar')
+        .data(data)
+        .enter()
+        .append('rect')
+        .attr('class', 'bar')
+        .attr('y', (d) => (y(d.name) ?? 0) + 5)
+        .attr('width', 0) // Start with width 0 for animation
+        .attr('height', y.bandwidth() - 20)
+        .attr('fill', this.color)
+        .attr('rx', 5)
+        .attr('ry', 5)
+        .on('mouseover', function (event, d) {
+          tooltip.transition().duration(200).style('opacity', 0.9);
+          tooltip
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${'#E74C3C'}; margin-right: 5px"></span>
+             ${d.name}
+                ${d.value}`
+            )
+            .style('left', event.pageX + 10 + 'px')
+            .style('top', event.pageY + 10 + 'px');
+        })
+        .on('mouseout', function () {
+          tooltip.transition().duration(500).style('opacity', 0);
+        })
+        .transition() // Add transition for animation
+        .duration(800) // Duration of the animation in milliseconds
+        .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Reduce width by 20%
+    }
 
     const labels = svg.selectAll('.bar-label').data(data).enter();
 
     labels
       .append('text')
       .attr('class', 'value-label')
-      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))
-      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 10) // Adjust label position accordingly
+      .attr('y', (d) => (y(d.name) ?? 0) + y.bandwidth() / 2)
+      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 60) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
       .attr('fill', '#2222222')
       .text((d) => d.value)

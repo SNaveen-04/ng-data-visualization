@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { crossSellingProducts } from '../../../data';
 
@@ -14,7 +14,8 @@ interface Data {
   styleUrls: ['./cross-selling-products.component.css'],
 })
 export class CrossSellingProductsComponent {
-  crossSellingProductsData: Data[] = crossSellingProducts;
+  crossSellingProductsData = input.required<Data[]>();
+  // crossSellingProductsData: Data[] = crossSellingProducts;
   color = '#50C878';
 
   @ViewChild('barchart', { static: true })
@@ -32,7 +33,7 @@ export class CrossSellingProductsComponent {
   }
 
   private createSvg(): void {
-    this.crossSellingProductsData.sort((a, b) => b.sales - a.sales);
+    this.crossSellingProductsData().sort((a, b) => b.sales - a.sales);
     this.svg = d3
       .select(this.chartContainer.nativeElement)
       .append('svg')
@@ -45,13 +46,13 @@ export class CrossSellingProductsComponent {
       .scaleLinear()
       .domain([
         0,
-        d3.max(this.crossSellingProductsData, (d) => d.sales) as number,
+        d3.max(this.crossSellingProductsData(), (d) => d.sales) as number,
       ])
-      .range([0, 100]);
+      .range([0, 80]);
 
     const y = d3
       .scaleBand()
-      .domain(this.crossSellingProductsData.map((d) => d.name))
+      .domain(this.crossSellingProductsData().map((d) => d.name))
       .range([0, 160])
       .padding(0.7);
 
@@ -65,7 +66,7 @@ export class CrossSellingProductsComponent {
       .append('rect')
       .attr('x', nameWidth + departmentWidth + 35) // Move the bars to the right to create space
       .attr('y', (d: Data) => y(d.name)!)
-      .attr('width', (d: Data) => x(d.sales))
+      .attr('width', 0) // Start with width 0 for animation
       .attr('height', y.bandwidth())
       .attr('fill', '#4CAF50')
       .attr('rx', 5)
@@ -77,22 +78,25 @@ export class CrossSellingProductsComponent {
           .style('left', `${event.pageX + 10}px`)
           .style('top', `${event.pageY + 10}px`)
           .html(
-            `${d.data.name}
-              ${d.data.sales}`
+            `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
+           ${d.name}:
+              ${d.sales}`
           );
       })
       .on('mouseout', () => {
         const tooltip = d3.select(this.tooltip.nativeElement);
         tooltip.style('opacity', 0);
-      });
-
-    this.svg
-      .append('text')
-      .attr('x', -70)
-      .attr('y', 0) // Adjust the y position as needed
-      .attr('font-size', '15px')
-      .attr('fill', '#666666')
-      .text('Name');
+      })
+      .transition() // Add transition for animation
+      .duration(800) // Duration of the animation in milliseconds
+      .attr('width', (d: Data) => x(d.sales)) %
+      this.svg
+        .append('text')
+        .attr('x', -70)
+        .attr('y', 0) // Adjust the y position as needed
+        .attr('font-size', '15px')
+        .attr('fill', '#666666')
+        .text('Name');
 
     this.svg
       .selectAll('.name')

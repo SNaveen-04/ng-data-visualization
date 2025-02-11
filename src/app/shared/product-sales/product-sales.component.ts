@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { customerData } from '../../../data';
 
@@ -14,7 +14,7 @@ interface Data {
   styleUrl: './product-sales.component.css',
 })
 export class ProductSalesComponent {
-  customerInsightsData = customerData;
+  customerInsightsData = input.required<Data[]>();
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
 
@@ -23,7 +23,7 @@ export class ProductSalesComponent {
   @ViewChild('tooltip', { static: true }) private readonly tooltip!: ElementRef;
 
   ngOnInit(): void {
-    this.customerInsightsData.forEach((element) => {
+    this.customerInsightsData().forEach((element) => {
       this.totalCustomer += element.value;
     });
     this.createDonutChart();
@@ -36,7 +36,7 @@ export class ProductSalesComponent {
 
     const color = d3
       .scaleOrdinal<string, string>()
-      .domain(this.customerInsightsData.map((d) => d.name))
+      .domain(this.customerInsightsData().map((d) => d.name))
       .range(this.colors);
 
     const svg = d3
@@ -45,7 +45,7 @@ export class ProductSalesComponent {
       .attr('width', width)
       .attr('height', height)
       .append('g')
-      .attr('transform', `translate(70, 110)`);
+      .attr('transform', `translate(70, 90)`);
 
     const pie = d3
       .pie<Data>()
@@ -59,7 +59,7 @@ export class ProductSalesComponent {
 
     const arcs = svg
       .selectAll('.arc')
-      .data(pie(this.customerInsightsData))
+      .data(pie(this.customerInsightsData()))
       .enter()
       .append('g')
       .attr('class', 'arc');

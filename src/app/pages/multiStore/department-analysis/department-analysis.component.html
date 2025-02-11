@@ -1,9 +1,5 @@
 <div class="dropdown">
-  <app-drop-down
-    [listElements]="listElements"
-    [selectedValue]="selected"
-    (selected)="select($event)"
-  />
+  <app-drop-down />
 </div>
 <div class="analysis">
   <div class="trends">
@@ -12,7 +8,7 @@
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights [customerInsightsData]="customerData" />
+      <app-customer-insights />
     </div>
     <div class="cross-selling">
       Top selling products

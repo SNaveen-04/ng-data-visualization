@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { data } from '../../data';
+import { customerData } from '../../../../data';
+import { crossSellingProducts } from '../../../../data';
 import {
   LineChartComponent,
   LineChartData,
@@ -23,9 +25,13 @@ import { listData } from '../../../type';
 })
 export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
-  data!: LineChartData;
+
   listElements: listData = [];
   selected = '';
+  crossSellingProducts = crossSellingProducts;
+  customerData = customerData;
+  data!: LineChartData;
+
   constructor() {
     Object.assign(this, { data });
   }

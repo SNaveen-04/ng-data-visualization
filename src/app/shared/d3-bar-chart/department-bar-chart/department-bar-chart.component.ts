@@ -6,12 +6,12 @@ interface ChartData {
 }
 
 @Component({
-  selector: 'app-cross-selling-bar-chart',
-  templateUrl: './horizontal-bar-chart.component.html',
+  selector: 'app-department-bar-chart',
+  templateUrl: './department-bar-chart.component.html',
   standalone: true,
-  styleUrls: ['./horizontal-bar-chart.component.css'],
+  styleUrls: ['./department-bar-chart.component.css'],
 })
-export class CrossSellingBarChartComponent implements OnInit {
+export class DepartmentBarChartComponent implements OnInit {
   data1: ChartData[] = [
     {
       name: 'Germany',
@@ -25,6 +25,14 @@ export class CrossSellingBarChartComponent implements OnInit {
       name: 'France',
       value: 40000,
     },
+    {
+      name: 'Cheese Bread',
+      value: 10000,
+    },
+    {
+      name: 'Spain',
+      value: 20000,
+    },
   ];
 
   @Input() title = 'Top selling products';
@@ -33,7 +41,7 @@ export class CrossSellingBarChartComponent implements OnInit {
   @Input() brower_width = 300;
   @Input() browser_height = 190;
   // brower_width=500    //this is width of svg for the desktop screen
-  barWidth = 0.8; // adjust this to handle the width of the bar
+  barWidth = 0.7; // adjust this to handle the width of the bar
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
@@ -49,7 +57,7 @@ export class CrossSellingBarChartComponent implements OnInit {
 
     const element = this.chartContainer.nativeElement;
     const data = this.data;
-    const margin = { top: 10, right: 10, bottom: 20, left: 100 }; // Reduced bottom margin
+    const margin = { top: 15, right: 10, bottom: 20, left: 81 }; // Reduced bottom margin
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
     const svg = d3
@@ -71,7 +79,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .scaleBand()
       .domain(data.map((d) => d.name))
       .range([0, height])
-      .padding(0.3);
+      .padding(0.2);
 
     svg
       .selectAll('.name')
@@ -91,19 +99,23 @@ export class CrossSellingBarChartComponent implements OnInit {
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', 10)
+      .attr('x', 20)
       .attr('y', (d) => (y(d.name) ?? 0) + 5)
       .attr('width', 0) // Start with width 0 for animation
-      .attr('height', y.bandwidth() - 23) // adjust for the bar height
+      .attr('height', y.bandwidth() - 15) // adjust for the bar height
       .attr('fill', this.color)
       .attr('rx', 5)
       .attr('ry', 5)
       .on('mouseover', function (event, d) {
         tooltip.transition().duration(200).style('opacity', 0.9);
         tooltip
-          .html(`${d.name}: ${d.value}`)
-          .style('left', event.pageX + 5 + 'px')
-          .style('top', event.pageY - 28 + 'px');
+        .html(
+          `<span style="display: inline-block; width:12px;height:12px; background-color:${"#50C878"}; margin-right: 5px"></span>
+         ${d.name}
+            ${d.value}`
+        )
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY +10+ 'px');
       })
       .on('mouseout', function () {
         tooltip.transition().duration(500).style('opacity', 0);
@@ -117,10 +129,10 @@ export class CrossSellingBarChartComponent implements OnInit {
     labels
       .append('text')
       .attr('class', 'value-label')
-      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))
-      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 18) // Adjust label position accordingly
+      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 2))
+      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 25) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
-      .attr('fill', 'black')
+      .attr('fill', '#2222222')
       .text((d) => d.value)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')

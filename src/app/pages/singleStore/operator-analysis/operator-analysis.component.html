@@ -12,11 +12,11 @@
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights />
+      <app-customer-insights [customerInsightsData]="customerData" />
     </div>
     <div class="customer-insights">
       Product sales
-      <app-product-sales />
+      <app-product-sales [customerInsightsData]="customerData" />
     </div>
   </div>
 </div>

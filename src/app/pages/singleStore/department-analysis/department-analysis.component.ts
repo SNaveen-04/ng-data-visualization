@@ -5,10 +5,11 @@ import {
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
 import { data } from '../../data';
+import { customerData } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
-import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/department-bar-chart/horizontal-bar-chart.component';
 import { HttpService } from '../../../service/http-service.service';
 import { listData } from '../../../type';
+import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/department-bar-chart/department-bar-chart.component';
 @Component({
   selector: 'app-department-analysis',
   imports: [
@@ -22,6 +23,7 @@ import { listData } from '../../../type';
 })
 export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
+  customerData = customerData;
   data!: LineChartData;
   listElements: listData = [];
   selected = '';
