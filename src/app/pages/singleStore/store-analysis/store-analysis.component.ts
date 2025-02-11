@@ -4,13 +4,13 @@ import {
   LineChartComponent,
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
-import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
+import { HorizontalBarChartComponent } from '../../../shared/horizontal-bar-chart/horizontal-bar-chart.component';
 import { LineChartdata } from '../../../../data';
 import { HttpService } from '../../../service/http-service.service';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 import { ChipsComponent } from '../../../shared/chips/chips.component';
 import { CrossSellingDepartments, customerData } from '../../../../data';
-import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component';
+import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
   imports: [

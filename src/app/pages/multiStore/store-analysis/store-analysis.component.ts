@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
-import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
+import { HorizontalBarChartComponent } from '../../../shared/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../../data';
 import { HttpServiceService } from '../../../service/http-service.service';
-import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/cross-selling-bar-chart.component';
+import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
   imports: [

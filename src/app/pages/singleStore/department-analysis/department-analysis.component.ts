@@ -9,7 +9,7 @@ import { customerData } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { HttpService } from '../../../service/http-service.service';
 import { listData } from '../../../type';
-import { DepartmentBarChartComponent } from '../../../shared/d3-bar-chart/department-bar-chart/department-bar-chart.component';
+import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
 @Component({
   selector: 'app-department-analysis',
   imports: [
