@@ -28,10 +28,6 @@ export class LineChartComponent {
     this.customScheme.domain = this.colors;
   }
 
-  ngOnChanges() {
-    console.log(this.chartData());
-  }
-
   ngAfterViewChecked() {
     this.customLinerChartService.showDots(this.chart);
   }

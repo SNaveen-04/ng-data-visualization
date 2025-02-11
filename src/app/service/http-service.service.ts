@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { listData } from '../type';
+import { listData, productPerformance } from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
 
 @Injectable({
@@ -45,6 +45,18 @@ export class HttpService {
       {
         timeFrame: timeFrame,
         productIds: [id],
+        storeId: 1,
+        targetValue: 'sales',
+      }
+    );
+  }
+
+  getProductPerformance(id: any, timeFrame: string) {
+    return this.httpClient.post<productPerformance>(
+      this.api + 'analysis/performance/product',
+      {
+        timeFrame: timeFrame,
+        departmentIds: [id],
         storeId: 1,
         targetValue: 'sales',
       }
