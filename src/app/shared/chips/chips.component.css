@@ -1,0 +1,26 @@
+span.chip {
+  display: inline-flex;
+  margin: 0px 2px;
+  padding: 4px 6px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+}
+
+span.chip span.cancel {
+  display: inline-flex;
+}
+
+span.chip span.cancel img {
+  height: 22px;
+  width: 22px;
+  padding: 0px;
+  cursor: pointer;
+}
+
+span.chip span.text {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
