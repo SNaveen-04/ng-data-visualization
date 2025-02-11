@@ -1,9 +1,9 @@
 :host{
   flex: 1;
-  height: 250px;    
+  height: 50px;    
   
   /* heigth adjusted from 300px to 250 px  */
-  margin-bottom: 0;
+  margin-bottom: -50px;
 }
 #chart{
   width: 300px;

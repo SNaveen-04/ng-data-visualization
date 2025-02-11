@@ -38,7 +38,7 @@ export class HorizontalBarChartComponent implements OnInit {
   @Input() title = 'Top selling products';
   @Input() color = '#50C878';
   @Input() data: any[] = this.data1;
-  @Input() brower_width = 300;
+  @Input() brower_width = 365;
   @Input() browser_height = 250;
   // brower_width=500    //this is width of svg for the desktop screen
   barWidth = 0.8; // adjust this to handle the width of the bar
@@ -66,14 +66,14 @@ export class HorizontalBarChartComponent implements OnInit {
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      .attr('transform', `translate(70,10)`);
 
     const tooltip = d3.select('#tooltip');
 
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.value) ?? 0])
-      .range([0, width - 10]);
+      .range([0, width - 40]);
 
     const y = d3
       .scaleBand()
@@ -86,7 +86,7 @@ export class HorizontalBarChartComponent implements OnInit {
       .data(data)
       .enter()
       .append('text')
-      .attr('x', -100) // Position the names at the start of the x-axis
+      .attr('x', -70) // Position the names at the start of the x-axis
       .attr('y', (d) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d.name)
@@ -99,7 +99,8 @@ export class HorizontalBarChartComponent implements OnInit {
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('y', (d) => (y(d.name) ?? 0) + 5)
+      .attr('x', 50)
+      .attr('y', (d) => (y(d.name) ?? 0) + 10)
       .attr('width', 0) // Start with width 0 for animation
       .attr('height', y.bandwidth() - 20)
       .attr('fill', this.color)
@@ -124,8 +125,8 @@ export class HorizontalBarChartComponent implements OnInit {
     labels
       .append('text')
       .attr('class', 'value-label')
-      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))
-      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 10) // Adjust label position accordingly
+      .attr('y', (d) => (y(d.name) ?? 0) + y.bandwidth() / 2)
+      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 60) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
       .attr('fill', '#2222222')
       .text((d) => d.value)

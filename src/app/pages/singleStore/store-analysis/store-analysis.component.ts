@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
 import { HorizontalBarChartComponent } from '../../../shared/d3-bar-chart/horizontal-bar-chart/horizontal-bar-chart.component';
 import { data } from '../../data';
-import { HttpServiceService } from '../../../service/http-service.service';
+import { customerData, CrossSellingDepartments } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cross-selling-bar-chart/horizontal-bar-chart.component';
 @Component({
   selector: 'app-store-analysis',
@@ -17,7 +17,8 @@ import { CrossSellingBarChartComponent } from '../../../shared/d3-bar-chart/cros
   styleUrl: './store-analysis.component.css',
 })
 export class StoreAnalysisComponent {
-  private httpService = inject(HttpServiceService);
+  public crossData = CrossSellingDepartments;
+  customerData = customerData;
   data!: {
     name: string;
     color: string;

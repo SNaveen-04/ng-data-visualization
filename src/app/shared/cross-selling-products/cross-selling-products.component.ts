@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { crossSellingProducts } from '../../../data';
 
@@ -14,7 +14,8 @@ interface Data {
   styleUrls: ['./cross-selling-products.component.css'],
 })
 export class CrossSellingProductsComponent {
-  crossSellingProductsData: Data[] = crossSellingProducts;
+  crossSellingProductsData = input.required<Data[]>();
+  // crossSellingProductsData: Data[] = crossSellingProducts;
   color = '#50C878';
 
   @ViewChild('barchart', { static: true })
@@ -32,7 +33,7 @@ export class CrossSellingProductsComponent {
   }
 
   private createSvg(): void {
-    this.crossSellingProductsData.sort((a, b) => b.sales - a.sales);
+    this.crossSellingProductsData().sort((a, b) => b.sales - a.sales);
     this.svg = d3
       .select(this.chartContainer.nativeElement)
       .append('svg')
@@ -45,13 +46,13 @@ export class CrossSellingProductsComponent {
       .scaleLinear()
       .domain([
         0,
-        d3.max(this.crossSellingProductsData, (d) => d.sales) as number,
+        d3.max(this.crossSellingProductsData(), (d) => d.sales) as number,
       ])
-      .range([0, 100]);
+      .range([0, 80]);
 
     const y = d3
       .scaleBand()
-      .domain(this.crossSellingProductsData.map((d) => d.name))
+      .domain(this.crossSellingProductsData().map((d) => d.name))
       .range([0, 160])
       .padding(0.7);
 
@@ -77,8 +78,8 @@ export class CrossSellingProductsComponent {
           .style('left', `${event.pageX + 10}px`)
           .style('top', `${event.pageY + 10}px`)
           .html(
-            `${d.data.name}
-              ${d.data.sales}`
+            `${d.name}
+              ${d.sales}`
           );
       })
       .on('mouseout', () => {

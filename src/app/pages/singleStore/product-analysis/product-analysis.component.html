@@ -6,11 +6,13 @@
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights />
+      <app-customer-insights [customerInsightsData]="customerData" />
     </div>
     <div class="cross-selling">
       Cross selling products
-      <app-cross-selling-products />
+      <app-cross-selling-products
+        [crossSellingProductsData]="crossSellingProducts"
+      />
     </div>
   </div>
 </div>

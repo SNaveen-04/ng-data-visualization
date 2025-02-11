@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { data } from '../../data';
+import { customerData } from '../../../../data';
+import { crossSellingProducts } from '../../../../data';
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
 
 @Component({
@@ -15,6 +17,8 @@ import { LineChartComponent } from '../../../shared/line-chart/line-chart.compon
   styleUrl: './product-analysis.component.css',
 })
 export class ProductAnalysisComponent {
+  crossSellingProducts = crossSellingProducts;
+  customerData = customerData;
   data!: {
     name: string;
     color: string;

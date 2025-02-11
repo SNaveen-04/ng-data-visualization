@@ -57,7 +57,7 @@ export class DepartmentBarChartComponent implements OnInit {
 
     const element = this.chartContainer.nativeElement;
     const data = this.data;
-    const margin = { top: 10, right: 10, bottom: 20, left: 81 }; // Reduced bottom margin
+    const margin = { top: 15, right: 10, bottom: 20, left: 81 }; // Reduced bottom margin
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
     const svg = d3

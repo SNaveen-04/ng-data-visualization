@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { LineChartComponent } from '../../../shared/line-chart/line-chart.component';
 import { ProductSalesComponent } from '../../../shared/product-sales/product-sales.component';
+import { customerData } from '../../../../data';
 import { data } from '../../data';
 
 @Component({
@@ -15,6 +16,7 @@ import { data } from '../../data';
   styleUrl: './operator-analysis.component.css',
 })
 export class OperatorAnalysisComponent {
+  customerData = customerData;
   data!: {
     name: string;
     color: string;
