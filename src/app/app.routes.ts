@@ -8,27 +8,57 @@ import { OperatorAnalysisComponent } from './pages/singleStore/operator-analysis
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'analysis',
+    redirectTo: 'single/analysis',
     pathMatch: 'full',
   },
   {
-    path: 'analysis',
-    component: StoreAnalysisComponent,
+    path: 'single',
+    children: [
+      {
+        path: 'analysis',
+        component: StoreAnalysisComponent,
+      },
+      {
+        path: 'product',
+        component: ProductAnalysisComponent,
+      },
+      {
+        path: 'department',
+        component: DepartmentAnalysisComponent,
+      },
+      {
+        path: 'operator',
+        component: OperatorAnalysisComponent,
+      },
+      {
+        path: '**',
+        component: OperatorAnalysisComponent,
+      },
+    ],
   },
   {
-    path: 'product',
-    component: ProductAnalysisComponent,
-  },
-  {
-    path: 'department',
-    component: DepartmentAnalysisComponent,
-  },
-  {
-    path: 'operator',
-    component: OperatorAnalysisComponent,
-  },
-  {
-    path: '**',
-    component: LineChartComponent,
+    path: 'multi',
+    children: [
+      {
+        path: 'analysis',
+        component: StoreAnalysisComponent,
+      },
+      {
+        path: 'product',
+        component: ProductAnalysisComponent,
+      },
+      {
+        path: 'department',
+        component: DepartmentAnalysisComponent,
+      },
+      {
+        path: 'operator',
+        component: OperatorAnalysisComponent,
+      },
+      {
+        path: '**',
+        component: OperatorAnalysisComponent,
+      },
+    ],
   },
 ];

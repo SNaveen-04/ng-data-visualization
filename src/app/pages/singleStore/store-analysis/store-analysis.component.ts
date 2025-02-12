@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -10,6 +10,7 @@ import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-
 import { ChipsComponent } from '../../../shared/chips/chips.component';
 import { CrossSellingDepartments, customerData } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
+import { timeFrame } from '../../../type';
 @Component({
   selector: 'app-store-analysis',
   imports: [
@@ -25,8 +26,10 @@ import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar
 })
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
-  public crossData = CrossSellingDepartments;
-
+  public crossData:any[]=[];
+  timeFrame: timeFrame = 'month';
+  leastSellingData:any[]=[];
+  topSellingData:any[]=[];
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
@@ -55,19 +58,72 @@ export class StoreAnalysisComponent {
       .filter((element) => element.selected)
       .map((element) => element.id);
     this.getDepartmentTrends();
+    this.getTopLeastData();
+    this.getCrossSellingData();
   }
 
   ngOnInit() {
     this.getDepartmentsList();
   }
 
+ getTopLeastData()
+ {
+  this.httpService.getTopAndLeastPerformance(this.selectedIds, 'week').subscribe({
+    next: (data) => {
+      // console.log(data);
+      this.createPerformanceData(data);
+    },
+    error: (e) => console.log(e),
+  });
+ } 
+  
+  
+// split the product performance into top least bar chart and least selling bar chart data 
+ //input :  data  - from the  backend
+ //output : topSellingData, leastSelling data variable assigned with their values 
+ createPerformanceData(datas: any[]) {
+  let finalData: any[] = []; // Initialize finalData as an empty array
+  datas.forEach(data => {
+      data.data.forEach((item: any) => { 
+          finalData.push({ "name": item.name, "value":Math.floor( item.value) });
+      });
+  });
+  console.log("final data : ", finalData);
+ finalData.sort((a,b)=>{return a.value-b.value});
+this.leastSellingData=finalData.slice(0,5);
+this.topSellingData=finalData.slice(finalData.length-5,finalData.length);
+ console.log("top data : ",this.topSellingData);
+ console.log("least data :",this.leastSellingData);
+ 
+ 
+}
+
+
+getCrossSellingData()
+{
+  this.httpService.getCrossSellingData(this.selectedIds,this.timeFrame).subscribe({
+    next:(data)=>{
+      this.crossData=data;
+      console.log("Get cross selling data : ",this.crossData);
+      
+    },
+    error: (error) => console.log(error),
+  })
+}
+
+
+
+
+
   getDepartmentTrends() {
-    this.httpService.getDepartmentTrends(this.selectedIds, 'week').subscribe({
-      next: (data) => {
-        this.LineChartdata = data;
-      },
-      error: (error) => console.log(error),
-    });
+    this.httpService
+      .getDepartmentTrends(this.selectedIds, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          this.LineChartdata = data;
+        },
+        error: (error) => console.log(error),
+      });
   }
 
   getDepartmentsList() {
@@ -82,6 +138,8 @@ export class StoreAnalysisComponent {
         this.selectedIds = [this.listElements[0].id];
         this.listElements[0].selected = true;
         this.getDepartmentTrends();
+        this.getTopLeastData();
+        this.getCrossSellingData();
       },
       error: (e) => console.log(e),
     });

@@ -15,20 +15,27 @@
     <div class="trends">
       <app-line-chart
         [chartData]="LineChartdata"
-        [format]="'week'"
+        [format]="timeFrame"
       ></app-line-chart>
     </div>
     <div class="selling">
       <div class="top">
         Top selling product
-        <app-horizontal-bar-chart></app-horizontal-bar-chart>
+       
+ <app-horizontal-bar-chart
+ [data]="this.topSellingData"
+></app-horizontal-bar-chart>
+
       </div>
       <div class="least">
         Least selling product
         <app-horizontal-bar-chart
-          color="#E74C3C"
-          title="Least selling product"
-        ></app-horizontal-bar-chart>
+        [data]="this.leastSellingData"
+        color="#E74C3C"
+        title="Least selling product"
+      ></app-horizontal-bar-chart>
+
+
       </div>
     </div>
   </div>
@@ -39,13 +46,16 @@
     </div>
     <div class="cross-selling">
       <p>Cross selling department</p>
-      @for (item of crossData; track $index) {
-      <app-cross-selling-bar-chart
-        [title]="item.name"
-        [data]="item.dept"
-      ></app-cross-selling-bar-chart>
-      <br />
-      }
+      <div class="scroll">
+        @for (item of crossData; track $index) {
+          <app-cross-selling-bar-chart
+            [title]="item.name"
+            [data]="item.data"
+          ></app-cross-selling-bar-chart>
+          <br />
+          }
+      </div>
+  
     </div>
   </div>
 </div>
