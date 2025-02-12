@@ -26,7 +26,8 @@ import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
   public crossData = CrossSellingDepartments;
-
+  leastSellingData:any[]=[];
+  topSellingData:any[]=[];
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
@@ -59,7 +60,52 @@ export class StoreAnalysisComponent {
 
   ngOnInit() {
     this.getDepartmentsList();
+    this.getTopLeastData();
+ 
   }
+ 
+  
+  
+
+ getTopLeastData()
+ {
+  this.httpService.getTopAndLeastPerformance([1,2], 'week').subscribe({
+    next: (data) => {
+      this.createPerformanceData(data);
+    },
+    error: (e) => console.log(e),
+  });
+ } 
+  
+  
+  // split the product performance into top least bar chart and least selling bar chart data 
+ //input :  data  - from the  backend
+ //output : topSellingData, leastSelling data variable assigned with their values 
+ createPerformanceData(datas: any[]) {
+  let finalData: any[] = []; // Initialize finalData as an empty array
+  datas.forEach(data => {
+      data.data.forEach((item: any) => { 
+          finalData.push({ "name": item.name, "value": item.value });
+      });
+  });
+  console.log("final data : ", finalData);
+ finalData.sort((a,b)=>{return a.value-b.value});
+ if(finalData.length<=10)
+ {
+   this.topSellingData=finalData.slice(finalData.length/2+1,finalData.length);
+   this.leastSellingData=finalData.slice(0,finalData.length/2);
+   return ;
+ }
+this.leastSellingData=finalData.slice(0,5);
+this.topSellingData=finalData.slice(-6,-1);
+}
+
+
+
+
+
+
+
 
   getDepartmentTrends() {
     this.httpService.getDepartmentTrends(this.selectedIds, 'week').subscribe({

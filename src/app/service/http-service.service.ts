@@ -84,4 +84,26 @@ export class HttpService {
       }
     );
   }
+  
+
+
+  //data from backend for Top-selling-bar-chart and Least selling bar chart  
+  getTopAndLeastPerformance(id:any,timeFrame:string)
+  {
+     return this.httpClient.post<productPerformance>(
+       this.api+'analysis/performance/product',
+       {
+           timeFrame:timeFrame,
+           departmentIds:[ ...id
+           ],
+           storeId:this.storeId,
+           targetValue:'sales'
+           
+       }
+     )
+  }
+
+
+
+
 }
