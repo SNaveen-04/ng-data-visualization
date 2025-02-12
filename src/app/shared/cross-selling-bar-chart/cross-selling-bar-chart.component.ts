@@ -36,7 +36,8 @@ export class CrossSellingBarChartComponent implements OnInit {
     const height = this.browser_height - margin.top - margin.bottom;
     const nameWidth = 0; // Width for name column
     const departmentWidth = 30; // Width for department column
-
+    
+        const tooltip = d3.select('#tooltip');
     const svg = d3
       .select(element)
       .append('svg')
@@ -81,11 +82,30 @@ export class CrossSellingBarChartComponent implements OnInit {
       .attr('class', 'bar')
       .attr('x', nameWidth + 20)
       .attr('y', (d, i) => i * offset + y.bandwidth() / 3)
-      .attr('width', (d) => x(d.sales))
+      .attr('width', 0)
       .attr('height', y.bandwidth() / 4)
       .attr('fill', this.color)
       .attr('rx', 5) // Rounded corners
-      .attr('ry', 5); // Rounded corners
+      .attr('ry', 5) // Rounded corners
+      .on('mouseover', function (event, d) {
+        tooltip.style('opacity', 0.9);
+        tooltip
+          .html(
+            `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
+           ${d.deptName}
+              ${d.sales}`
+          )
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY + 10 + 'px');
+      })
+      .on('mouseout', function () {
+        tooltip.style('opacity', 0);
+      })
+      .transition() // Add transition for animation
+      .duration(800) // Duration of the animation in milliseconds
+      .attr('width', (d) => x(d.sales))
+      
+      
 
     // Add sales values (x-axis labels)
     svg

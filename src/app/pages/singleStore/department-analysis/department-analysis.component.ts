@@ -24,6 +24,14 @@ export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
   customerData = customerData;
   LineChartdata: LineChartData = [];
+  SellingProducts: {
+    name: string;
+    value: number;
+  }[] = [];
+
+  get topSellingProducts() {
+    return this.SellingProducts;
+  }
   listElements: listData = [];
   selected = {
     id: '',
@@ -36,22 +44,20 @@ export class DepartmentAnalysisComponent {
     this.getDepartmentLists();
   }
 
-  ngOnViewInit() {}
-
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
-      this.getDepartmentTrends(this.selected.id);
+      this.getDepartmentTrends();
+      this.getProductPerformance();
     }
   }
 
-  getDepartmentTrends(id: string) {
+  getDepartmentTrends() {
     this.httpService
       .getDepartmentTrends(this.selected.id, this.timeFrame)
       .subscribe({
         next: (data) => {
           this.LineChartdata = data;
-          console.log(data);
           this.isLoaded = true;
         },
         error: (error) => console.log(error),
@@ -63,9 +69,33 @@ export class DepartmentAnalysisComponent {
       next: (data) => {
         this.listElements = data.map((d) => d);
         this.selected = this.listElements[0];
-        this.getDepartmentTrends(this.selected.id);
+        this.getDepartmentTrends();
+        this.getProductPerformance();
+        this.getCustomerInsights();
       },
       error: (e) => console.log(e),
     });
+  }
+
+  getProductPerformance() {
+    this.httpService
+      .getProductPerformance(this.selected.id, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          this.SellingProducts = data[0].data
+            .filter((_, index) => index < 5)
+            .map((d) => d);
+        },
+        error: (e) => console.log(e),
+      });
+  }
+
+  getCustomerInsights() {
+    this.httpService
+      .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
+      .subscribe({
+        next: (data) => console.log(data),
+        error: (e) => console.log(e),
+      });
   }
 }

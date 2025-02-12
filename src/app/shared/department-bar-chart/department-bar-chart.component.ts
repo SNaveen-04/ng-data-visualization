@@ -12,39 +12,19 @@ interface ChartData {
   styleUrls: ['./department-bar-chart.component.css'],
 })
 export class DepartmentBarChartComponent implements OnInit {
-  data1: ChartData[] = [
-    {
-      name: 'Germany',
-      value: 50000,
-    },
-    {
-      name: 'United States',
-      value: 30000,
-    },
-    {
-      name: 'France',
-      value: 40000,
-    },
-    {
-      name: 'Cheese Bread',
-      value: 10000,
-    },
-    {
-      name: 'Spain',
-      value: 20000,
-    },
-  ];
-
   @Input() title = 'Top selling products';
   @Input() color = '#50C878';
-  @Input() data: any[] = this.data1;
+  @Input() data!: any[];
   @Input() brower_width = 300;
   @Input() browser_height = 190;
   // brower_width=500    //this is width of svg for the desktop screen
   barWidth = 0.7; // adjust this to handle the width of the bar
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngOnChanges() {
+    console.log(this.data);
     this.createChart();
   }
 
@@ -60,6 +40,7 @@ export class DepartmentBarChartComponent implements OnInit {
     const margin = { top: 15, right: 10, bottom: 20, left: 81 }; // Reduced bottom margin
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
+    d3.select(element).select('svg').remove();
     const svg = d3
       .select(element)
       .append('svg')
@@ -107,18 +88,18 @@ export class DepartmentBarChartComponent implements OnInit {
       .attr('rx', 5)
       .attr('ry', 5)
       .on('mouseover', function (event, d) {
-        tooltip.transition().duration(200).style('opacity', 0.9);
+        tooltip.style('opacity', 0.9);
         tooltip
-        .html(
-          `<span style="display: inline-block; width:12px;height:12px; background-color:${"#50C878"}; margin-right: 5px"></span>
+          .html(
+            `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
          ${d.name}
             ${d.value}`
-        )
+          )
           .style('left', event.pageX + 10 + 'px')
-          .style('top', event.pageY +10+ 'px');
+          .style('top', event.pageY + 10 + 'px');
       })
       .on('mouseout', function () {
-        tooltip.transition().duration(500).style('opacity', 0);
+        tooltip.style('opacity', 0);
       })
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds

@@ -106,7 +106,7 @@ export class HorizontalBarChartComponent implements OnInit {
         .attr('rx', 5)
         .attr('ry', 5)
         .on('mouseover', function (event, d) {
-          tooltip.transition().duration(200).style('opacity', 0.9);
+          tooltip.style('opacity', 0.9);
           tooltip
             .html(
               `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
@@ -117,7 +117,7 @@ export class HorizontalBarChartComponent implements OnInit {
             .style('top', event.pageY + 10 + 'px');
         })
         .on('mouseout', function () {
-          tooltip.transition().duration(500).style('opacity', 0);
+          tooltip.style('opacity', 0);
         })
         .transition() // Add transition for animation
         .duration(800) // Duration of the animation in milliseconds
@@ -136,7 +136,7 @@ export class HorizontalBarChartComponent implements OnInit {
         .attr('rx', 5)
         .attr('ry', 5)
         .on('mouseover', function (event, d) {
-          tooltip.transition().duration(200).style('opacity', 0.9);
+          tooltip.style('opacity', 0.9);
           tooltip
             .html(
               `<span style="display: inline-block; width:12px;height:12px; background-color:${'#E74C3C'}; margin-right: 5px"></span>
@@ -147,7 +147,7 @@ export class HorizontalBarChartComponent implements OnInit {
             .style('top', event.pageY + 10 + 'px');
         })
         .on('mouseout', function () {
-          tooltip.transition().duration(500).style('opacity', 0);
+          tooltip.style('opacity', 0);
         })
         .transition() // Add transition for animation
         .duration(800) // Duration of the animation in milliseconds
