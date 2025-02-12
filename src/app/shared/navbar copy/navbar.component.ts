@@ -23,7 +23,7 @@ export class MultiStoreNavbarComponent {
   storeId = storeId;
   isListOpen = false;
   filterValue = 101;
-  isMultiStore = true;
+  isMultiStore = false;
 
   toggleVisible() {
     this.isListOpen = !this.isListOpen;

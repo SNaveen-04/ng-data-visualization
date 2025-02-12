@@ -9,6 +9,7 @@ import { DropDownComponent } from '../../../shared/drop-down/drop-down.component
 import { HttpService } from '../../../service/http-service.service';
 import { listData, timeFrame } from '../../../type';
 import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
+
 @Component({
   selector: 'app-department-analysis',
   imports: [
@@ -24,6 +25,8 @@ export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
   customerData = customerData;
   LineChartdata: LineChartData = [];
+  newCustomerInsights = {};
+  repeatedCustomerInsights = {};
   SellingProducts: {
     name: string;
     value: number;
@@ -94,7 +97,10 @@ export class DepartmentAnalysisComponent {
     this.httpService
       .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
       .subscribe({
-        next: (data) => console.log(data),
+        next: (data) => {
+          this.newCustomerInsights = data[0][0];
+          this.repeatedCustomerInsights = data[0][1];
+        },
         error: (e) => console.log(e),
       });
   }
