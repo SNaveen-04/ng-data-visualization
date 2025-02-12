@@ -1,13 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
-import { customerData } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { HttpService } from '../../../service/http-service.service';
-import { listData, timeFrame } from '../../../type';
+import { customerInsightsData, listData, timeFrame } from '../../../type';
 import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
 
 @Component({
@@ -23,10 +22,9 @@ import { DepartmentBarChartComponent } from '../../../shared/department-bar-char
 })
 export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
-  customerData = customerData;
+  customerData = signal<customerInsightsData>([]);
   LineChartdata: LineChartData = [];
-  newCustomerInsights = {};
-  repeatedCustomerInsights = {};
+  filter = '';
   SellingProducts: {
     name: string;
     value: number;
@@ -50,6 +48,7 @@ export class DepartmentAnalysisComponent {
         console.log(d);
       },
     });
+    this.filter = this.httpService.getTargetValue();
     this.getDepartmentLists();
   }
 
@@ -58,6 +57,7 @@ export class DepartmentAnalysisComponent {
       this.selected = value;
       this.getDepartmentTrends();
       this.getProductPerformance();
+      this.getCustomerInsights();
     }
   }
 
@@ -104,8 +104,25 @@ export class DepartmentAnalysisComponent {
       .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
       .subscribe({
         next: (data) => {
-          this.newCustomerInsights = data[0][0];
-          this.repeatedCustomerInsights = data[0][1];
+          this.customerData.set([]);
+          data[0].forEach((d, i) => {
+            const temp: {
+              name: string;
+              value: number;
+            } = {
+              name: '',
+              value: 0,
+            };
+            temp.name = d.name;
+            if (this.filter === 'sales') {
+              temp.value = d.value[0];
+            } else {
+              temp.value = d.value[1];
+            }
+            const tempData = this.customerData();
+            tempData.push(temp);
+            this.customerData.set(tempData);
+          });
         },
         error: (e) => console.log(e),
       });

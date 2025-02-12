@@ -18,6 +18,11 @@ export type CustomerInsights = {
   value: [number, number];
 }[][];
 
+export type customerInsightsData = {
+  name: string;
+  value: number;
+}[];
+
 export type crossSellingProducts = {
   name: string;
   data: {

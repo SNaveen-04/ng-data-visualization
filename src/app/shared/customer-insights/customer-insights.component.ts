@@ -1,6 +1,13 @@
-import { Component, ElementRef, input, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  input,
+  OnChanges,
+  ViewChild,
+} from '@angular/core';
 import * as d3 from 'd3';
-import { customerData } from '../../../data';
+
+import { customerInsightsData } from '../../type';
 
 interface Data {
   name: string;
@@ -13,8 +20,8 @@ interface Data {
   templateUrl: './customer-insights.component.html',
   styleUrl: './customer-insights.component.css',
 })
-export class CustomerInsightsComponent {
-  customerInsightsData = input.required<Data[]>();
+export class CustomerInsightsComponent implements OnChanges {
+  customerInsightsData = input.required<customerInsightsData>();
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
 
@@ -22,17 +29,25 @@ export class CustomerInsightsComponent {
   private readonly chartContainer!: ElementRef;
   @ViewChild('tooltip', { static: true }) private readonly tooltip!: ElementRef;
 
-  ngOnInit(): void {
-    this.customerInsightsData().forEach((element) => {
-      this.totalCustomer += element.value;
-    });
+  ngOnChanges() {
     this.createDonutChart();
   }
 
   private createDonutChart() {
+    this.customerInsightsData().sort((a, b) => b.value - a.value);
+    this.customerInsightsData().forEach((element) => {
+      if (element.name.startsWith('N')) {
+        element.name = 'New Customer';
+      } else {
+        element.name = 'Repeated Customer';
+      }
+      this.totalCustomer += element.value;
+    });
+
     const width = 350;
     const height = 200;
     const radius = Math.max(width, height) / 2 - 45;
+    d3.select(this.chartContainer.nativeElement).selectAll('svg').remove();
 
     const color = d3
       .scaleOrdinal<string, string>()
@@ -112,7 +127,7 @@ export class CustomerInsightsComponent {
 
     const legendGroup = svg
       .selectAll('.legend-group')
-      .data(customerData)
+      .data(this.customerInsightsData())
       .enter()
       .append('g')
       .attr('class', 'legend-group')

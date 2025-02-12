@@ -25,6 +25,9 @@ export class HttpService {
     this.targetValue = targetValue;
     this.targetValue$.next(this.targetValue);
   }
+  getTargetValue() {
+    return this.targetValue;
+  }
 
   setStoreId(storeId: string) {
     this.storeId = storeId;
