@@ -54,7 +54,7 @@ export class DepartmentAnalysisComponent {
 
   getDepartmentTrends() {
     this.httpService
-      .getDepartmentTrends(this.selected.id, this.timeFrame)
+      .getDepartmentTrends([this.selected.id], this.timeFrame)
       .subscribe({
         next: (data) => {
           this.LineChartdata = data;

@@ -1,22 +1,22 @@
 <div class="dropdown">
   <app-multi-select-drop-down
     [listElements]="listElements"
-    [selectedValue]="selected"
-    (selected)="select($event)"
+    (selected)="select()"
+    [disabled]="disabled"
   />
   <div>
     @for(dept of listElements;track dept.id){ @if(dept.selected){
-    <app-chips [department]="dept" />
+    <app-chips [department]="dept" (deselect)="deselect($event)" />
     } }
   </div>
 </div>
 <div class="analysis">
   <div class="group-1">
     <div class="trends">
-      <!-- <app-line-chart
+      <app-line-chart
         [chartData]="LineChartdata"
-        [format]="'Year'"
-      ></app-line-chart> -->
+        [format]="'week'"
+      ></app-line-chart>
     </div>
     <div class="selling">
       <div class="top">
@@ -44,7 +44,7 @@
         [title]="item.name"
         [data]="item.dept"
       ></app-cross-selling-bar-chart>
-      <br>
+      <br />
       }
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-chips',
@@ -12,8 +12,9 @@ export class ChipsComponent {
     name: string;
     selected: boolean;
   }>();
-
+  deselect = output<string>();
   cancel() {
     this.department().selected = false;
+    this.deselect.emit(this.department().id);
   }
 }

@@ -1,11 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
   LineChartData,
 } from '../../../shared/line-chart/line-chart.component';
 import { HorizontalBarChartComponent } from '../../../shared/horizontal-bar-chart/horizontal-bar-chart.component';
-import { LineChartdata } from '../../../../data';
 import { HttpService } from '../../../service/http-service.service';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 import { ChipsComponent } from '../../../shared/chips/chips.component';
@@ -27,14 +26,19 @@ import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
   public crossData = CrossSellingDepartments;
-  customerData = customerData;
 
+  customerData = customerData;
   LineChartdata!: LineChartData;
+  selectedIds: string[] = [];
   listElements: {
     id: string;
     name: string;
     selected: boolean;
   }[] = [];
+  get disabled() {
+    if (this.selectedDepartments.length === 1) return true;
+    return false;
+  }
   get selectedDepartments() {
     return this.listElements
       .filter((d) => d.selected)
@@ -45,16 +49,29 @@ export class StoreAnalysisComponent {
         };
       });
   }
-  selected = '';
-  select(value: string) {
-    console.log(value);
-    // this.selected = value;
-  }
-  constructor() {
-    Object.assign(this, { LineChartdata });
+
+  select() {
+    this.selectedIds = this.listElements
+      .filter((element) => element.selected)
+      .map((element) => element.id);
+    this.getDepartmentTrends();
   }
 
   ngOnInit() {
+    this.getDepartmentsList();
+  }
+
+  getDepartmentTrends() {
+    this.httpService.getDepartmentTrends(this.selectedIds, 'week').subscribe({
+      next: (data) => {
+        console.log(data);
+        this.LineChartdata = data;
+      },
+      error: (error) => console.log(error),
+    });
+  }
+
+  getDepartmentsList() {
     this.httpService.getDepartmentsList().subscribe({
       next: (data) => {
         this.listElements = data.map((d) => {
@@ -63,16 +80,30 @@ export class StoreAnalysisComponent {
             selected: false,
           };
         });
-        this.selected = this.listElements[0].name;
+        this.selectedIds = [this.listElements[0].id];
+        this.listElements[0].selected = true;
+        this.getDepartmentTrends();
       },
       error: (e) => console.log(e),
     });
+  }
 
-    // this.httpService.getDepartmentTrends(1).subscribe({
-    //   next: (data) => {
-    //     console.log(data);
-    //   },
-    //   error: (error) => console.log(error),
-    // });
+  deselect(id: string) {
+    if (this.selectedIds.length !== 1) {
+      this.selectedIds = this.selectedIds.filter((d) => d != id);
+      let temp = '';
+      this.listElements.map((d) => {
+        if (d.id === id) {
+          temp = d.name;
+        }
+      });
+      this.LineChartdata = this.LineChartdata.filter((d) => d.name !== temp);
+    } else {
+      this.listElements.map((d) => {
+        if (d.id === id) {
+          d.selected = true;
+        }
+      });
+    }
   }
 }
