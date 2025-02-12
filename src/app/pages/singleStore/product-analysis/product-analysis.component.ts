@@ -73,6 +73,19 @@ export class ProductAnalysisComponent {
       .getCrossSellingProducts([this.selected.id], this.timeFrame)
       .subscribe({
         next: (d) => {
+          const temp = d[0].data;
+          if (temp.length < 3) {
+            let i = 1;
+            while (temp.length < 3) {
+              temp.push({
+                name: 'Nan' + i,
+                department: '-',
+                value: 0,
+              });
+              i++;
+            }
+            this.crossSellingProducts.set(temp);
+          }
           this.crossSellingProducts.set(d[0].data);
         },
         error: (e) => console.log(e),
