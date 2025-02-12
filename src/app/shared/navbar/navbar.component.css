@@ -1,7 +1,7 @@
 .navbar {
   box-sizing: border-box;
   margin: 0;
-  padding-left: 50px;
+  padding-left: 70px;
   padding-right: 20px;
   /* padding-bottom: 5px; */
   padding-top: 5px;
@@ -20,6 +20,41 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+.store-id{
+  font-size: 17px;
+  margin-right: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.selectedId {
+  background-color: #50C878;
+  color: white;
+  text-align: right;
+  cursor: pointer;
+}
+.drop-down {
+
+  list-style: none;
+  position: absolute;
+  left: -30px;
+  padding: 10px;
+  max-height:fit-content;
+  background-color: white;
+  box-shadow: 1px 1px 4px 0px #d6d6d6;
+  width: 120px;
+  border-radius: 30px;
+  border-radius: 4px;
+  z-index: 1;
+  font-size: 15px;
+}
+.drop-down-list{
+  padding: 5px;
+  cursor: pointer;
+}
+.drop-down-arrow> img{
+position: absolute;
 }
 
 .primary {
@@ -61,7 +96,6 @@
   background-color: #50c878;
   color: white;
 }
-
 .filter {
   gap: 10px;
   border: 1px solid rgba(0, 0, 0, 0.15);
@@ -96,6 +130,12 @@
   color: rgba(0, 0, 0, 0.6);
 }
 
+
+
+.drop-down.visible {
+  visibility: visible;
+}
+
 @media screen and (min-width: 1440px) {
   .navbar {
     font-size: 18px;
@@ -114,3 +154,4 @@
     padding: 7px;
   }
 }
+

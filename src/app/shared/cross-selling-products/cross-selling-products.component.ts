@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 interface Data {
   name: string;
   department: string;
-  sales: number;
+  value: number;
 }
 
 @Component({
@@ -16,7 +16,7 @@ export class CrossSellingProductsComponent {
   crossSellingProductsData = input.required<Data[]>();
   // crossSellingProductsData: Data[] = crossSellingProducts;
   color = '#50C878';
-
+  format: '' | '%' = '%';
   @ViewChild('barchart', { static: true })
   private readonly chartContainer!: ElementRef;
   @ViewChild('tooltip', { static: true }) private readonly tooltip!: ElementRef;
@@ -27,12 +27,13 @@ export class CrossSellingProductsComponent {
 
   constructor() {}
 
-  ngOnInit(): void {
+  ngOnChanges() {
     this.createSvg();
   }
 
   private createSvg(): void {
-    this.crossSellingProductsData().sort((a, b) => b.sales - a.sales);
+    this.crossSellingProductsData().sort((a, b) => b.value - a.value);
+    d3.select(this.chartContainer.nativeElement).select('svg').remove();
     this.svg = d3
       .select(this.chartContainer.nativeElement)
       .append('svg')
@@ -45,7 +46,7 @@ export class CrossSellingProductsComponent {
       .scaleLinear()
       .domain([
         0,
-        d3.max(this.crossSellingProductsData(), (d) => d.sales) as number,
+        d3.max(this.crossSellingProductsData(), (d) => d.value) as number,
       ])
       .range([0, 80]);
 
@@ -79,7 +80,7 @@ export class CrossSellingProductsComponent {
           .html(
             `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
            ${d.name}:
-              ${d.sales}`
+              ${d.value}`
           );
       })
       .on('mouseout', () => {
@@ -88,7 +89,7 @@ export class CrossSellingProductsComponent {
       })
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
-      .attr('width', (d: Data) => x(d.sales)) %
+      .attr('width', (d: Data) => x(d.value)) %
       this.svg
         .append('text')
         .attr('x', -70)
@@ -135,17 +136,17 @@ export class CrossSellingProductsComponent {
       .attr('y', 0) // Adjust the y position as needed
       .attr('font-size', '15px')
       .attr('fill', '#666666')
-      .text('Sales %');
+      .text(`value ${this.format}`);
 
     this.svg
-      .selectAll('.salespercent')
+      .selectAll('.valuepercent')
       .data(this.crossSellingProductsData)
       .enter()
       .append('text')
-      .attr('x', (d: Data) => nameWidth + departmentWidth + x(d.sales) + 40) // Position the department after the name
+      .attr('x', (d: Data) => nameWidth + departmentWidth + x(d.value) + 40) // Position the department after the name
       .attr('y', (d: Data) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d: Data) => `${d.sales}%`)
+      .text((d: Data) => `${Math.round(d.value)} ${this.format}`)
       .attr('font-size', '13px')
       .attr('fill', '#222222');
   }

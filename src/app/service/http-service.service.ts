@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { CustomerInsights, listData, productPerformance } from '../type';
+import {
+  crossSellingProducts,
+  CustomerInsights,
+  listData,
+  productPerformance,
+} from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
 
 @Injectable({
@@ -10,7 +15,7 @@ export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
   private storeId = '1';
-  private targetValue: 'sales' | 'quantity' | 'any' = 'quantity';
+  private targetValue: 'sales' | 'quantity' | 'any' = 'sales';
 
   setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
     this.targetValue = targetValue;
@@ -84,39 +89,41 @@ export class HttpService {
       }
     );
   }
-  
 
-
-  //data from backend for Top-selling-bar-chart and Least selling bar chart  
-  getTopAndLeastPerformance(id:any,timeFrame:string)
-  {
-     return this.httpClient.post<productPerformance>(
-       this.api+'analysis/performance/product',
-       {
-           timeFrame:timeFrame,
-           departmentIds:id
-           ,
-           storeId:this.storeId,
-           targetValue:'sales'
-           
-       }
-     )
-  }
-
-  getCrossSellingData(id:any,timeFrame:string)
-  {
-     return this.httpClient.post<any>(
-      this.api+'analysis/cross-sell/department'
-      ,
+  //data from backend for Top-selling-bar-chart and Least selling bar chart
+  getTopAndLeastPerformance(id: any, timeFrame: string) {
+    return this.httpClient.post<productPerformance>(
+      this.api + 'analysis/performance/product',
       {
-        timeFrame:timeFrame,
-        departmentIds:id
-        ,
-        storeId:this.storeId,
-        targetValue:'sales'
+        timeFrame: timeFrame,
+        departmentIds: id,
+        storeId: this.storeId,
+        targetValue: 'sales',
       }
-     )
+    );
   }
 
+  getCrossSellingData(id: any, timeFrame: string) {
+    return this.httpClient.post<any>(
+      this.api + 'analysis/cross-sell/department',
+      {
+        timeFrame: timeFrame,
+        departmentIds: id,
+        storeId: this.storeId,
+        targetValue: 'sales',
+      }
+    );
+  }
 
+  getCrossSellingProducts(id: any, timeFrame: string) {
+    return this.httpClient.post<crossSellingProducts>(
+      this.api + 'analysis/cross-sell/product',
+      {
+        timeFrame: timeFrame,
+        productIds: id,
+        storeId: this.storeId,
+        targetValue: this.targetValue,
+      }
+    );
+  }
 }
