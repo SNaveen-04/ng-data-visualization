@@ -30,16 +30,13 @@ export class MultiSelectDropDownComponent {
         count++;
       }
     });
-    console.log(count);
     return count;
   });
   image_path = 'assets/images/dropdown.png';
   isListOpen = false;
 
   ngOnChanges() {
-    console.log(this.selectedCount());
     this.filteredElements.set(this.listElements());
-    console.log(this.disabled());
   }
 
   toggleVisible() {

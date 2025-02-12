@@ -64,7 +64,6 @@ export class StoreAnalysisComponent {
   getDepartmentTrends() {
     this.httpService.getDepartmentTrends(this.selectedIds, 'week').subscribe({
       next: (data) => {
-        console.log(data);
         this.LineChartdata = data;
       },
       error: (error) => console.log(error),
