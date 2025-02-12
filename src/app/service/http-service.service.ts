@@ -20,6 +20,9 @@ export class HttpService {
   setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
     this.targetValue = targetValue;
   }
+  getTargetValue() {
+    return this.targetValue;
+  }
 
   setStoreId(storeId: string) {
     this.storeId = storeId;
