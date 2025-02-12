@@ -22,7 +22,7 @@ export class DepartmentBarChartComponent implements OnInit {
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
-    if(window.innerWidth>=1861)
+    if(window.innerWidth>=1541)
       {
          this.brower_width=500;
       }

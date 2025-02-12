@@ -25,9 +25,9 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
   constructor() {}
 
   ngOnInit(): void {
-    if(window.innerWidth>=1861)
+    if(window.innerWidth>=1541)
     {
-       this.brower_width=500;
+       this.brower_width=500
     }
     this.createChart();
   }

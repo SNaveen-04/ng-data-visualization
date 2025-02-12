@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { CrossSellingDepartments } from '../../../data';
 interface Data {
@@ -23,18 +23,25 @@ export class CrossSellingBarChartComponent implements OnInit {
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
-    if(window.innerWidth>=1861)
+    if(window.innerWidth>=1541)
       {
          this.brower_width=500;
       }
     this.createChart();
   }
+    ngOnChanges(changes: SimpleChanges): void {
+      if (changes['data']) {
+        this.createChart();
+      }
+    }
+  
 
   private createChart(): void {
+    const element = this.chartContainer.nativeElement;
+    d3.select(element).selectAll('*').remove(); // Clear the previous chart
     // Sort data based on sales value
     this.data.sort((a, b) => b.sales - a.sales);
 
-    const element = this.chartContainer.nativeElement;
     const margin = { top: 0, right: 10, bottom: 0, left: 100 };
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
@@ -53,7 +60,7 @@ export class CrossSellingBarChartComponent implements OnInit {
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(this.data, (d) => d.sales) ?? 0])
-      .range([0, 130]);
+      .range([0, width-65]);
 
     const y = d3
       .scaleBand()
