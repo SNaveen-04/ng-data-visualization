@@ -17,3 +17,8 @@ export type CustomerInsights = {
   name: string;
   value: [number, number];
 }[][];
+
+export type customerInsightsData = {
+  name: string;
+  value: number;
+}[];
