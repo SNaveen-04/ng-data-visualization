@@ -4,7 +4,7 @@
     <div class="store-id">
       <p (click)="toggleVisible()">
         Store ID {{ filterValue }}
-        <span class="drop-down-arrow" (click)="toggleVisible()">
+        <span class="drop-down-arrow">
           <img
             src="image.png"
             alt="P"
@@ -29,16 +29,28 @@
       }
     </div>
     }
-    <a routerLink="/analysis" routerLinkActive="selected" class="navigation"
+    <a
+      [routerLink]="navigationPrefix + '/analysis'"
+      routerLinkActive="selected"
+      class="navigation"
       >Analysis</a
     >
-    <a routerLink="/department" routerLinkActive="selected" class="navigation"
+    <a
+      [routerLink]="navigationPrefix + '/department'"
+      routerLinkActive="selected"
+      class="navigation"
       >Departments</a
     >
-    <a routerLink="/product" routerLinkActive="selected" class="navigation"
+    <a
+      [routerLink]="navigationPrefix + '/product'"
+      routerLinkActive="selected"
+      class="navigation"
       >Product</a
     >
-    <a routerLink="/operator" routerLinkActive="selected" class="navigation"
+    <a
+      [routerLink]="navigationPrefix + '/operator'"
+      routerLinkActive="selected"
+      class="navigation"
       >Operator</a
     >
   </nav>

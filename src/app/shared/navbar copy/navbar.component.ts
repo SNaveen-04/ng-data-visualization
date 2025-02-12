@@ -1,13 +1,10 @@
+import { Component, DestroyRef, inject, output } from '@angular/core';
 import {
-  Component,
-  input,
-  OnChanges,
-  OnInit,
-  output,
-  signal,
-  SimpleChanges,
-} from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { storeId } from '../../../data';
 import { FormsModule } from '@angular/forms';
 
@@ -24,6 +21,24 @@ export class MultiStoreNavbarComponent {
   isListOpen = false;
   filterValue = 101;
   isMultiStore = false;
+  navigationPrefix: '/multi' | '/single' = '/single';
+  private route = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  ngOnInit() {
+    const subscriber = this.route.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        console.log('Current route path:', this.route.url);
+        if (this.route.url.startsWith('/multi/')) {
+          this.isMultiStore = true;
+        } else {
+          this.isMultiStore = false;
+        }
+      }
+    });
+    this.destroyRef.onDestroy(() => {
+      subscriber.unsubscribe();
+    });
+  }
 
   toggleVisible() {
     this.isListOpen = !this.isListOpen;
