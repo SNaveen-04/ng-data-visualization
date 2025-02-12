@@ -13,15 +13,23 @@ export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
   format = input<timeFrame>();
   chartData = input.required<LineChartData>();
+  yAxisLabel = input.required<'sales' | 'quantity'>();
+  xAxisLabel: 'Month' | 'Week' | 'Year' = 'Month';
+
+  @ViewChild('chart') chart: any;
+  view: [number, number] = [760, 400];
+  colors: string[] = [];
+  curve = curveCatmullRom;
+
+  get Trends() {
+    let trends = this.yAxisLabel();
+    trends = trends.at(0)?.toUpperCase() + trends.substring(1);
+    return trends + ' trends';
+  }
 
   get data() {
     return this.chartData();
   }
-  @ViewChild('chart') chart: any;
-  view: [number, number] = [760, 400];
-  colors: string[] = [];
-
-  curve = curveCatmullRom;
 
   ngOnInit() {
     this.colors = [

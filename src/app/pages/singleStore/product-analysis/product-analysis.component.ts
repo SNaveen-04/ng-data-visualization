@@ -15,7 +15,7 @@ import { crossSellingProductsData, listData, timeFrame } from '../../../type';
 @Component({
   selector: 'app-product-analysis',
   imports: [
-    CustomerInsightsComponent,
+    // CustomerInsightsComponent,
     CrossSellingProductsComponent,
     DropDownComponent,
     LineChartComponent,
@@ -25,7 +25,7 @@ import { crossSellingProductsData, listData, timeFrame } from '../../../type';
 })
 export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
-
+  yAxisLabel: 'sales' | 'quantity' = 'sales';
   listElements: listData = [];
   selected = {
     id: '',
@@ -42,6 +42,18 @@ export class ProductAnalysisComponent {
 
   ngOnInit() {
     this.getProductList();
+    const subscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        this.yAxisLabel = d;
+        this.getProductAnalysis();
+      },
+    });
+  }
+
+  getProductAnalysis() {
+    this.getProductTrends();
+    this.getCrossSellingProducts();
+    // this.getCrossSellingProducts();
   }
 
   getProductList() {
@@ -49,8 +61,7 @@ export class ProductAnalysisComponent {
       next: (data) => {
         this.listElements = data;
         this.selected = this.listElements[0];
-        this.getProductTrends();
-        this.getCrossSellingProducts();
+        this.getProductAnalysis();
       },
       error: (e) => console.log(e),
     });
@@ -78,7 +89,7 @@ export class ProductAnalysisComponent {
             let i = 1;
             while (temp.length < 3) {
               temp.push({
-                name: 'Nan' + i,
+                name: '-',
                 department: '-',
                 value: 0,
               });

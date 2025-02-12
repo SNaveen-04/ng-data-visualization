@@ -35,6 +35,7 @@ export class CustomerInsightsComponent implements OnChanges {
 
   private createDonutChart() {
     this.customerInsightsData().sort((a, b) => b.value - a.value);
+    this.totalCustomer = 0;
     this.customerInsightsData().forEach((element) => {
       if (element.name.startsWith('N')) {
         element.name = 'New Customer';

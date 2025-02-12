@@ -136,7 +136,7 @@ export class CrossSellingProductsComponent {
       .attr('y', 0) // Adjust the y position as needed
       .attr('font-size', '15px')
       .attr('fill', '#666666')
-      .text(`value ${this.format}`);
+      .text(`Contribution ${this.format}`);
 
     this.svg
       .selectAll('.valuepercent')

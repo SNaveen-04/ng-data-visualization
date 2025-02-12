@@ -22,18 +22,16 @@ export class DepartmentBarChartComponent implements OnInit {
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
-    if(window.innerWidth>=1541)
-      {
-         this.brower_width=500;
-      }
+    if (window.innerWidth >= 1541) {
+      this.brower_width = 500;
+    }
   }
 
   ngOnChanges() {
     this.createChart();
-    if(window.innerWidth>=1861)
-      {
-         this.brower_width=500;
-      }
+    if (window.innerWidth >= 1861) {
+      this.brower_width = 500;
+    }
   }
 
   private createChart(): void {
@@ -122,10 +120,18 @@ export class DepartmentBarChartComponent implements OnInit {
       .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 25) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
       .attr('fill', '#2222222')
-      .text((d) => d.value)
+      .text((d) => `${this.labelFormatter(d.value)}`)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')
       .attr('alignment-baseline', 'middle')
       .attr('font-size', '14px');
+  }
+
+  labelFormatter(value: number) {
+    const num = Math.round(value);
+    if (num > 1000) {
+      return '>' + Math.round(num / 1000) + 'k';
+    }
+    return num;
   }
 }

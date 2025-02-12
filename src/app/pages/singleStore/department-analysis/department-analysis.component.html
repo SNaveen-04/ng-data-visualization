@@ -8,7 +8,11 @@
 <div class="analysis">
   <div class="trends">
     @if(isLoaded){
-    <app-line-chart [chartData]="LineChartdata" [format]="timeFrame" />
+    <app-line-chart
+      [chartData]="LineChartdata"
+      [format]="timeFrame"
+      [yAxisLabel]="yAxisLabel"
+    />
     }
   </div>
   <div class="group-2">

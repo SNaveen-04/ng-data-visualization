@@ -1,5 +1,5 @@
 <div class="heading">
-  <span class="title"> Sales trends </span>
+  <span class="title"> {{ Trends }} </span>
   <div class="legend-container">
     @for (d of chartData(); track d.name;let idx=$index) {
     <span class="legend">
@@ -40,8 +40,8 @@
 <ngx-charts-line-chart
   [results]="chartData()"
   [view]="view"
-  [showXAxisLabel]="true"
   [yAxis]="true"
+  [yScaleMin]="-1"
   [xAxis]="true"
   [scheme]="customScheme"
   [showGridLines]="true"
@@ -50,9 +50,9 @@
   [curve]="curve"
   class="chart"
   [showXAxisLabel]="true"
-  [xAxisLabel]="'Month'"
   [showYAxisLabel]="true"
-  [yAxisLabel]="'Sales'"
+  [xAxisLabel]="xAxisLabel.toUpperCase()"
+  [yAxisLabel]="yAxisLabel().toUpperCase()"
   [roundDomains]="true"
   #chart
 ></ngx-charts-line-chart>

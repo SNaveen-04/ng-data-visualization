@@ -29,6 +29,7 @@ export class DepartmentAnalysisComponent {
     name: string;
     value: number;
   }[] = [];
+  yAxisLabel: 'sales' | 'quantity' = 'sales';
 
   get topSellingProducts() {
     return this.SellingProducts;
@@ -44,8 +45,8 @@ export class DepartmentAnalysisComponent {
   ngOnInit() {
     const subscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
-        this.getDepartmentTrends();
-        console.log(d);
+        this.yAxisLabel = d;
+        this.getDepartmentAnalysis();
       },
     });
     this.filter = this.httpService.getTargetValue();
@@ -55,10 +56,14 @@ export class DepartmentAnalysisComponent {
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
-      this.getDepartmentTrends();
-      this.getProductPerformance();
-      this.getCustomerInsights();
+      this.getDepartmentAnalysis();
     }
+  }
+
+  getDepartmentAnalysis() {
+    this.getDepartmentTrends();
+    this.getProductPerformance();
+    this.getCustomerInsights();
   }
 
   getDepartmentTrends() {

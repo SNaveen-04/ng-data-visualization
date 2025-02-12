@@ -16,15 +16,20 @@ export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
   private storeId = '1';
-  private targetValue: 'sales' | 'quantity' | 'any' = 'sales';
-  public targetValue$ = new BehaviorSubject<'sales' | 'quantity' | 'any'>(
-    'sales'
-  );
+  private targetValue: 'sales' | 'quantity' = 'sales';
+  public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
+  private timeFrame: 'week' | 'month' | 'year' = 'week';
+  public timeFrame$ = new BehaviorSubject<'week' | 'month' | 'year'>('week');
 
-  setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
+  setTargetValue(targetValue: 'sales' | 'quantity') {
     this.targetValue = targetValue;
     this.targetValue$.next(this.targetValue);
   }
+
+  setTimeFrame(timeFrame: 'week' | 'month' | 'year') {
+    this.timeFrame = timeFrame;
+  }
+
   getTargetValue() {
     return this.targetValue;
   }
@@ -39,6 +44,10 @@ export class HttpService {
 
   getDepartmentsList() {
     return this.httpClient.get<listData>(this.api + 'departments');
+  }
+
+  getOperatorList() {
+    return this.httpClient.get(this.api + 'operator');
   }
 
   getDepartmentTrends(id: string[], timeFrame: string) {
