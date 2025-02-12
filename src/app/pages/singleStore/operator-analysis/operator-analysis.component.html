@@ -12,7 +12,10 @@
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights [customerInsightsData]="customerData" />
+      <app-customer-insights
+        [customerInsightsData]="customerData"
+        [filter]="filter"
+      />
     </div>
     <div class="customer-insights">
       Product sales

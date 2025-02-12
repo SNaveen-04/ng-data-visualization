@@ -30,6 +30,7 @@ export class StoreAnalysisComponent {
   timeFrame: timeFrame = 'month';
   leastSellingData:any[]=[];
   topSellingData:any[]=[];
+  topLeastTotalData:any;
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
@@ -82,6 +83,7 @@ export class StoreAnalysisComponent {
  //input :  data  - from the  backend
  //output : topSellingData, leastSelling data variable assigned with their values 
  createPerformanceData(datas: any[]) {
+  this.topLeastTotalData=datas;
   let finalData: any[] = []; // Initialize finalData as an empty array
   datas.forEach(data => {
       data.data.forEach((item: any) => { 
@@ -94,9 +96,31 @@ this.leastSellingData=finalData.slice(0,5);
 this.topSellingData=finalData.slice(finalData.length-5,finalData.length);
  console.log("top data : ",this.topSellingData);
  console.log("least data :",this.leastSellingData);
- 
- 
 }
+
+removeTopLeastData(id:string)
+{
+  let temp: string = '';
+  for (const item of this.listElements) {
+    if (item.id === id) {
+      temp = item.name;
+    }
+  }
+  this.topLeastTotalData = this.topLeastTotalData.filter((data: any) => data.name !== temp);
+  this.createPerformanceData(this.topLeastTotalData);
+}
+
+removeCrossSelingData(id:string)
+{
+  let temp: string = '';
+  for (const item of this.listElements) {
+    if (item.id === id) {
+      temp = item.name;
+    }
+  }
+  this.crossData = this.crossData.filter((data: any) => data.name !== temp);
+}
+
 
 
 getCrossSellingData()
@@ -162,5 +186,8 @@ getCrossSellingData()
         }
       });
     }
+    this.removeTopLeastData(id);
+    this.removeCrossSelingData(id);
   }
+  
 }

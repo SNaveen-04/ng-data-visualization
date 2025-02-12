@@ -19,7 +19,10 @@
     <div class="customer-insights">
       Customer Insights
       <!-- <app-customer-insights /> -->
-      <app-customer-insights [customerInsightsData]="customerData()" />
+      <app-customer-insights
+        [customerInsightsData]="customerData()"
+        [filter]="filter"
+      />
     </div>
     <div class="cross-selling">
       Top selling products

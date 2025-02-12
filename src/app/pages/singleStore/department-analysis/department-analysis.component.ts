@@ -120,9 +120,9 @@ export class DepartmentAnalysisComponent {
             };
             temp.name = d.name;
             if (this.filter === 'sales') {
-              temp.value = d.value[0];
+              temp.value = Math.round(d.value[1]);
             } else {
-              temp.value = d.value[1];
+              temp.value = Math.round(d.value[0]);
             }
             const tempData = this.customerData();
             tempData.push(temp);
