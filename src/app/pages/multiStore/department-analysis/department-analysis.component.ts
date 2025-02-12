@@ -11,7 +11,7 @@ import { HttpService } from '../../../service/http-service.service';
 import { listData } from '../../../type';
 import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
 @Component({
-  selector: 'app-department-analysis',
+  selector: 'app-multi-department-analysis',
   imports: [
     CustomerInsightsComponent,
     LineChartComponent,
@@ -21,7 +21,7 @@ import { DepartmentBarChartComponent } from '../../../shared/department-bar-char
   templateUrl: './department-analysis.component.html',
   styleUrl: './department-analysis.component.css',
 })
-export class DepartmentAnalysisComponent {
+export class DepartmentAnalysisComponentMutli {
   private httpService = inject(HttpService);
   customerData = customerData;
   LineChartdata!: LineChartData;

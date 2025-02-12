@@ -12,3 +12,8 @@ export type productPerformance = {
     value: number;
   }[];
 }[];
+
+export type CustomerInsights = {
+  name: string;
+  value: [number, number];
+}[][];

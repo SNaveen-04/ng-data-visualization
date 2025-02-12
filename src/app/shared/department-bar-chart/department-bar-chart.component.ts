@@ -24,7 +24,6 @@ export class DepartmentBarChartComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges() {
-    console.log(this.data);
     this.createChart();
   }
 
