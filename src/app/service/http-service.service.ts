@@ -30,6 +30,10 @@ export class HttpService {
     this.timeFrame = timeFrame;
   }
 
+  getTimeFrame() {
+    return this.timeFrame;
+  }
+
   getTargetValue() {
     return this.targetValue;
   }
@@ -54,7 +58,7 @@ export class HttpService {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=department',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: id,
         storeId: this.storeId,
         targetValue: this.targetValue,
@@ -75,7 +79,7 @@ export class HttpService {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=product',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         productIds: [id],
         storeId: this.storeId,
         targetValue: this.targetValue,
@@ -87,7 +91,7 @@ export class HttpService {
     return this.httpClient.post<productPerformance>(
       this.api + 'analysis/performance/product',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: [id],
         storeId: this.storeId,
         targetValue: this.targetValue,
@@ -99,7 +103,7 @@ export class HttpService {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: [id],
         storeId: this.storeId,
         targetValue: 'any',
@@ -111,7 +115,7 @@ export class HttpService {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: [id],
         storeId: this.storeId,
         targetValue: 'any',
@@ -124,7 +128,7 @@ export class HttpService {
     return this.httpClient.post<productPerformance>(
       this.api + 'analysis/performance/product',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: id,
         storeId: this.storeId,
         targetValue: this.targetValue,
@@ -136,7 +140,7 @@ export class HttpService {
     return this.httpClient.post<any>(
       this.api + 'analysis/cross-sell/department',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         departmentIds: id,
         storeId: this.storeId,
         targetValue: this.targetValue,
@@ -148,7 +152,7 @@ export class HttpService {
     return this.httpClient.post<crossSellingProducts>(
       this.api + 'analysis/cross-sell/product',
       {
-        timeFrame: timeFrame,
+        timeFrame: this.timeFrame,
         productIds: id,
         storeId: this.storeId,
         targetValue: this.targetValue,

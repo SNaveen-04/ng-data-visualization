@@ -109,6 +109,7 @@ export class DepartmentAnalysisComponent {
       .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
       .subscribe({
         next: (data) => {
+          console.log(data);
           this.customerData.set([]);
           data[0].forEach((d, i) => {
             const temp: {

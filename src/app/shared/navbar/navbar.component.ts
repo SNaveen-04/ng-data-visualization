@@ -32,7 +32,9 @@ export class MultiStoreNavbarComponent {
       if (event instanceof NavigationEnd) {
         if (this.route.url.startsWith('/multi/')) {
           this.isMultiStore = true;
+          this.navigationPrefix = '/multi';
         } else {
+          this.navigationPrefix = '/single';
           this.isMultiStore = false;
         }
       }

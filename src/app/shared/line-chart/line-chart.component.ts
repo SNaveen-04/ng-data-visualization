@@ -3,6 +3,7 @@ import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { curveCatmullRom } from 'd3-shape';
 import { CustomLinerChartService } from './CustomLineChartService';
 import { timeFrame } from '../../type';
+import { HttpService } from '../../service/http-service.service';
 @Component({
   selector: 'app-line-chart',
   imports: [NgxChartsModule],
@@ -11,10 +12,11 @@ import { timeFrame } from '../../type';
 })
 export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
-  format = input<timeFrame>();
+  format = '';
   chartData = input.required<LineChartData>();
   yAxisLabel = input.required<'sales' | 'quantity'>();
   xAxisLabel: 'Month' | 'Week' | 'Year' = 'Month';
+  private httpService = inject(HttpService);
 
   @ViewChild('chart') chart: any;
   view: [number, number] = [760, 400];
@@ -45,6 +47,10 @@ export class LineChartComponent {
     this.customScheme.domain = this.colors;
   }
 
+  ngOnChanges() {
+    this.format = this.httpService.getTimeFrame();
+  }
+
   ngAfterViewChecked() {
     this.customLinerChartService.showDots(this.chart);
   }
@@ -57,12 +63,15 @@ export class LineChartComponent {
   };
 
   getFormatter() {
-    if (this.format() === 'week') {
+    if (this.format === 'week') {
+      this.xAxisLabel = 'Week';
       return this.weekFormatter;
     } else {
-      if (this.format() === 'month') {
+      if (this.format === 'month') {
+        this.xAxisLabel = 'Month';
         return this.monthFormatter;
       } else {
+        this.xAxisLabel = 'Year';
         return this.YearFormatter;
       }
     }

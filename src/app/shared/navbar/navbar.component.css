@@ -28,6 +28,10 @@
   position: relative;
 }
 
+.store-id p {
+  margin: 0px;
+}
+
 .selectedId {
   background-color: #50c878;
   color: white;
