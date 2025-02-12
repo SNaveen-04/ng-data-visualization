@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -10,6 +10,7 @@ import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-
 import { ChipsComponent } from '../../../shared/chips/chips.component';
 import { CrossSellingDepartments, customerData } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
+import { timeFrame } from '../../../type';
 @Component({
   selector: 'app-store-analysis',
   imports: [
@@ -26,7 +27,7 @@ import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
   public crossData = CrossSellingDepartments;
-
+  timeFrame: timeFrame = 'month';
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
@@ -62,12 +63,14 @@ export class StoreAnalysisComponent {
   }
 
   getDepartmentTrends() {
-    this.httpService.getDepartmentTrends(this.selectedIds, 'week').subscribe({
-      next: (data) => {
-        this.LineChartdata = data;
-      },
-      error: (error) => console.log(error),
-    });
+    this.httpService
+      .getDepartmentTrends(this.selectedIds, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          this.LineChartdata = data;
+        },
+        error: (error) => console.log(error),
+      });
   }
 
   getDepartmentsList() {

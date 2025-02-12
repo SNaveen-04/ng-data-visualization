@@ -24,7 +24,16 @@ export class LineChartComponent {
   curve = curveCatmullRom;
 
   ngOnInit() {
-    this.colors = ['green', 'black', 'red', 'yellow'];
+    this.colors = [
+      '#50c878',
+      '#e92929',
+      '#2d91e4',
+      '#5e2de4',
+      '#e929df',
+      '#e99d0f',
+      '#F4C542',
+      '#000000',
+    ];
     this.customScheme.domain = this.colors;
   }
 

@@ -10,7 +10,7 @@ export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
   private storeId = '1';
-  private targetValue: 'sales' | 'quantity' | 'any' = 'sales';
+  private targetValue: 'sales' | 'quantity' | 'any' = 'quantity';
 
   setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
     this.targetValue = targetValue;
