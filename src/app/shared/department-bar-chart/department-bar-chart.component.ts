@@ -122,7 +122,14 @@ export class DepartmentBarChartComponent implements OnInit {
       .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 25) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
       .attr('fill', '#2222222')
-      .text((d) => d.value)
+      .text((d) => {
+        if(d.value >1000)
+        {
+           return Math.floor(d.value/1000)+'k';
+        }
+        return Math.floor(d.value);
+      
+  } )
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')
       .attr('alignment-baseline', 'middle')
