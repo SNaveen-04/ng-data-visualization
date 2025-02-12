@@ -14,7 +14,7 @@ import { timeFrame } from '../../../type';
 @Component({
   selector: 'app-store-analysis',
   imports: [
-    // LineChartComponent,
+    LineChartComponent,
     CustomerInsightsComponent,
     HorizontalBarChartComponent,
     MultiSelectDropDownComponent,
@@ -34,6 +34,7 @@ export class StoreAnalysisComponent {
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
+  yAxisLabel: 'sales' | 'quantity' = 'sales';
   filter = '';
   listElements: {
     id: string;
@@ -59,14 +60,24 @@ export class StoreAnalysisComponent {
     this.selectedIds = this.listElements
       .filter((element) => element.selected)
       .map((element) => element.id);
-    this.getDepartmentTrends();
-    this.getTopLeastData();
-    this.getCrossSellingData();
+    this.getStoreAnalysis();
   }
 
   ngOnInit() {
     this.getDepartmentsList();
     this.filter = this.httpService.getTargetValue();
+    const subscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        this.yAxisLabel = d;
+        this.getStoreAnalysis();
+      },
+    });
+  }
+
+  getStoreAnalysis() {
+    this.getDepartmentTrends();
+    this.getTopLeastData();
+    this.getCrossSellingData();
   }
 
   getTopLeastData() {

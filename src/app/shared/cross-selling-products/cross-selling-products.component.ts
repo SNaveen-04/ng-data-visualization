@@ -1,5 +1,6 @@
-import { Component, ElementRef, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
+import { HttpService } from '../../service/http-service.service';
 
 interface Data {
   name: string;
@@ -14,9 +15,9 @@ interface Data {
 })
 export class CrossSellingProductsComponent {
   crossSellingProductsData = input.required<Data[]>();
-  // crossSellingProductsData: Data[] = crossSellingProducts;
+  private httpService = inject(HttpService);
   color = '#50C878';
-  format: '' | '%' = '%';
+  format: 'sales' | 'quantity' = 'sales';
   @ViewChild('barchart', { static: true })
   private readonly chartContainer!: ElementRef;
   @ViewChild('tooltip', { static: true }) private readonly tooltip!: ElementRef;
@@ -28,6 +29,7 @@ export class CrossSellingProductsComponent {
   constructor() {}
 
   ngOnChanges() {
+    this.format = this.httpService.getTargetValue();
     this.createSvg();
   }
 
@@ -136,7 +138,7 @@ export class CrossSellingProductsComponent {
       .attr('y', 0) // Adjust the y position as needed
       .attr('font-size', '15px')
       .attr('fill', '#666666')
-      .text(`Contribution ${this.format}`);
+      .text(`Contribution`);
 
     this.svg
       .selectAll('.valuepercent')
@@ -146,7 +148,10 @@ export class CrossSellingProductsComponent {
       .attr('x', (d: Data) => nameWidth + departmentWidth + x(d.value) + 40) // Position the department after the name
       .attr('y', (d: Data) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d: Data) => `${Math.round(d.value)} ${this.format}`)
+      .text(
+        (d: Data) =>
+          `${Math.round(d.value)} ${this.format === 'sales' ? '' : '%'}`
+      )
       .attr('font-size', '13px')
       .attr('fill', '#222222');
   }

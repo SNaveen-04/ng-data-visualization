@@ -127,7 +127,7 @@ export class HttpService {
         timeFrame: timeFrame,
         departmentIds: id,
         storeId: this.storeId,
-        targetValue: 'sales',
+        targetValue: this.targetValue,
       }
     );
   }
@@ -139,7 +139,7 @@ export class HttpService {
         timeFrame: timeFrame,
         departmentIds: id,
         storeId: this.storeId,
-        targetValue: 'sales',
+        targetValue: this.targetValue,
       }
     );
   }
