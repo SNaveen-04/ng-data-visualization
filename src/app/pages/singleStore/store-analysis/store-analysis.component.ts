@@ -26,7 +26,7 @@ import { timeFrame } from '../../../type';
 })
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
-  public crossData = CrossSellingDepartments;
+  public crossData:any[]=[];
   timeFrame: timeFrame = 'month';
   leastSellingData:any[]=[];
   topSellingData:any[]=[];
@@ -59,6 +59,7 @@ export class StoreAnalysisComponent {
       .map((element) => element.id);
     this.getDepartmentTrends();
     this.getTopLeastData();
+    this.getCrossSellingData();
   }
 
   ngOnInit() {
@@ -69,7 +70,7 @@ export class StoreAnalysisComponent {
  {
   this.httpService.getTopAndLeastPerformance(this.selectedIds, 'week').subscribe({
     next: (data) => {
-      console.log(data);
+      // console.log(data);
       this.createPerformanceData(data);
     },
     error: (e) => console.log(e),
@@ -98,7 +99,17 @@ this.topSellingData=finalData.slice(finalData.length-5,finalData.length);
 }
 
 
-
+getCrossSellingData()
+{
+  this.httpService.getCrossSellingData(this.selectedIds,this.timeFrame).subscribe({
+    next:(data)=>{
+      this.crossData=data;
+      console.log("Get cross selling data : ",this.crossData);
+      
+    },
+    error: (error) => console.log(error),
+  })
+}
 
 
 
@@ -128,6 +139,7 @@ this.topSellingData=finalData.slice(finalData.length-5,finalData.length);
         this.listElements[0].selected = true;
         this.getDepartmentTrends();
         this.getTopLeastData();
+        this.getCrossSellingData();
       },
       error: (e) => console.log(e),
     });

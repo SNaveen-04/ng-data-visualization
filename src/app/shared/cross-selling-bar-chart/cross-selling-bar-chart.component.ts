@@ -1,10 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { CrossSellingDepartments } from '../../../data';
-interface Data {
-  deptName: string;
-  sales: number;
-}
 
 @Component({
   selector: 'app-cross-selling-bar-chart',
@@ -17,8 +13,7 @@ export class CrossSellingBarChartComponent implements OnInit {
   @Input() color = '#50C878';
   @Input() brower_width = 300;
   @Input() browser_height = 150;
-  @Input() data!: Data[];
-  // brower_width=500    //this is width of svg for the desktop screen
+  @Input() data!: any[];
   barWidth = 0.8; // adjust this to handle the width of the bar
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
@@ -39,8 +34,6 @@ export class CrossSellingBarChartComponent implements OnInit {
   private createChart(): void {
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('*').remove(); // Clear the previous chart
-    // Sort data based on sales value
-    this.data.sort((a, b) => b.sales - a.sales);
 
     const margin = { top: 0, right: 10, bottom: 0, left: 100 };
     const width = this.brower_width - margin.left - margin.right;
@@ -48,7 +41,7 @@ export class CrossSellingBarChartComponent implements OnInit {
     const nameWidth = 0; // Width for name column
     const departmentWidth = 30; // Width for department column
     
-        const tooltip = d3.select('#tooltip');
+    const tooltip = d3.select('#tooltip');
     const svg = d3
       .select(element)
       .append('svg')
@@ -59,12 +52,12 @@ export class CrossSellingBarChartComponent implements OnInit {
 
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(this.data, (d) => d.sales) ?? 0])
+      .domain([0, d3.max(this.data, (d) => d.value) ?? 0])
       .range([0, width-65]);
 
     const y = d3
       .scaleBand()
-      .domain(this.data.map((d: Data) => d.deptName))
+      .domain(this.data.map((d) => d.name))
       .range([0, height])
       .padding(0.1); // Adjust padding as needed
 
@@ -80,11 +73,13 @@ export class CrossSellingBarChartComponent implements OnInit {
       .attr('x', -70)
       .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d) => d.deptName)
+      .text((d) => d.name)
       .attr('font-size', '15px')
       .attr('fill', '#666666');
 
-    // Create bars
+    // Create bars with constant height
+    const barHeight = 10; // Set a constant height for the bars
+
     svg
       .selectAll('.bar')
       .data(this.data)
@@ -94,7 +89,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .attr('x', nameWidth + 20)
       .attr('y', (d, i) => i * offset + y.bandwidth() / 3)
       .attr('width', 0)
-      .attr('height', y.bandwidth() / 4)
+      .attr('height', barHeight)
       .attr('fill', this.color)
       .attr('rx', 5) // Rounded corners
       .attr('ry', 5) // Rounded corners
@@ -103,8 +98,8 @@ export class CrossSellingBarChartComponent implements OnInit {
         tooltip
           .html(
             `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
-           ${d.deptName}
-              ${d.sales}`
+           ${d.name}
+              ${d.value}`
           )
           .style('left', event.pageX + 10 + 'px')
           .style('top', event.pageY + 10 + 'px');
@@ -114,10 +109,8 @@ export class CrossSellingBarChartComponent implements OnInit {
       })
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
-      .attr('width', (d) => x(d.sales))
+      .attr('width', (d) => x(d.value))
       
-      
-
     // Add sales values (x-axis labels)
     svg
       .selectAll('.salesPercent')
@@ -125,10 +118,20 @@ export class CrossSellingBarChartComponent implements OnInit {
       .enter()
       .append('text')
       .attr('class', 'salesPercent')
-      .attr('x', (d) => nameWidth + departmentWidth + x(d.sales) + 10)
+      .attr('x', (d) => nameWidth + departmentWidth + x(d.value) + 10)
       .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d) => d.sales.toString())
+      .text((d) =>
+        {
+          
+         d.value= Math.floor( d.value);
+        if(d.value>1000)
+        {
+           return Math.floor(d.value/1000)+"k"
+        }
+         return d.value;
+        }
+        )
       .attr('font-size', '15px')
       .attr('fill', '#666666');
   }

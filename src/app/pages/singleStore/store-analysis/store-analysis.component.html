@@ -46,13 +46,16 @@
     </div>
     <div class="cross-selling">
       <p>Cross selling department</p>
-      @for (item of crossData; track $index) {
-      <app-cross-selling-bar-chart
-        [title]="item.name"
-        [data]="item.dept"
-      ></app-cross-selling-bar-chart>
-      <br />
-      }
+      <div class="scroll">
+        @for (item of crossData; track $index) {
+          <app-cross-selling-bar-chart
+            [title]="item.name"
+            [data]="item.data"
+          ></app-cross-selling-bar-chart>
+          <br />
+          }
+      </div>
+  
     </div>
   </div>
 </div>

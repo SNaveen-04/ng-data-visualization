@@ -65,7 +65,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
     const x = d3
       .scaleLinear()
       .domain([0, d3.max(data, (d) => d.value) ?? 0])
-      .range([0, width - 10]);
+      .range([0, width +10]);
 
     const y = d3
       .scaleBand()
@@ -165,7 +165,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
       .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 4))
       .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 10) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
-      .attr('fill', '#2222222')
+      .attr('fill', '#222222')
       .text((d) => d.value)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')

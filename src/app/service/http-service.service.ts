@@ -103,7 +103,20 @@ export class HttpService {
      )
   }
 
-
+  getCrossSellingData(id:any,timeFrame:string)
+  {
+     return this.httpClient.post<any>(
+      this.api+'analysis/cross-sell/department'
+      ,
+      {
+        timeFrame:timeFrame,
+        departmentIds:id
+        ,
+        storeId:this.storeId,
+        targetValue:'sales'
+      }
+     )
+  }
 
 
 }
