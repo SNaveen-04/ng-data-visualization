@@ -63,8 +63,6 @@ export class StoreAnalysisComponent {
 
   ngOnInit() {
     this.getDepartmentsList();
-
- 
   }
 
  getTopLeastData()
@@ -79,7 +77,7 @@ export class StoreAnalysisComponent {
  } 
   
   
-  // split the product performance into top least bar chart and least selling bar chart data 
+// split the product performance into top least bar chart and least selling bar chart data 
  //input :  data  - from the  backend
  //output : topSellingData, leastSelling data variable assigned with their values 
  createPerformanceData(datas: any[]) {

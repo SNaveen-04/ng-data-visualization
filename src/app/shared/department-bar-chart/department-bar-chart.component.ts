@@ -21,10 +21,19 @@ export class DepartmentBarChartComponent implements OnInit {
   barWidth = 0.7; // adjust this to handle the width of the bar
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(window.innerWidth>=1861)
+      {
+         this.brower_width=500;
+      }
+  }
 
   ngOnChanges() {
     this.createChart();
+    if(window.innerWidth>=1861)
+      {
+         this.brower_width=500;
+      }
   }
 
   private createChart(): void {
