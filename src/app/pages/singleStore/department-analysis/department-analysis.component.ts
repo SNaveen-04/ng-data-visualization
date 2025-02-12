@@ -44,6 +44,12 @@ export class DepartmentAnalysisComponent {
   timeFrame: timeFrame = 'month';
 
   ngOnInit() {
+    const subscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        // this.select(this.selected.id);
+        console.log(d);
+      },
+    });
     this.getDepartmentLists();
   }
 

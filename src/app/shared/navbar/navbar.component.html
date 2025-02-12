@@ -56,8 +56,18 @@
   </nav>
   <div class="secondary">
     <div class="btn-group">
-      <button class="btn selected">Revenue</button>
-      <button class="btn">Quantity</button>
+      <button
+        [class]="{ btn: true, selected: targetValue === 'sales' }"
+        (click)="changeTargetValue('sales')"
+      >
+        Revenue
+      </button>
+      <button
+        [class]="{ btn: true, selected: targetValue === 'quantity' }"
+        (click)="changeTargetValue('quantity')"
+      >
+        Quantity
+      </button>
     </div>
     <div class="filter">
       <div class="domain">Dec 30 - Jan 30</div>

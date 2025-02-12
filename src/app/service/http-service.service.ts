@@ -7,6 +7,7 @@ import {
   productPerformance,
 } from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,13 @@ export class HttpService {
   private api = 'http://172.31.171.161:8080/api/v1/';
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' | 'any' = 'sales';
+  public targetValue$ = new BehaviorSubject<'sales' | 'quantity' | 'any'>(
+    'sales'
+  );
 
   setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
     this.targetValue = targetValue;
+    this.targetValue$.next(this.targetValue);
   }
 
   setStoreId(storeId: string) {
