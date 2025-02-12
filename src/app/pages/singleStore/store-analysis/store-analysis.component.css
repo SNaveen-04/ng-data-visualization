@@ -83,6 +83,7 @@
 }
 
 .cross-selling {
+
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
@@ -91,6 +92,15 @@
   height: calc(100% - 260px);
   /* overflow-y: auto; */
 }
+
+.scroll{
+  overflow-x: hidden;
+  overflow-y: auto;
+  font-size: 19px;
+  color: #404040;
+  height: calc(80%);
+}
+
 
 .cross-selling p {
   padding: 24px 30px;
