@@ -130,7 +130,7 @@ export class DepartmentBarChartComponent implements OnInit {
   labelFormatter(value: number) {
     const num = Math.round(value);
     if (num > 1000) {
-      return '>' + Math.round(num / 1000) + 'k';
+      return Math.round(num / 1000) + 'k';
     }
     return num;
   }

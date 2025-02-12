@@ -20,10 +20,10 @@ import {
 @Component({
   selector: 'app-product-analysis',
   imports: [
-    // CustomerInsightsComponent,
     CrossSellingProductsComponent,
     DropDownComponent,
     LineChartComponent,
+    CustomerInsightsComponent,
   ],
   templateUrl: './product-analysis.component.html',
   styleUrl: './product-analysis.component.css',
@@ -60,7 +60,7 @@ export class ProductAnalysisComponent {
   getProductAnalysis() {
     this.getProductTrends();
     this.getCrossSellingProducts();
-    // this.getCrossSellingProducts();
+    this.getCrossSellingProducts();
   }
 
   getProductList() {
@@ -69,6 +69,7 @@ export class ProductAnalysisComponent {
         this.listElements = data;
         this.selected = this.listElements[0];
         this.getProductAnalysis();
+        this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });

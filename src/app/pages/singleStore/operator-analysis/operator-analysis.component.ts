@@ -15,7 +15,7 @@ import { HttpService } from '../../../service/http-service.service';
   selector: 'app-operator-analysis',
   imports: [
     CustomerInsightsComponent,
-    LineChartComponent,
+    // LineChartComponent,
     DropDownComponent,
     ProductSalesComponent,
   ],

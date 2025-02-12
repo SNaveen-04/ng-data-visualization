@@ -13,49 +13,48 @@
 <div class="analysis">
   <div class="group-1">
     <div class="trends">
-      <app-line-chart
+      <!-- <app-line-chart
         [chartData]="LineChartdata"
         [format]="timeFrame"
-      ></app-line-chart>
+      ></app-line-chart> -->
     </div>
     <div class="selling">
       <div class="top">
         Top selling product
-       
- <app-horizontal-bar-chart
- [data]="this.topSellingData"
-></app-horizontal-bar-chart>
 
+        <app-horizontal-bar-chart
+          [data]="this.topSellingData"
+        ></app-horizontal-bar-chart>
       </div>
       <div class="least">
         Least selling product
         <app-horizontal-bar-chart
-        [data]="this.leastSellingData"
-        color="#E74C3C"
-        title="Least selling product"
-      ></app-horizontal-bar-chart>
-
-
+          [data]="this.leastSellingData"
+          color="#E74C3C"
+          title="Least selling product"
+        ></app-horizontal-bar-chart>
       </div>
     </div>
   </div>
   <div class="group-2">
     <div class="customer-insights">
       Customer Insights
-      <app-customer-insights [customerInsightsData]="customerData" />
+      <app-customer-insights
+        [customerInsightsData]="customerData"
+        [filter]="filter"
+      />
     </div>
     <div class="cross-selling">
       <p>Cross selling department</p>
       <div class="scroll">
         @for (item of crossData; track $index) {
-          <app-cross-selling-bar-chart
-            [title]="item.name"
-            [data]="item.data"
-          ></app-cross-selling-bar-chart>
-          <br />
-          }
+        <app-cross-selling-bar-chart
+          [title]="item.name"
+          [data]="item.data"
+        ></app-cross-selling-bar-chart>
+        <br />
+        }
       </div>
-  
     </div>
   </div>
 </div>

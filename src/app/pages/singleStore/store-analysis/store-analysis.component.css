@@ -83,17 +83,16 @@
 }
 
 .cross-selling {
-
   background-color: white;
   box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.02);
   border-radius: 40px;
   font-size: 19px;
   color: #404040;
   height: calc(100% - 260px);
-  /* overflow-y: auto; */
+  padding-right: 5px;
 }
 
-.scroll{
+.scroll {
   overflow-x: hidden;
   overflow-y: auto;
   font-size: 19px;
@@ -101,7 +100,27 @@
   height: calc(80%);
 }
 
-
 .cross-selling p {
-  padding: 24px 30px;
+  padding: 20px 30px;
+  margin: 20px 0px 0px 0px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3f3f3;
+  border-radius: 15px;
+  margin: 10px 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #50c878;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #50c878;
 }

@@ -41,7 +41,7 @@ export class CustomerInsightsComponent implements OnChanges {
     this.customerInsightsData().sort((a, b) => b.value - a.value);
     this.totalCustomer = 0;
     this.customerInsightsData().forEach((element) => {
-      console.log(this.filter);
+      console.log(this.filter());
 
       if (element.name.startsWith('N')) {
         element.name = 'New Customer';

@@ -14,7 +14,7 @@ import { timeFrame } from '../../../type';
 @Component({
   selector: 'app-store-analysis',
   imports: [
-    LineChartComponent,
+    // LineChartComponent,
     CustomerInsightsComponent,
     HorizontalBarChartComponent,
     MultiSelectDropDownComponent,
@@ -26,14 +26,15 @@ import { timeFrame } from '../../../type';
 })
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
-  public crossData:any[]=[];
+  public crossData: any[] = [];
   timeFrame: timeFrame = 'month';
-  leastSellingData:any[]=[];
-  topSellingData:any[]=[];
-  topLeastTotalData:any;
+  leastSellingData: any[] = [];
+  topSellingData: any[] = [];
+  topLeastTotalData: any;
   customerData = customerData;
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
+  filter = '';
   listElements: {
     id: string;
     name: string;
@@ -65,79 +66,75 @@ export class StoreAnalysisComponent {
 
   ngOnInit() {
     this.getDepartmentsList();
+    this.filter = this.httpService.getTargetValue();
   }
 
- getTopLeastData()
- {
-  this.httpService.getTopAndLeastPerformance(this.selectedIds, 'week').subscribe({
-    next: (data) => {
-      // console.log(data);
-      this.createPerformanceData(data);
-    },
-    error: (e) => console.log(e),
-  });
- } 
-  
-  
-// split the product performance into top least bar chart and least selling bar chart data 
- //input :  data  - from the  backend
- //output : topSellingData, leastSelling data variable assigned with their values 
- createPerformanceData(datas: any[]) {
-  this.topLeastTotalData=datas;
-  let finalData: any[] = []; // Initialize finalData as an empty array
-  datas.forEach(data => {
-      data.data.forEach((item: any) => { 
-          finalData.push({ "name": item.name, "value":Math.floor( item.value) });
+  getTopLeastData() {
+    this.httpService
+      .getTopAndLeastPerformance(this.selectedIds, 'week')
+      .subscribe({
+        next: (data) => {
+          // console.log(data);
+          this.createPerformanceData(data);
+        },
+        error: (e) => console.log(e),
       });
-  });
-  console.log("final data : ", finalData);
- finalData.sort((a,b)=>{return a.value-b.value});
-this.leastSellingData=finalData.slice(0,5);
-this.topSellingData=finalData.slice(finalData.length-5,finalData.length);
- console.log("top data : ",this.topSellingData);
- console.log("least data :",this.leastSellingData);
-}
-
-removeTopLeastData(id:string)
-{
-  let temp: string = '';
-  for (const item of this.listElements) {
-    if (item.id === id) {
-      temp = item.name;
-    }
   }
-  this.topLeastTotalData = this.topLeastTotalData.filter((data: any) => data.name !== temp);
-  this.createPerformanceData(this.topLeastTotalData);
-}
 
-removeCrossSelingData(id:string)
-{
-  let temp: string = '';
-  for (const item of this.listElements) {
-    if (item.id === id) {
-      temp = item.name;
-    }
+  // split the product performance into top least bar chart and least selling bar chart data
+  //input :  data  - from the  backend
+  //output : topSellingData, leastSelling data variable assigned with their values
+  createPerformanceData(datas: any[]) {
+    this.topLeastTotalData = datas;
+    let finalData: any[] = []; // Initialize finalData as an empty array
+    datas.forEach((data) => {
+      data.data.forEach((item: any) => {
+        finalData.push({ name: item.name, value: Math.floor(item.value) });
+      });
+    });
+    finalData.sort((a, b) => {
+      return a.value - b.value;
+    });
+    this.leastSellingData = finalData.slice(0, 5);
+    this.topSellingData = finalData.slice(
+      finalData.length - 5,
+      finalData.length
+    );
   }
-  this.crossData = this.crossData.filter((data: any) => data.name !== temp);
-}
 
+  removeTopLeastData(id: string) {
+    let temp: string = '';
+    for (const item of this.listElements) {
+      if (item.id === id) {
+        temp = item.name;
+      }
+    }
+    this.topLeastTotalData = this.topLeastTotalData.filter(
+      (data: any) => data.name !== temp
+    );
+    this.createPerformanceData(this.topLeastTotalData);
+  }
 
+  removeCrossSelingData(id: string) {
+    let temp: string = '';
+    for (const item of this.listElements) {
+      if (item.id === id) {
+        temp = item.name;
+      }
+    }
+    this.crossData = this.crossData.filter((data: any) => data.name !== temp);
+  }
 
-getCrossSellingData()
-{
-  this.httpService.getCrossSellingData(this.selectedIds,this.timeFrame).subscribe({
-    next:(data)=>{
-      this.crossData=data;
-      console.log("Get cross selling data : ",this.crossData);
-      
-    },
-    error: (error) => console.log(error),
-  })
-}
-
-
-
-
+  getCrossSellingData() {
+    this.httpService
+      .getCrossSellingData(this.selectedIds, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          this.crossData = data;
+        },
+        error: (error) => console.log(error),
+      });
+  }
 
   getDepartmentTrends() {
     this.httpService
@@ -189,5 +186,4 @@ getCrossSellingData()
     this.removeTopLeastData(id);
     this.removeCrossSelingData(id);
   }
-  
 }
