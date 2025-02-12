@@ -29,7 +29,6 @@ export class CrossSellingBarChartComponent implements OnInit {
   private createChart(): void {
     // Sort data based on sales value
     this.data.sort((a, b) => b.sales - a.sales);
-    console.log('data : ', this.data);
 
     const element = this.chartContainer.nativeElement;
     const margin = { top: 0, right: 10, bottom: 0, left: 100 };
