@@ -46,7 +46,7 @@ export class DepartmentAnalysisComponent {
   ngOnInit() {
     const subscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
-        // this.select(this.selected.id);
+        this.getDepartmentTrends();
         console.log(d);
       },
     });
