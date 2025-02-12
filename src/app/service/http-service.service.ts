@@ -9,7 +9,16 @@ import { LineChartData } from '../shared/line-chart/line-chart.component';
 export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
-  private storeId = 1;
+  private storeId = '1';
+  private targetValue: 'sales' | 'quantity' | 'any' = 'sales';
+
+  setTargetValue(targetValue: 'sales' | 'quantity' | 'any') {
+    this.targetValue = targetValue;
+  }
+
+  setStoreId(storeId: string) {
+    this.storeId = storeId;
+  }
 
   getLineChartData() {
     return this.httpClient.get(this.api + 'analysis/test');
@@ -19,14 +28,14 @@ export class HttpService {
     return this.httpClient.get<listData>(this.api + 'departments');
   }
 
-  getDepartmentTrends(id: any, timeFrame: string) {
+  getDepartmentTrends(id: string[], timeFrame: string) {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=department',
       {
         timeFrame: timeFrame,
-        departmentIds: [id],
-        storeId: 1,
-        targetValue: 'sales',
+        departmentIds: id,
+        storeId: this.storeId,
+        targetValue: this.targetValue,
       }
     );
   }
@@ -46,8 +55,8 @@ export class HttpService {
       {
         timeFrame: timeFrame,
         productIds: [id],
-        storeId: 1,
-        targetValue: 'sales',
+        storeId: this.storeId,
+        targetValue: this.targetValue,
       }
     );
   }
@@ -58,8 +67,8 @@ export class HttpService {
       {
         timeFrame: timeFrame,
         departmentIds: [id],
-        storeId: 1,
-        targetValue: 'sales',
+        storeId: this.storeId,
+        targetValue: this.targetValue,
       }
     );
   }
@@ -70,7 +79,7 @@ export class HttpService {
       {
         timeFrame: timeFrame,
         departmentIds: [id],
-        storeId: 1,
+        storeId: this.storeId,
         targetValue: 'any',
       }
     );

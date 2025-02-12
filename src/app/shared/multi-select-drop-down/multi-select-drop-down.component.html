@@ -7,19 +7,22 @@
 <div
   [class]="{
     'drop-down': true,
-    visible: isListOpen && filteredElements().length != 0
+    visible: isListOpen && listElements().length != 0
   }"
 >
   <ul class="list">
-    @for(list of filteredElements();track list){
+    @for(list of listElements();track list){
     <li
       [class]="{
         option: true,
-        selected: list.name == selectedValue()
       }"
-      (click)="select(list.name)"
     >
-      <input type="checkbox" [(ngModel)]="list.selected" [id]="list" />
+      <input
+        type="checkbox"
+        [(ngModel)]="list.selected"
+        [id]="list"
+        [disabled]="isDisabled(list.selected)"
+      />
       {{ list.name }}
     </li>
     }

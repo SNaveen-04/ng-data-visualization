@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './multi-select-drop-down.component.css',
 })
 export class MultiSelectDropDownComponent {
-  selectedValue = input.required<string>();
   listElements = input.required<
     {
       id: string;
@@ -15,30 +14,28 @@ export class MultiSelectDropDownComponent {
       selected: boolean;
     }[]
   >();
-  selected = output<string>();
+  disabled = input.required<boolean>();
+  selected = output();
   filteredElements = signal([
     {
       id: '',
       name: '',
-      selected: false,
+      selected: true,
     },
   ]);
-
-  filterValue = signal('');
+  selectedCount = computed(() => {
+    let count = 0;
+    this.listElements().map((d) => {
+      if (d.selected) {
+        count++;
+      }
+    });
+    return count;
+  });
   image_path = 'assets/images/dropdown.png';
   isListOpen = false;
 
-  // filteredList = computed(() => {
-  //   if (this.listElements().includes(this.filterValue())) {
-  //     return this.listElements();
-  //   }
-  //   return this.listElements().filter((element) =>
-  //     element.value.toLowerCase().includes(this.filterValue().toLowerCase())
-  //   );
-  // });
-
   ngOnChanges() {
-    this.filterValue.set(this.selectedValue());
     this.filteredElements.set(this.listElements());
   }
 
@@ -46,12 +43,12 @@ export class MultiSelectDropDownComponent {
     this.isListOpen = !this.isListOpen;
   }
 
-  select(value: string) {
-    this.filterValue.set(value);
-    console.log(this.listElements());
+  isDisabled(condition: boolean) {
+    return condition && this.disabled();
   }
 
   close() {
     this.isListOpen = false;
+    this.selected.emit();
   }
 }
