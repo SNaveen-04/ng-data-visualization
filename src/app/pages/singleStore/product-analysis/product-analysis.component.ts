@@ -10,7 +10,12 @@ import {
 } from '../../../shared/line-chart/line-chart.component';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
 import { HttpService } from '../../../service/http-service.service';
-import { crossSellingProductsData, listData, timeFrame } from '../../../type';
+import {
+  crossSellingProductsData,
+  customerInsightsData,
+  listData,
+  timeFrame,
+} from '../../../type';
 
 @Component({
   selector: 'app-product-analysis',
@@ -25,7 +30,8 @@ import { crossSellingProductsData, listData, timeFrame } from '../../../type';
 })
 export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
-
+  filter = '';
+  customerData = signal<customerInsightsData>([]);
   listElements: listData = [];
   selected = {
     id: '',
@@ -33,7 +39,6 @@ export class ProductAnalysisComponent {
   };
   isLoaded = false;
   crossSellingProducts = signal<crossSellingProductsData>([]);
-  customerData = customerData;
   LineChartdata!: LineChartData;
   timeFrame: timeFrame = 'week';
   constructor() {
@@ -41,6 +46,7 @@ export class ProductAnalysisComponent {
   }
 
   ngOnInit() {
+    this.filter = this.httpService.getTargetValue();
     this.getProductList();
   }
 
@@ -51,6 +57,7 @@ export class ProductAnalysisComponent {
         this.selected = this.listElements[0];
         this.getProductTrends();
         this.getCrossSellingProducts();
+        this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });
@@ -97,6 +104,39 @@ export class ProductAnalysisComponent {
       this.selected = value;
       this.getProductTrends();
       this.getCrossSellingProducts();
+      this.getProductCustomerInsights();
     }
+  }
+
+  getProductCustomerInsights() {
+    this.httpService
+      .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
+      .subscribe({
+        next: (data) => {
+          console.log('filter : ', this.filter);
+
+          console.log('CI : ', data);
+          this.customerData.set([]);
+          data[0].forEach((d, i) => {
+            const temp: {
+              name: string;
+              value: number;
+            } = {
+              name: '',
+              value: 0,
+            };
+            temp.name = d.name;
+            if (this.filter === 'sales') {
+              temp.value = Math.round(d.value[1]);
+            } else {
+              temp.value = Math.round(d.value[0]);
+            }
+            const tempData = this.customerData();
+            tempData.push(temp);
+            this.customerData.set(tempData);
+          });
+        },
+        error: (e) => console.log(e),
+      });
   }
 }

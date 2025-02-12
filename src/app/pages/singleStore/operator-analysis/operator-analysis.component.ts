@@ -25,6 +25,7 @@ import { HttpService } from '../../../service/http-service.service';
 export class OperatorAnalysisComponent {
   private httpService = inject(HttpService);
   customerData = customerData;
+  filter = '';
   LineChartdata!: LineChartData;
   listElements: listData = [];
   selected = '';
@@ -33,6 +34,7 @@ export class OperatorAnalysisComponent {
   }
 
   ngOnInit() {
+    this.filter = this.httpService.getTargetValue();
     this.httpService.getDepartmentsList().subscribe({
       next: (data) => {
         console.log(data);

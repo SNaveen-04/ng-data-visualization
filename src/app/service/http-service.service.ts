@@ -93,6 +93,18 @@ export class HttpService {
     );
   }
 
+  getProductCustomerInsights(id: any, timeFrame: string) {
+    return this.httpClient.post<CustomerInsights>(
+      this.api + 'analysis/insights',
+      {
+        timeFrame: timeFrame,
+        departmentIds: [id],
+        storeId: this.storeId,
+        targetValue: 'any',
+      }
+    );
+  }
+
   //data from backend for Top-selling-bar-chart and Least selling bar chart
   getTopAndLeastPerformance(id: any, timeFrame: string) {
     return this.httpClient.post<productPerformance>(

@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  inject,
   input,
   OnChanges,
   ViewChild,
@@ -8,6 +9,7 @@ import {
 import * as d3 from 'd3';
 
 import { customerInsightsData } from '../../type';
+import { HttpService } from '../../service/http-service.service';
 
 interface Data {
   name: string;
@@ -22,6 +24,8 @@ interface Data {
 })
 export class CustomerInsightsComponent implements OnChanges {
   customerInsightsData = input.required<customerInsightsData>();
+  private httpService = inject(HttpService);
+  filter = input.required<string>();
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
 
@@ -36,6 +40,8 @@ export class CustomerInsightsComponent implements OnChanges {
   private createDonutChart() {
     this.customerInsightsData().sort((a, b) => b.value - a.value);
     this.customerInsightsData().forEach((element) => {
+      console.log(this.filter);
+
       if (element.name.startsWith('N')) {
         element.name = 'New Customer';
       } else {
@@ -43,6 +49,11 @@ export class CustomerInsightsComponent implements OnChanges {
       }
       this.totalCustomer += element.value;
     });
+    if (this.filter() === 'sales') {
+      this.customerInsightsData().forEach((d) => {
+        d.value = Math.round((d.value / this.totalCustomer) * 100);
+      });
+    }
 
     const width = 350;
     const height = 200;
@@ -111,54 +122,109 @@ export class CustomerInsightsComponent implements OnChanges {
         return (t) => arc(interpolate(t)) as string;
       });
 
-    arcs
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '1.1em')
-      .style('font-size', '15px')
-      .attr('fill', '#666666')
-      .text('Total customer');
-    arcs
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('dy', '-0.1em')
-      .style('font-size', '20px')
-      .text(this.totalCustomer);
+    if (this.filter() === 'quantity') {
+      arcs
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '1.1em')
+        .style('font-size', '15px')
+        .attr('fill', '#666666')
+        .text('Total customer');
+      arcs
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-0.1em')
+        .style('font-size', '20px')
+        .text(this.totalCustomer);
+      const legendGroup = svg
+        .selectAll('.legend-group')
+        .data(this.customerInsightsData())
+        .enter()
+        .append('g')
+        .attr('class', 'legend-group')
+        .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
 
-    const legendGroup = svg
-      .selectAll('.legend-group')
-      .data(this.customerInsightsData())
-      .enter()
-      .append('g')
-      .attr('class', 'legend-group')
-      .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
+      legendGroup
+        .append('rect')
+        .attr('width', 5)
+        .attr('height', 30)
+        .attr('x', -10)
+        .attr('y', -10)
+        .attr('rx', 3)
+        .attr('ry', 3)
+        .attr('fill', (d) => color(d.name));
 
-    legendGroup
-      .append('rect')
-      .attr('width', 5)
-      .attr('height', 30)
-      .attr('x', -10)
-      .attr('y', -10)
-      .attr('rx', 3)
-      .attr('ry', 3)
-      .attr('fill', (d) => color(d.name));
+      legendGroup
+        .append('text')
+        .attr('text-anchor', 'start')
+        .attr('fill', '#666666')
+        .style('font-size', '15px')
+        .each(function (d, i) {
+          const lines = [`${d.value}`, `${d.name}`];
+          d3.select(this)
+            .selectAll('tspan')
+            .data(lines)
+            .enter()
+            .append('tspan')
+            .attr('x', 10)
+            .attr('dy', (line, index) => (index ? '1.3em' : 0))
+            .text((line) => line)
+            .attr('fill', (line, index) =>
+              index === 0 ? '#000000' : '#666666'
+            );
+        });
+    } else {
+      arcs
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '1.1em')
+        .style('font-size', '15px')
+        .attr('fill', '#666666')
+        .text('Total Revenue');
+      arcs
+        .append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', '-0.1em')
+        .style('font-size', '20px')
+        .text(this.totalCustomer);
 
-    legendGroup
-      .append('text')
-      .attr('text-anchor', 'start')
-      .attr('fill', '#666666')
-      .style('font-size', '15px')
-      .each(function (d, i) {
-        const lines = [`${d.value}`, `${d.name}`];
-        d3.select(this)
-          .selectAll('tspan')
-          .data(lines)
-          .enter()
-          .append('tspan')
-          .attr('x', 10)
-          .attr('dy', (line, index) => (index ? '1.3em' : 0))
-          .text((line) => line)
-          .attr('fill', (line, index) => (index === 0 ? '#000000' : '#666666'));
-      });
+      const legendGroup = svg
+        .selectAll('.legend-group')
+        .data(this.customerInsightsData())
+        .enter()
+        .append('g')
+        .attr('class', 'legend-group')
+        .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
+
+      legendGroup
+        .append('rect')
+        .attr('width', 5)
+        .attr('height', 30)
+        .attr('x', -10)
+        .attr('y', -10)
+        .attr('rx', 3)
+        .attr('ry', 3)
+        .attr('fill', (d) => color(d.name));
+
+      legendGroup
+        .append('text')
+        .attr('text-anchor', 'start')
+        .attr('fill', '#666666')
+        .style('font-size', '15px')
+        .each(function (d, i) {
+          const lines = [`${d.value}%`, `${d.name}`];
+          d3.select(this)
+            .selectAll('tspan')
+            .data(lines)
+            .enter()
+            .append('tspan')
+            .attr('x', 10)
+            .attr('dy', (line, index) => (index ? '1.3em' : 0))
+            .text((line) => line)
+            .attr('fill', (line, index) =>
+              index === 0 ? '#000000' : '#666666'
+            );
+        });
+    }
   }
 }
