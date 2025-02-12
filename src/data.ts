@@ -9,26 +9,26 @@ export const customerData = [
   },
 ];
 
-export const crossSellingProducts = [
+export const CrossSellingProducts = [
   {
     name: 'Cucumber',
     department: 'Vegetables',
-    sales: 55,
+    value: 55,
   },
   {
     name: 'Flour',
     department: 'Groceries',
-    sales: 85,
+    value: 85,
   },
   {
     name: 'Yogurt',
     department: 'Dairy',
-    sales: 60,
+    value: 60,
   },
   {
     name: 'Sugar',
     department: 'Groceries',
-    sales: 90,
+    value: 90,
   },
 ];
 
