@@ -92,31 +92,41 @@ export class HttpService {
       }
     );
   }
+  
 
-  //data from backend for Top-selling-bar-chart and Least selling bar chart
-  getTopAndLeastPerformance(id: any, timeFrame: string) {
-    return this.httpClient.post<productPerformance>(
-      this.api + 'analysis/performance/product',
-      {
-        timeFrame: timeFrame,
-        departmentIds: id,
-        storeId: this.storeId,
-        targetValue: 'sales',
-      }
-    );
+
+  //data from backend for Top-selling-bar-chart and Least selling bar chart  
+  getTopAndLeastPerformance(id:any,timeFrame:string)
+  {
+     return this.httpClient.post<productPerformance>(
+       this.api+'analysis/performance/product',
+       {
+           timeFrame:timeFrame,
+           departmentIds:id
+           ,
+           storeId:this.storeId,
+           targetValue:'sales'
+           
+       }
+     )
   }
 
-  getCrossSellingData(id: any, timeFrame: string) {
-    return this.httpClient.post<any>(
-      this.api + 'analysis/cross-sell/department',
+  getCrossSellingData(id:any,timeFrame:string)
+  {
+     return this.httpClient.post<any>(
+      this.api+'analysis/cross-sell/department'
+      ,
       {
-        timeFrame: timeFrame,
-        departmentIds: id,
-        storeId: this.storeId,
-        targetValue: 'sales',
+        timeFrame:timeFrame,
+        departmentIds:id
+        ,
+        storeId:this.storeId,
+        targetValue:'sales'
       }
-    );
+     )
   }
+
+
 
   getCrossSellingProducts(id: any, timeFrame: string) {
     return this.httpClient.post<crossSellingProducts>(
