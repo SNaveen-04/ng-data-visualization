@@ -1,4 +1,10 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { LineChartdata } from '../../../../data';
@@ -28,6 +34,7 @@ import {
 })
 export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
+  private destroyRef = inject(DestroyRef);
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   filter = '';
   customerData = signal<customerInsightsData>([]);
@@ -46,19 +53,39 @@ export class ProductAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
-    this.getProductList();
-    const subscriber = this.httpService.targetValue$.subscribe({
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.yAxisLabel = d;
         this.getProductAnalysis();
       },
     });
+    const storeSubscriber = this.httpService.storeId$.subscribe({
+      next: () => {
+        this.getProductList();
+        this.getProductAnalysis();
+      },
+    });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getProductAnalysis();
+        }
+      },
+    });
+    this.destroyRef.onDestroy(() => {
+      targetSubscriber.unsubscribe();
+      storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
+    });
   }
 
   getProductAnalysis() {
-    this.getProductTrends();
-    this.getCrossSellingProducts();
-    this.getCrossSellingProducts();
+    if (this.selected.id !== '') {
+      this.getProductTrends();
+      this.getCrossSellingProducts();
+      this.getProductCustomerInsights();
+    }
   }
 
   getProductList() {
@@ -67,7 +94,6 @@ export class ProductAnalysisComponent {
         this.listElements = data;
         this.selected = this.listElements[0];
         this.getProductAnalysis();
-        this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });
@@ -112,9 +138,7 @@ export class ProductAnalysisComponent {
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
-      this.getProductTrends();
-      this.getCrossSellingProducts();
-      this.getProductCustomerInsights();
+      this.getProductAnalysis();
     }
   }
 

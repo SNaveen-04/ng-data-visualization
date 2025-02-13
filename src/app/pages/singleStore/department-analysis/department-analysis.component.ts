@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -22,6 +22,7 @@ import { DepartmentBarChartComponent } from '../../../shared/department-bar-char
 })
 export class DepartmentAnalysisComponent {
   private httpService = inject(HttpService);
+  private destroyRef = inject(DestroyRef);
   customerData = signal<customerInsightsData>([]);
   LineChartdata: LineChartData = [];
   filter = '';
@@ -43,14 +44,34 @@ export class DepartmentAnalysisComponent {
   timeFrame: timeFrame = 'month';
 
   ngOnInit() {
-    const subscriber = this.httpService.targetValue$.subscribe({
+    this.filter = this.httpService.getTargetValue();
+    this.timeFrame = this.httpService.getTimeFrame();
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.yAxisLabel = d;
         this.getDepartmentAnalysis();
       },
     });
-    this.filter = this.httpService.getTargetValue();
-    this.getDepartmentLists();
+    const storeSubscriber = this.httpService.storeId$.subscribe({
+      next: () => {
+        this.getDepartmentLists();
+        this.getDepartmentAnalysis();
+      },
+    });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getDepartmentAnalysis();
+        }
+      },
+    });
+
+    this.destroyRef.onDestroy(() => {
+      targetSubscriber.unsubscribe();
+      storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
+    });
   }
 
   select(value: any) {
@@ -61,9 +82,11 @@ export class DepartmentAnalysisComponent {
   }
 
   getDepartmentAnalysis() {
-    this.getDepartmentTrends();
-    this.getProductPerformance();
-    this.getCustomerInsights();
+    if (this.selected.id !== '') {
+      this.getDepartmentTrends();
+      this.getProductPerformance();
+      this.getCustomerInsights();
+    }
   }
 
   getDepartmentTrends() {

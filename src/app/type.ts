@@ -37,3 +37,14 @@ export type crossSellingProductsData = {
   department: string;
   value: number;
 }[];
+
+export type operatorResponse = {
+  name: string;
+  id: string;
+  storeId: string;
+};
+
+export type StoreType = {
+  id: string;
+  name: string;
+};

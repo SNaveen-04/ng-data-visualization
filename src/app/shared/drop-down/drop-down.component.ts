@@ -30,7 +30,7 @@ export class DropDownComponent {
   });
 
   ngOnChanges() {
-    this.filterValue.set(this.selectedValue());
+    this.filterValue.set('');
   }
 
   toggleVisible() {

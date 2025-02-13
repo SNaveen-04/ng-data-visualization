@@ -79,6 +79,38 @@
 
 .secondary {
   gap: 20px;
+  position: relative;
+}
+
+.secondary .dropdown p {
+  margin: 0;
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropdown > .list {
+  width: 100px;
+  position: absolute;
+  top: calc(100% - 5px);
+  background-color: white;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.12);
+  padding: 5px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.dropdownlist {
+  background-color: white;
+  padding: 6px;
+  color: black;
+  cursor: pointer;
+}
+
+.dropdownlist.selectedTimeFrame {
+  background-color: #50c878;
+  color: white;
 }
 
 .btn-group {

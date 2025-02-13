@@ -4,7 +4,9 @@ import {
   crossSellingProducts,
   CustomerInsights,
   listData,
+  operatorResponse,
   productPerformance,
+  timeFrame,
 } from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -18,16 +20,18 @@ export class HttpService {
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
-  private timeFrame: 'week' | 'month' | 'year' = 'week';
-  public timeFrame$ = new BehaviorSubject<'week' | 'month' | 'year'>('week');
+  private timeFrame: timeFrame = 'year';
+  public timeFrame$ = new BehaviorSubject<timeFrame>('week');
+  public storeId$ = new BehaviorSubject<number>(1);
 
   setTargetValue(targetValue: 'sales' | 'quantity') {
     this.targetValue = targetValue;
     this.targetValue$.next(this.targetValue);
   }
 
-  setTimeFrame(timeFrame: 'week' | 'month' | 'year') {
+  setTimeFrame(timeFrame: timeFrame) {
     this.timeFrame = timeFrame;
+    this.timeFrame$.next(timeFrame);
   }
 
   getTimeFrame() {
@@ -40,6 +44,7 @@ export class HttpService {
 
   setStoreId(storeId: string) {
     this.storeId = storeId;
+    this.storeId$.next(1);
   }
 
   getLineChartData() {
@@ -51,7 +56,13 @@ export class HttpService {
   }
 
   getOperatorList() {
-    return this.httpClient.get(this.api + 'operator');
+    return this.httpClient.get<operatorResponse[]>(
+      this.api + 'operator/store/' + this.storeId
+    );
+  }
+
+  getStoreList() {
+    return this.httpClient.get<operatorResponse[]>(this.api + 'stores');
   }
 
   getDepartmentTrends(id: string[], timeFrame: string) {
