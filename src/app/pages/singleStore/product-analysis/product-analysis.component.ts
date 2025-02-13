@@ -47,15 +47,11 @@ export class ProductAnalysisComponent {
   crossSellingProducts = signal<crossSellingProductsData>([]);
   LineChartdata!: LineChartData;
   timeFrame: timeFrame = 'month';
-  constructor() {
-    Object.assign(this, { LineChartdata });
-  }
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
-        console.log('init');
         this.getProductList();
         this.getProductAnalysis();
       },

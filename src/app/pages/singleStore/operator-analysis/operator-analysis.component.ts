@@ -8,7 +8,7 @@ import { ProductSalesComponent } from '../../../shared/product-sales/product-sal
 import { customerData } from '../../../../data';
 import { LineChartdata } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
-import { listData, operatorResponse } from '../../../type';
+import { listData, operatorResponse, timeFrame } from '../../../type';
 import { HttpService } from '../../../service/http-service.service';
 
 @Component({
@@ -36,31 +36,46 @@ export class OperatorAnalysisComponent {
     name: '',
     storeId: '',
   };
-  constructor() {
-    Object.assign(this, { LineChartdata });
-  }
-
+  timeFrame: timeFrame = 'month';
   ngOnInit() {
-    const targetSubscriber = this.httpService.targetValue$.subscribe({
-      next: (d) => {
-        this.filter = d;
-        this.yAxisLabel = d;
-      },
-    });
+    this.filter = this.httpService.getTargetValue();
+    this.timeFrame = this.httpService.getTimeFrame();
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
         this.getOperatorList();
       },
     });
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        if (this.filter !== d) {
+          console.log('--');
+          this.filter = d;
+          this.yAxisLabel = d;
+          this.getOperatorTrends();
+        }
+      },
+    });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getOperatorTrends();
+        }
+      },
+    });
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
       storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
     });
   }
 
   getOperatorTrends() {
     this.httpService.getOperatorTrends(this.selected.id).subscribe({
-      next: (data) => console.log(data),
+      next: (data) => {
+        this.LineChartdata = data;
+      },
+      error: (e) => console.log(e),
     });
   }
   getOperatorList() {
@@ -77,5 +92,6 @@ export class OperatorAnalysisComponent {
   select(value: any) {
     console.log(value);
     this.selected = value;
+    this.getOperatorTrends();
   }
 }

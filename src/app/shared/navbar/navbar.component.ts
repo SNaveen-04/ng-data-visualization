@@ -31,7 +31,7 @@ export class MultiStoreNavbarComponent {
   get domain() {
     const date = new Date();
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
     if (this.timeFrame === 'day') {
       const currentHour = date.getHours();
       return `${currentHour}:00 - ${currentHour}:00`;
