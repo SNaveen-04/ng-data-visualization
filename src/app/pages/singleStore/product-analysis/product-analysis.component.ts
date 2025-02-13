@@ -61,9 +61,18 @@ export class ProductAnalysisComponent {
         this.getProductAnalysis();
       },
     });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getProductAnalysis();
+        }
+      },
+    });
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
       storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
     });
   }
 
