@@ -41,9 +41,9 @@ export class OperatorAnalysisComponent {
   }
 
   ngOnInit() {
-    this.filter = this.httpService.getTargetValue();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
+        this.filter = d;
         this.yAxisLabel = d;
       },
     });
@@ -58,11 +58,17 @@ export class OperatorAnalysisComponent {
     });
   }
 
+  getOperatorTrends() {
+    this.httpService.getOperatorTrends(this.selected.id).subscribe({
+      next: (data) => console.log(data),
+    });
+  }
   getOperatorList() {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
         this.listElements = data;
         this.selected = this.listElements[0];
+        this.getOperatorTrends();
       },
       error: (error) => console.log(error),
     });

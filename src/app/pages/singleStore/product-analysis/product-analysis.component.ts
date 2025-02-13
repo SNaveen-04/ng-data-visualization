@@ -102,41 +102,37 @@ export class ProductAnalysisComponent {
   }
 
   getProductTrends() {
-    this.httpService
-      .getProductTrends(this.selected.id, this.timeFrame)
-      .subscribe({
-        next: (data) => {
-          this.LineChartdata = data;
-          this.isLoaded = true;
-        },
-        error: (error) => console.log(error),
-      });
+    this.httpService.getProductTrends(this.selected.id).subscribe({
+      next: (data) => {
+        this.LineChartdata = data;
+        this.isLoaded = true;
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   getCrossSellingProducts() {
-    this.httpService
-      .getCrossSellingProducts([this.selected.id], this.timeFrame)
-      .subscribe({
-        next: (d) => {
-          const temp = d[0].data;
-          if (temp.length < 3) {
-            let i = 1;
-            while (temp.length < 3) {
-              temp.push({
-                name: '-',
-                department: '-',
-                value: 0,
-              });
-              i++;
-            }
-            this.crossSellingProducts.set(temp);
+    this.httpService.getCrossSellingProducts([this.selected.id]).subscribe({
+      next: (d) => {
+        const temp = d[0].data;
+        if (temp.length < 3) {
+          let i = 1;
+          while (temp.length < 3) {
+            temp.push({
+              name: '-',
+              department: '-',
+              value: 0,
+            });
+            i++;
           }
-          this.crossSellingProducts.set(
-            d[0].data.filter((_, index) => index < 5)
-          );
-        },
-        error: (e) => console.log(e),
-      });
+          this.crossSellingProducts.set(temp);
+        }
+        this.crossSellingProducts.set(
+          d[0].data.filter((_, index) => index < 5)
+        );
+      },
+      error: (e) => console.log(e),
+    });
   }
 
   select(value: any) {
@@ -147,42 +143,40 @@ export class ProductAnalysisComponent {
   }
 
   getProductCustomerInsights() {
-    this.httpService
-      .getProductCustomerInsights(this.selected.id, 'month')
-      .subscribe({
-        next: (data: any) => {
-          console.log('ci data :', data);
+    this.httpService.getProductCustomerInsights(this.selected.id).subscribe({
+      next: (data: any) => {
+        console.log('ci data :', data);
 
-          if (this.filter === 'sales') {
-            let newCustomer = {
-              name: data[0]['data'][0]['name'],
-              value: Math.round(data[0]['data'][0]['value'][1]),
-            };
+        if (this.filter === 'sales') {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][1]),
+          };
 
-            let regularCustomer = {
-              name: data[0]['data'][1]['name'],
-              value: Math.round(data[0]['data'][1]['value'][1]),
-            };
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][1]),
+          };
 
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
-          } else {
-            let newCustomer = {
-              name: data[0]['data'][0]['name'],
-              value: Math.round(data[0]['data'][0]['value'][0]),
-            };
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        } else {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][0]),
+          };
 
-            let regularCustomer = {
-              name: data[0]['data'][1]['name'],
-              value: Math.round(data[0]['data'][1]['value'][0]),
-            };
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][0]),
+          };
 
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
-          }
-          console.log('CI : ', this.customerData());
-        },
-        error: (e) => console.log(e),
-      });
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        }
+        console.log('CI : ', this.customerData());
+      },
+      error: (e) => console.log(e),
+    });
   }
 }

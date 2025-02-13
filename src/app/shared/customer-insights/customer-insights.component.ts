@@ -32,7 +32,6 @@ export class CustomerInsightsComponent implements OnChanges {
 
   ngOnChanges() {
     this.createDonutChart();
-    console.log('from chart ', this.customerInsightsData());
   }
   private createDonutChart() {
     this.totalCustomer = 0;

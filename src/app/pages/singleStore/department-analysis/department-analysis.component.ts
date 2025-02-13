@@ -48,15 +48,16 @@ export class DepartmentAnalysisComponent {
     this.timeFrame = this.httpService.getTimeFrame();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
-        this.filter = d;
-        this.yAxisLabel = d;
-        this.getDepartmentAnalysis();
+        if (this.filter !== d) {
+          this.filter = d;
+          this.yAxisLabel = d;
+          this.getDepartmentAnalysis();
+        }
       },
     });
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
         this.getDepartmentLists();
-        this.getDepartmentAnalysis();
       },
     });
     const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
@@ -91,15 +92,13 @@ export class DepartmentAnalysisComponent {
   }
 
   getDepartmentTrends() {
-    this.httpService
-      .getDepartmentTrends([this.selected.id], this.timeFrame)
-      .subscribe({
-        next: (data) => {
-          this.LineChartdata = data;
-          this.isLoaded = true;
-        },
-        error: (error) => console.log(error),
-      });
+    this.httpService.getDepartmentTrends([this.selected.id]).subscribe({
+      next: (data) => {
+        this.LineChartdata = data;
+        this.isLoaded = true;
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   getDepartmentLists() {
@@ -107,65 +106,56 @@ export class DepartmentAnalysisComponent {
       next: (data) => {
         this.listElements = data.map((d) => d);
         this.selected = this.listElements[0];
-        this.getDepartmentTrends();
-        this.getProductPerformance();
-        this.getCustomerInsights();
+        this.getDepartmentAnalysis();
       },
       error: (e) => console.log(e),
     });
   }
 
   getProductPerformance() {
-    this.httpService
-      .getProductPerformance(this.selected.id, this.timeFrame)
-      .subscribe({
-        next: (data) => {
-          this.SellingProducts = data[0].data
-            .filter((_, index) => index < 5)
-            .map((d) => d);
-        },
-        error: (e) => console.log(e),
-      });
+    this.httpService.getProductPerformance(this.selected.id).subscribe({
+      next: (data) => {
+        this.SellingProducts = data[0].data
+          .filter((_, index) => index < 5)
+          .map((d) => d);
+      },
+      error: (e) => console.log(e),
+    });
   }
 
   getCustomerInsights() {
-    this.httpService
-      .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
-      .subscribe({
-        next: (data: any) => {
-          console.log('ci data :', data);
-          console.log('Check filter : ', this.filter);
+    this.httpService.getDepartmentCustomerInsights(this.selected.id).subscribe({
+      next: (data: any) => {
+        if (this.filter === 'sales') {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][1]),
+          };
 
-          if (this.filter === 'sales') {
-            let newCustomer = {
-              name: data[0]['data'][0]['name'],
-              value: Math.round(data[0]['data'][0]['value'][1]),
-            };
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][1]),
+          };
 
-            let regularCustomer = {
-              name: data[0]['data'][1]['name'],
-              value: Math.round(data[0]['data'][1]['value'][1]),
-            };
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        } else {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][0]),
+          };
 
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
-          } else {
-            let newCustomer = {
-              name: data[0]['data'][0]['name'],
-              value: Math.round(data[0]['data'][0]['value'][0]),
-            };
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][0]),
+          };
 
-            let regularCustomer = {
-              name: data[0]['data'][1]['name'],
-              value: Math.round(data[0]['data'][1]['value'][0]),
-            };
-
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
-          }
-          console.log('CI : ', this.customerData());
-        },
-        error: (e) => console.log(e),
-      });
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        }
+        console.log('CI : ', this.customerData());
+      },
+      error: (e) => console.log(e),
+    });
   }
 }

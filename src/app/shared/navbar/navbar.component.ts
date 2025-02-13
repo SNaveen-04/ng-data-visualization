@@ -29,10 +29,44 @@ export class MultiStoreNavbarComponent {
   timeFrameList: timeFrame[] = ['day', 'week', 'month', 'year'];
   isTFListOpen = false;
   get domain() {
-    if (this.timeFrame === 'day') return '0:00 - 24:00';
-    if (this.timeFrame === 'week') return 'Mon - Sun';
-    if (this.timeFrame === 'month') return '1 - 31';
-    return 'Feb - Jan';
+    const date = new Date();
+    const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    if (this.timeFrame === 'day') {
+      const currentHour = date.getHours();
+      return `${currentHour}:00 - ${currentHour}:00`;
+    }
+    if (this.timeFrame === 'week') {
+      const currentDay = date.getDay();
+      return `${daysOfWeek[(currentDay + 1) % 7]} - ${daysOfWeek[currentDay]}`;
+    }
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const currentMonth = date.getMonth();
+    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    if (this.timeFrame === 'month') {
+      const currentDate = date.getDate();
+      const startingDate = 30 - currentDate;
+      return `${days[prevMonth] - startingDate} ${
+        months[prevMonth]
+      }- ${currentDate} ${months[currentMonth]}`;
+    }
+    const year = date.getFullYear();
+    return `${months[(currentMonth + 1) % 12]} ${(year - 1) % 100} - ${
+      months[currentMonth]
+    } ${year % 100}`;
   }
   ngOnInit() {
     this.timeFrame = this.httpService.getTimeFrame();
