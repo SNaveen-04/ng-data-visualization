@@ -104,14 +104,12 @@ export class StoreAnalysisComponent {
   }
 
   getTopLeastData() {
-    this.httpService
-      .getTopAndLeastPerformance(this.selectedIds, 'week')
-      .subscribe({
-        next: (data) => {
-          this.createPerformanceData(data);
-        },
-        error: (e) => console.log(e),
-      });
+    this.httpService.getTopAndLeastPerformance(this.selectedIds).subscribe({
+      next: (data) => {
+        this.createPerformanceData(data);
+      },
+      error: (e) => console.log(e),
+    });
   }
 
   // split the product performance into top least bar chart and least selling bar chart data
@@ -159,25 +157,21 @@ export class StoreAnalysisComponent {
   }
 
   getCrossSellingData() {
-    this.httpService
-      .getCrossSellingData(this.selectedIds, this.timeFrame)
-      .subscribe({
-        next: (data) => {
-          this.crossData = data;
-        },
-        error: (error) => console.log(error),
-      });
+    this.httpService.getCrossSellingData(this.selectedIds).subscribe({
+      next: (data) => {
+        this.crossData = data;
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   getDepartmentTrends() {
-    this.httpService
-      .getDepartmentTrends(this.selectedIds, this.timeFrame)
-      .subscribe({
-        next: (data) => {
-          this.LineChartdata = data;
-        },
-        error: (error) => console.log(error),
-      });
+    this.httpService.getDepartmentTrends(this.selectedIds).subscribe({
+      next: (data) => {
+        this.LineChartdata = data;
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   getDepartmentsList() {

@@ -65,7 +65,7 @@ export class HttpService {
     return this.httpClient.get<operatorResponse[]>(this.api + 'stores');
   }
 
-  getDepartmentTrends(id: string[], timeFrame: string) {
+  getDepartmentTrends(id: string[]) {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=department',
       {
@@ -86,7 +86,7 @@ export class HttpService {
     >(this.api + 'product');
   }
 
-  getProductTrends(id: any, timeFrame: string) {
+  getProductTrends(id: any) {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=product',
       {
@@ -98,7 +98,7 @@ export class HttpService {
     );
   }
 
-  getProductPerformance(id: any, timeFrame: string) {
+  getProductPerformance(id: any) {
     return this.httpClient.post<productPerformance>(
       this.api + 'analysis/performance/product',
       {
@@ -121,7 +121,7 @@ export class HttpService {
     );
   }
 
-  getDepartmentCustomerInsights(id: any, timeFrame: string) {
+  getDepartmentCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
       {
@@ -133,7 +133,7 @@ export class HttpService {
     );
   }
 
-  getProductCustomerInsights(id: any, timeFrame: string) {
+  getProductCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
       {
@@ -146,7 +146,7 @@ export class HttpService {
   }
 
   //data from backend for Top-selling-bar-chart and Least selling bar chart
-  getTopAndLeastPerformance(id: any, timeFrame: string) {
+  getTopAndLeastPerformance(id: any) {
     return this.httpClient.post<productPerformance>(
       this.api + 'analysis/performance/product',
       {
@@ -158,7 +158,7 @@ export class HttpService {
     );
   }
 
-  getCrossSellingData(id: any, timeFrame: string) {
+  getCrossSellingData(id: any) {
     return this.httpClient.post<any>(
       this.api + 'analysis/cross-sell/department',
       {
@@ -170,7 +170,7 @@ export class HttpService {
     );
   }
 
-  getCrossSellingProducts(id: any, timeFrame: string) {
+  getCrossSellingProducts(id: any) {
     return this.httpClient.post<crossSellingProducts>(
       this.api + 'analysis/cross-sell/product',
       {
