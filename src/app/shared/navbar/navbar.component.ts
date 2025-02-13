@@ -30,6 +30,11 @@ export class MultiStoreNavbarComponent {
   timeFrame: timeFrame = 'week';
   timeFrameList: timeFrame[] = ['week', 'month', 'year'];
   isTFListOpen = false;
+  get domain() {
+    if (this.timeFrame === 'week') return 'Mon - Sun';
+    if (this.timeFrame === 'month') return '1 - 31';
+    return 'Feb - Jan';
+  }
   ngOnInit() {
     this.timeFrame = this.httpService.getTimeFrame();
     const subscriber = this.route.events.subscribe((event) => {
