@@ -16,11 +16,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
-  private storeId = '1';
+  private storeId = '2';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
   private timeFrame: 'week' | 'month' | 'year' = 'month';
   public timeFrame$ = new BehaviorSubject<'week' | 'month' | 'year'>('week');
+  public storeId$ = new BehaviorSubject<number>(1);
 
   setTargetValue(targetValue: 'sales' | 'quantity') {
     this.targetValue = targetValue;
@@ -41,6 +42,7 @@ export class HttpService {
 
   setStoreId(storeId: string) {
     this.storeId = storeId;
+    this.storeId$.next(1);
   }
 
   getLineChartData() {
@@ -52,7 +54,13 @@ export class HttpService {
   }
 
   getOperatorList() {
-    return this.httpClient.get<operatorResponse[]>(this.api + 'operator');
+    return this.httpClient.get<operatorResponse[]>(
+      this.api + 'operator/store/' + this.storeId
+    );
+  }
+
+  getStoreList() {
+    return this.httpClient.get<operatorResponse[]>(this.api + 'stores');
   }
 
   getDepartmentTrends(id: string[], timeFrame: string) {

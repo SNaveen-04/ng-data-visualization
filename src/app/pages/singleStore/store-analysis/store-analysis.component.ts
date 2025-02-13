@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -26,6 +26,7 @@ import { timeFrame } from '../../../type';
 })
 export class StoreAnalysisComponent {
   private httpService = inject(HttpService);
+  private destroyRef = inject(DestroyRef);
   public crossData: any[] = [];
   timeFrame: timeFrame = 'month';
   leastSellingData: any[] = [];
@@ -64,23 +65,38 @@ export class StoreAnalysisComponent {
   }
 
   ngOnInit() {
-    this.getDepartmentsList();
     this.filter = this.httpService.getTargetValue();
-    const subscriber = this.httpService.targetValue$.subscribe({
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
-        this.yAxisLabel = d;
+        console.log('--> target');
+        if (this.yAxisLabel !== d) {
+          this.yAxisLabel = d;
+          this.getStoreAnalysis();
+        }
+      },
+    });
+    const storeSubscriber = this.httpService.storeId$.subscribe({
+      next: () => {
+        this.getDepartmentsList();
         this.getStoreAnalysis();
       },
+    });
+    this.destroyRef.onDestroy(() => {
+      targetSubscriber.unsubscribe();
+      storeSubscriber.unsubscribe();
     });
   }
 
   getStoreAnalysis() {
-    this.getDepartmentTrends();
-    this.getTopLeastData();
-    this.getCrossSellingData();
+    if (this.selectedIds.length !== 0) {
+      this.getDepartmentTrends();
+      this.getTopLeastData();
+      this.getCrossSellingData();
+    }
   }
 
   getTopLeastData() {
+    console.log('top least');
     this.httpService
       .getTopAndLeastPerformance(this.selectedIds, 'week')
       .subscribe({
@@ -137,6 +153,7 @@ export class StoreAnalysisComponent {
   }
 
   getCrossSellingData() {
+    console.log('cross selling');
     this.httpService
       .getCrossSellingData(this.selectedIds, this.timeFrame)
       .subscribe({
@@ -148,6 +165,7 @@ export class StoreAnalysisComponent {
   }
 
   getDepartmentTrends() {
+    console.log('dept trends');
     this.httpService
       .getDepartmentTrends(this.selectedIds, this.timeFrame)
       .subscribe({
@@ -159,6 +177,7 @@ export class StoreAnalysisComponent {
   }
 
   getDepartmentsList() {
+    console.log('dept list');
     this.httpService.getDepartmentsList().subscribe({
       next: (data) => {
         this.listElements = data.map((d) => {

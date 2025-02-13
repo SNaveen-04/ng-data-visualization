@@ -59,8 +59,8 @@ export class ProductAnalysisComponent {
 
   getProductAnalysis() {
     this.getProductTrends();
-    this.getCrossSellingProducts();
-    this.getCrossSellingProducts();
+    // this.getCrossSellingProducts();
+    // this.getProductCustomerInsights();
   }
 
   getProductList() {
@@ -69,7 +69,6 @@ export class ProductAnalysisComponent {
         this.listElements = data;
         this.selected = this.listElements[0];
         this.getProductAnalysis();
-        this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });
@@ -114,9 +113,7 @@ export class ProductAnalysisComponent {
   select(value: any) {
     if (this.selected !== value) {
       this.selected = value;
-      this.getProductTrends();
-      this.getCrossSellingProducts();
-      this.getProductCustomerInsights();
+      this.getProductAnalysis();
     }
   }
 

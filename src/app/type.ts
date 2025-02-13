@@ -43,3 +43,8 @@ export type operatorResponse = {
   id: string;
   storeId: string;
 };
+
+export type StoreType = {
+  id: string;
+  name: string;
+};

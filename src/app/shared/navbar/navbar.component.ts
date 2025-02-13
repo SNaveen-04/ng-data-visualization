@@ -8,6 +8,7 @@ import {
 import { storeId } from '../../../data';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../service/http-service.service';
+import { StoreType } from '../../type';
 
 @Component({
   selector: 'multi-store-app-navbar',
@@ -16,11 +17,10 @@ import { HttpService } from '../../service/http-service.service';
   styleUrl: './navbar.component.css',
 })
 export class MultiStoreNavbarComponent {
-  selected = output<any>();
   image_path = 'assets/images/user.png';
-  storeId = storeId;
+  storeId: StoreType[] = [];
   isListOpen = false;
-  filterValue = 101;
+  filterValue: string = '1';
   isMultiStore = false;
   navigationPrefix: '/multi' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
@@ -42,6 +42,13 @@ export class MultiStoreNavbarComponent {
     this.destroyRef.onDestroy(() => {
       subscriber.unsubscribe();
     });
+    this.httpService.getStoreList().subscribe({
+      next: (data) => {
+        this.storeId = data;
+        this.filterValue = data[0].id;
+      },
+      error: (e) => console.log(e),
+    });
   }
 
   changeTargetValue(targetValue: 'sales' | 'quantity') {
@@ -53,9 +60,9 @@ export class MultiStoreNavbarComponent {
     this.isListOpen = !this.isListOpen;
   }
 
-  select(value: any) {
-    this.selected.emit(value);
+  select(value: string) {
     this.filterValue = value;
+    this.httpService.setStoreId(value);
     this.isListOpen = false;
   }
 }
