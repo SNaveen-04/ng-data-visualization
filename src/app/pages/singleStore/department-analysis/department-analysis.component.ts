@@ -108,27 +108,24 @@ export class DepartmentAnalysisComponent {
     this.httpService
       .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
       .subscribe({
-        next: (data) => {
-          console.log(data);
-          this.customerData.set([]);
-          data[0].forEach((d, i) => {
-            const temp: {
-              name: string;
-              value: number;
-            } = {
-              name: '',
-              value: 0,
+        next: (data: any) => {
+          console.log('ci data :', data);
+
+          if (this.filter === 'sales') {
+            let newCustomer = {
+              name: data[0]['data'][0]['name'],
+              value: Math.round(data[0]['data'][0]['value'][1]),
             };
-            temp.name = d.name;
-            if (this.filter === 'sales') {
-              temp.value = Math.round(d.value[1]);
-            } else {
-              temp.value = Math.round(d.value[0]);
-            }
-            const tempData = this.customerData();
-            tempData.push(temp);
-            this.customerData.set(tempData);
-          });
+
+            let regularCustomer = {
+              name: data[0]['data'][1]['name'],
+              value: Math.round(data[0]['data'][1]['value'][1]),
+            };
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          }
+          console.log('CI : ', this.customerData());
         },
         error: (e) => console.log(e),
       });

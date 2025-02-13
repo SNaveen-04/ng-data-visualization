@@ -1,9 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { LineChartdata } from '../../../../data';
-import { customerData } from '../../../../data';
-import { CrossSellingProducts } from '../../../../data';
 import {
   LineChartComponent,
   LineChartData,
@@ -41,7 +39,7 @@ export class ProductAnalysisComponent {
   isLoaded = false;
   crossSellingProducts = signal<crossSellingProductsData>([]);
   LineChartdata!: LineChartData;
-  timeFrame: timeFrame = 'week';
+  timeFrame: timeFrame = 'month';
   constructor() {
     Object.assign(this, { LineChartdata });
   }
@@ -122,31 +120,26 @@ export class ProductAnalysisComponent {
 
   getProductCustomerInsights() {
     this.httpService
-      .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
+      .getProductCustomerInsights(this.selected.id, 'month')
       .subscribe({
-        next: (data) => {
-          console.log('filter : ', this.filter);
+        next: (data: any) => {
+          console.log('ci data :', data);
 
-          console.log('CI : ', data);
-          this.customerData.set([]);
-          data[0].forEach((d, i) => {
-            const temp: {
-              name: string;
-              value: number;
-            } = {
-              name: '',
-              value: 0,
+          if (this.filter === 'sales') {
+            let newCustomer = {
+              name: data[0]['data'][0]['name'],
+              value: Math.round(data[0]['data'][0]['value'][1]),
             };
-            temp.name = d.name;
-            if (this.filter === 'sales') {
-              temp.value = Math.round(d.value[1]);
-            } else {
-              temp.value = Math.round(d.value[0]);
-            }
-            const tempData = this.customerData();
-            tempData.push(temp);
-            this.customerData.set(tempData);
-          });
+
+            let regularCustomer = {
+              name: data[0]['data'][1]['name'],
+              value: Math.round(data[0]['data'][1]['value'][1]),
+            };
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          }
+          console.log('CI : ', this.customerData());
         },
         error: (e) => console.log(e),
       });
