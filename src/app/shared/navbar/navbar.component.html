@@ -23,7 +23,6 @@
         >
           {{ store.id }}
         </li>
-
         }
       </div>
       }
@@ -71,10 +70,37 @@
     </div>
     <div class="filter">
       <div class="domain">Dec 30 - Jan 30</div>
-      <div class="dropdown">Year</div>
+      <div class="dropdown">
+        <p (click)="toggleTFList()">
+          {{ TimeFrameText(timeFrame) }}
+          <span class="drop-down-arrow">
+            <img
+              src="image.png"
+              alt="P"
+              class="profile-img"
+              height="24"
+              width="24"
+          /></span>
+        </p>
+        @if(isTFListOpen){
+        <div class="list">
+          @for(timeframe of timeFrameList;track timeframe){
+          <div
+            [class]="{
+              dropdownlist: true,
+              selectedTimeFrame: timeFrame === timeframe
+            }"
+            (click)="selectTimeFrame(timeframe)"
+          >
+            {{ TimeFrameText(timeframe) }}
+          </div>
+          }
+        </div>
+        }
+      </div>
     </div>
     <div class="profile">
-      <img [src]="image_path" alt="P" class="profile-img" />
+      <img [src]="'assets/images/user.png'" alt="P" class="profile-img" />
       <div class="profile-details">
         <div class="name">Dinesh Raja</div>
         <div class="role">Admin</div>

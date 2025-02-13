@@ -8,7 +8,8 @@ import {
 import { storeId } from '../../../data';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../service/http-service.service';
-import { StoreType } from '../../type';
+import { StoreType, timeFrame } from '../../type';
+import { DropDownComponent } from '../drop-down/drop-down.component';
 
 @Component({
   selector: 'multi-store-app-navbar',
@@ -17,16 +18,18 @@ import { StoreType } from '../../type';
   styleUrl: './navbar.component.css',
 })
 export class MultiStoreNavbarComponent {
-  image_path = 'assets/images/user.png';
+  private route = inject(Router);
+  private destroyRef = inject(DestroyRef);
+  private httpService = inject(HttpService);
   storeId: StoreType[] = [];
   isListOpen = false;
   filterValue: string = '1';
   isMultiStore = false;
   navigationPrefix: '/multi' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
-  private route = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  private httpService = inject(HttpService);
+  timeFrame: timeFrame = 'week';
+  timeFrameList: timeFrame[] = ['week', 'month', 'year'];
+  isTFListOpen = false;
   ngOnInit() {
     const subscriber = this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -59,10 +62,22 @@ export class MultiStoreNavbarComponent {
   toggleVisible() {
     this.isListOpen = !this.isListOpen;
   }
-
+  toggleTFList() {
+    this.isTFListOpen = !this.isTFListOpen;
+  }
   select(value: string) {
     this.filterValue = value;
     this.httpService.setStoreId(value);
     this.isListOpen = false;
+  }
+
+  selectTimeFrame(timeFrame: timeFrame) {
+    this.httpService.setTimeFrame(timeFrame);
+    this.timeFrame = timeFrame;
+    this.isTFListOpen = false;
+  }
+
+  TimeFrameText(timeFrame: timeFrame) {
+    return timeFrame.at(0)?.toUpperCase() + timeFrame.substring(1);
   }
 }

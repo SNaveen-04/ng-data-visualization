@@ -6,6 +6,7 @@ import {
   listData,
   operatorResponse,
   productPerformance,
+  timeFrame,
 } from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -19,8 +20,8 @@ export class HttpService {
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
-  private timeFrame: 'week' | 'month' | 'year' = 'month';
-  public timeFrame$ = new BehaviorSubject<'week' | 'month' | 'year'>('week');
+  private timeFrame: timeFrame = 'month';
+  public timeFrame$ = new BehaviorSubject<timeFrame>('week');
   public storeId$ = new BehaviorSubject<number>(1);
 
   setTargetValue(targetValue: 'sales' | 'quantity') {
@@ -28,7 +29,10 @@ export class HttpService {
     this.targetValue$.next(this.targetValue);
   }
 
-  setTimeFrame(timeFrame: 'week' | 'month' | 'year') {
+  setTimeFrame(timeFrame: timeFrame) {
+    console.log('---');
+    console.log(timeFrame);
+
     this.timeFrame = timeFrame;
   }
 
