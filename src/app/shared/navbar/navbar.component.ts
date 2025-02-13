@@ -26,9 +26,10 @@ export class MultiStoreNavbarComponent {
   navigationPrefix: '/multi/store' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
   timeFrame: timeFrame = 'week';
-  timeFrameList: timeFrame[] = ['week', 'month', 'year', 'day'];
+  timeFrameList: timeFrame[] = ['day', 'week', 'month', 'year'];
   isTFListOpen = false;
   get domain() {
+    if (this.timeFrame === 'day') return '0:00 - 24:00';
     if (this.timeFrame === 'week') return 'Mon - Sun';
     if (this.timeFrame === 'month') return '1 - 31';
     return 'Feb - Jan';
