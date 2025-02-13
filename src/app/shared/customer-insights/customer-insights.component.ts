@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  inject,
   input,
   OnChanges,
   ViewChild,
@@ -9,7 +8,6 @@ import {
 import * as d3 from 'd3';
 
 import { customerInsightsData } from '../../type';
-import { HttpService } from '../../service/http-service.service';
 
 interface Data {
   name: string;
@@ -24,7 +22,6 @@ interface Data {
 })
 export class CustomerInsightsComponent implements OnChanges {
   customerInsightsData = input.required<customerInsightsData>();
-  private httpService = inject(HttpService);
   filter = input.required<string>();
   totalCustomer: number = 0;
   colors: string[] = ['#50C878', '#F4C542'];
@@ -35,14 +32,11 @@ export class CustomerInsightsComponent implements OnChanges {
 
   ngOnChanges() {
     this.createDonutChart();
+    console.log('from chart ', this.customerInsightsData());
   }
-
   private createDonutChart() {
-    this.customerInsightsData().sort((a, b) => b.value - a.value);
     this.totalCustomer = 0;
     this.customerInsightsData().forEach((element) => {
-      console.log(this.filter());
-
       if (element.name.startsWith('N')) {
         element.name = 'New Customer';
       } else {
@@ -106,7 +100,7 @@ export class CustomerInsightsComponent implements OnChanges {
               d.data.name
             )}; margin-right: 5px"></span>
            ${d.data.name}
-              ${d.data.value}`
+              ${d.data.value}%`
           );
       })
       .on('mouseout', () => {
@@ -227,5 +221,9 @@ export class CustomerInsightsComponent implements OnChanges {
             );
         });
     }
+  }
+
+  formatValue(num: number) {
+    return (num / this.totalCustomer) * 100;
   }
 }
