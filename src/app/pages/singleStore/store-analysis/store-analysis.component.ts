@@ -81,9 +81,18 @@ export class StoreAnalysisComponent {
         this.getStoreAnalysis();
       },
     });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getStoreAnalysis();
+        }
+      },
+    });
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
       storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
     });
   }
 
@@ -215,6 +224,5 @@ export class StoreAnalysisComponent {
         }
       });
     }
-
   }
 }
