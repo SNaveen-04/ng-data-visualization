@@ -95,6 +95,7 @@ export class DepartmentAnalysisComponent {
     this.httpService.getDepartmentTrends([this.selected.id]).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        console.log(data);
         this.isLoaded = true;
       },
       error: (error) => console.log(error),

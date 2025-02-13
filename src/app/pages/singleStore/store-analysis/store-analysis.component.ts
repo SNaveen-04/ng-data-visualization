@@ -171,6 +171,7 @@ export class StoreAnalysisComponent {
     this.httpService.getDepartmentTrends(this.selectedIds).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        console.log(data)
       },
       error: (error) => console.log(error),
     });
