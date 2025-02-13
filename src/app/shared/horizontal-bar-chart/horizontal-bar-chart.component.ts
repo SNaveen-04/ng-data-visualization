@@ -86,6 +86,8 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
       .attr('font-size', '15px')
       .attr('fill', '#666666');
 
+    if(this.title=='Top selling products')
+    {
     svg
       .selectAll('.bar')
       .data(data)
@@ -116,6 +118,39 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
       .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Adjust width with animation
+    }
+    else{
+      svg
+      .selectAll('.bar')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('class', 'bar')
+      .attr('x', 0) // Align with name
+      .attr('y', (d) => calculateY(d) - 10 / 2) // Subtract half of bar height to center
+      .attr('width', 0) // Start with width 0 for animation
+      .attr('height', 10) // Keep bar height constant
+      .attr('fill', this.color)
+      .attr('rx', 5)
+      .attr('ry', 5)
+      .on('mouseover', function (event, d) {
+        tooltip.style('opacity', 0.9);
+        tooltip
+          .html(
+            `<span style="display: inline-block; width:12px;height:12px; background-color:${'#E74C3C'}; margin-right: 5px"></span>
+             ${d.name}
+                ${d.value}`
+          )
+          .style('left', event.pageX + 10 + 'px')
+          .style('top', event.pageY + 10 + 'px');
+      })
+      .on('mouseout', function () {
+        tooltip.style('opacity', 0);
+      })
+      .transition() // Add transition for animation
+      .duration(800) // Duration of the animation in milliseconds
+      .attr('width', (d) => (x(d.value) ?? 0) * this.barWidth); // Adjust width with animation
+    }
       svg
       .selectAll('.value-label')
       .data(data)
