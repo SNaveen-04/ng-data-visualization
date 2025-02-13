@@ -40,24 +40,33 @@ export const routes: Routes = [
     path: 'multi',
     children: [
       {
-        path: 'analysis',
+        path: 'overall',
         component: StoreAnalysisComponent,
       },
       {
-        path: 'product',
-        component: ProductAnalysisComponent,
-      },
-      {
-        path: 'department',
-        component: DepartmentAnalysisComponent,
-      },
-      {
-        path: 'operator',
-        component: OperatorAnalysisComponent,
-      },
-      {
-        path: '**',
-        component: OperatorAnalysisComponent,
+        path: 'store',
+        children: [
+          {
+            path: 'analysis',
+            component: StoreAnalysisComponent,
+          },
+          {
+            path: 'product',
+            component: ProductAnalysisComponent,
+          },
+          {
+            path: 'department',
+            component: DepartmentAnalysisComponent,
+          },
+          {
+            path: 'operator',
+            component: OperatorAnalysisComponent,
+          },
+          {
+            path: '**',
+            component: OperatorAnalysisComponent,
+          },
+        ],
       },
     ],
   },

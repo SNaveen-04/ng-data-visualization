@@ -48,6 +48,7 @@ export class DepartmentAnalysisComponent {
     this.timeFrame = this.httpService.getTimeFrame();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
+        this.filter = d;
         this.yAxisLabel = d;
         this.getDepartmentAnalysis();
       },
@@ -133,6 +134,7 @@ export class DepartmentAnalysisComponent {
       .subscribe({
         next: (data: any) => {
           console.log('ci data :', data);
+          console.log('Check filter : ', this.filter);
 
           if (this.filter === 'sales') {
             let newCustomer = {
@@ -143,6 +145,19 @@ export class DepartmentAnalysisComponent {
             let regularCustomer = {
               name: data[0]['data'][1]['name'],
               value: Math.round(data[0]['data'][1]['value'][1]),
+            };
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          } else {
+            let newCustomer = {
+              name: data[0]['data'][0]['name'],
+              value: Math.round(data[0]['data'][0]['value'][0]),
+            };
+
+            let regularCustomer = {
+              name: data[0]['data'][1]['name'],
+              value: Math.round(data[0]['data'][1]['value'][0]),
             };
 
             // Update the signal value with the extracted data

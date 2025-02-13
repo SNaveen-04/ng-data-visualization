@@ -3,7 +3,7 @@ export type listData = {
   name: string;
 }[];
 
-export type timeFrame = 'week' | 'month' | 'year';
+export type timeFrame = 'week' | 'month' | 'year' | 'day';
 
 export type productPerformance = {
   name: string;

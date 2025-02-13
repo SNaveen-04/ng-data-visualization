@@ -8,7 +8,7 @@ import { HorizontalBarChartComponent } from '../../../shared/horizontal-bar-char
 import { HttpService } from '../../../service/http-service.service';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 import { ChipsComponent } from '../../../shared/chips/chips.component';
-import { CrossSellingDepartments, customerData } from '../../../../data';
+import { customerData } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
 import { timeFrame } from '../../../type';
 @Component({
@@ -68,7 +68,6 @@ export class StoreAnalysisComponent {
     this.filter = this.httpService.getTargetValue();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
-        console.log('--> target');
         if (this.yAxisLabel !== d) {
           this.yAxisLabel = d;
           this.getStoreAnalysis();
@@ -105,12 +104,10 @@ export class StoreAnalysisComponent {
   }
 
   getTopLeastData() {
-    console.log('top least');
     this.httpService
       .getTopAndLeastPerformance(this.selectedIds, 'week')
       .subscribe({
         next: (data) => {
-          // console.log(data);
           this.createPerformanceData(data);
         },
         error: (e) => console.log(e),
@@ -162,7 +159,6 @@ export class StoreAnalysisComponent {
   }
 
   getCrossSellingData() {
-    console.log('cross selling');
     this.httpService
       .getCrossSellingData(this.selectedIds, this.timeFrame)
       .subscribe({
@@ -174,7 +170,6 @@ export class StoreAnalysisComponent {
   }
 
   getDepartmentTrends() {
-    console.log('dept trends');
     this.httpService
       .getDepartmentTrends(this.selectedIds, this.timeFrame)
       .subscribe({
@@ -186,7 +181,6 @@ export class StoreAnalysisComponent {
   }
 
   getDepartmentsList() {
-    console.log('dept list');
     this.httpService.getDepartmentsList().subscribe({
       next: (data) => {
         this.listElements = data.map((d) => {
