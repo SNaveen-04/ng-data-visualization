@@ -95,7 +95,6 @@ export class DepartmentAnalysisComponent {
     this.httpService.getDepartmentTrends([this.selected.id]).subscribe({
       next: (data) => {
         this.LineChartdata = data;
-        console.log(data);
         this.isLoaded = true;
       },
       error: (error) => console.log(error),
@@ -154,7 +153,6 @@ export class DepartmentAnalysisComponent {
           // Update the signal value with the extracted data
           this.customerData.set([regularCustomer, newCustomer]);
         }
-        console.log('CI : ', this.customerData());
       },
       error: (e) => console.log(e),
     });

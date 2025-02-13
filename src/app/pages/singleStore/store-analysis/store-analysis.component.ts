@@ -132,7 +132,6 @@ export class StoreAnalysisComponent {
       finalData.length - 5,
       finalData.length
     );
-
   }
 
   removeTopLeastData(id: string) {
@@ -171,7 +170,6 @@ export class StoreAnalysisComponent {
     this.httpService.getDepartmentTrends(this.selectedIds).subscribe({
       next: (data) => {
         this.LineChartdata = data;
-        console.log(data)
       },
       error: (error) => console.log(error),
     });
@@ -241,10 +239,6 @@ export class StoreAnalysisComponent {
               name: 'Repeated Customer',
               value: Math.round(RepeatedCustomerCount),
             };
-
-            console.log('New Customer : ', newCustomer);
-            console.log('Repeated Customer : ', regularCustomer);
-
             // Update the signal value with the extracted data
             this.customerData.set([regularCustomer, newCustomer]);
           } else {
