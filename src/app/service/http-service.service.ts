@@ -4,6 +4,7 @@ import {
   crossSellingProducts,
   CustomerInsights,
   listData,
+  operatorResponse,
   productPerformance,
 } from '../type';
 import { LineChartData } from '../shared/line-chart/line-chart.component';
@@ -18,7 +19,7 @@ export class HttpService {
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
-  private timeFrame: 'week' | 'month' | 'year' = 'week';
+  private timeFrame: 'week' | 'month' | 'year' = 'month';
   public timeFrame$ = new BehaviorSubject<'week' | 'month' | 'year'>('week');
 
   setTargetValue(targetValue: 'sales' | 'quantity') {
@@ -51,7 +52,7 @@ export class HttpService {
   }
 
   getOperatorList() {
-    return this.httpClient.get(this.api + 'operator');
+    return this.httpClient.get<operatorResponse[]>(this.api + 'operator');
   }
 
   getDepartmentTrends(id: string[], timeFrame: string) {

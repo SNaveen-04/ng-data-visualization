@@ -8,14 +8,14 @@ import { ProductSalesComponent } from '../../../shared/product-sales/product-sal
 import { customerData } from '../../../../data';
 import { LineChartdata } from '../../../../data';
 import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
-import { listData } from '../../../type';
+import { listData, operatorResponse } from '../../../type';
 import { HttpService } from '../../../service/http-service.service';
 
 @Component({
   selector: 'app-operator-analysis',
   imports: [
     CustomerInsightsComponent,
-    // LineChartComponent,
+    LineChartComponent,
     DropDownComponent,
     ProductSalesComponent,
   ],
@@ -27,25 +27,34 @@ export class OperatorAnalysisComponent {
   customerData = customerData;
   filter = '';
   LineChartdata!: LineChartData;
-  listElements: listData = [];
-  selected = '';
+  yAxisLabel: 'sales' | 'quantity' = 'sales';
+  listElements: operatorResponse[] = [];
+  selected: operatorResponse = {
+    id: '',
+    name: '',
+    storeId: '',
+  };
   constructor() {
     Object.assign(this, { LineChartdata });
   }
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
-    this.httpService.getDepartmentsList().subscribe({
+    this.httpService.getOperatorList().subscribe({
       next: (data) => {
-        console.log(data);
         this.listElements = data;
-        this.selected = this.listElements[0].name;
+        this.selected = this.listElements[0];
       },
       error: (error) => console.log(error),
     });
+    const subscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        this.yAxisLabel = d;
+      },
+    });
   }
 
-  select(value: string) {
+  select(value: any) {
     console.log(value);
     this.selected = value;
   }

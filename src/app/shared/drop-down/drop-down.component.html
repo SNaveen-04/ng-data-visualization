@@ -1,7 +1,11 @@
 <div class="input" (click)="toggleVisible()">
-  <input type="text" [(ngModel)]="filterValue" />
+  <input
+    type="text"
+    [placeholder]="selectedValue()"
+    [(ngModel)]="filterValue"
+  />
   <span class="drop-down-arrow">
-    <img [src]="image_path" alt="P" class="profile-img" height="8" width="8"
+    <img [src]="image_path" alt="P" class="profile-img" height="24" width="24"
   /></span>
 </div>
 <div
