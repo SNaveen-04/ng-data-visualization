@@ -48,11 +48,15 @@
       <p>Cross selling department</p>
       <div class="scroll">
         @for (item of crossData; track $index) {
-        <app-cross-selling-bar-chart
-          [title]="item.name"
-          [data]="item.data"
-        ></app-cross-selling-bar-chart>
-        <br />
+          @if (item.data.length === 0) {
+            <!-- <p >No data available for {{item.name}}</p> -->
+          } @else {
+            <app-cross-selling-bar-chart
+              [title]="item.name"
+              [data]="item.data"
+            ></app-cross-selling-bar-chart>
+            <br />
+          }
         }
       </div>
     </div>

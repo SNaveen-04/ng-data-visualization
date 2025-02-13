@@ -128,11 +128,13 @@ export class StoreAnalysisComponent {
     finalData.sort((a, b) => {
       return a.value - b.value;
     });
+
     this.leastSellingData = finalData.slice(0, 5);
     this.topSellingData = finalData.slice(
       finalData.length - 5,
       finalData.length
     );
+
   }
 
   removeTopLeastData(id: string) {
