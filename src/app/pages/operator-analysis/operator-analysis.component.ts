@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -8,7 +8,12 @@ import { ProductSalesComponent } from '../../shared/product-sales/product-sales.
 import { customerData } from '../../../data';
 import { LineChartdata } from '../../../data';
 import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
-import { listData, operatorResponse, timeFrame } from '../../type';
+import {
+  customerInsightsData,
+  listData,
+  operatorResponse,
+  timeFrame,
+} from '../../type';
 import { HttpService } from '../../service/http-service.service';
 
 @Component({
@@ -26,7 +31,7 @@ export class OperatorAnalysisComponent {
   private httpService = inject(HttpService);
   private destroyRef = inject(DestroyRef);
 
-  customerData = customerData;
+  customerData = signal<customerInsightsData>([]);
   filter = '';
   LineChartdata!: LineChartData;
   yAxisLabel: 'sales' | 'quantity' = 'sales';
@@ -51,7 +56,7 @@ export class OperatorAnalysisComponent {
           console.log('--');
           this.filter = d;
           this.yAxisLabel = d;
-          this.getOperatorTrends();
+          this.getOperatorAnalysis();
         }
       },
     });
@@ -59,7 +64,7 @@ export class OperatorAnalysisComponent {
       next: (data) => {
         if (this.timeFrame !== data) {
           this.timeFrame = data;
-          this.getOperatorTrends();
+          this.getOperatorAnalysis();
         }
       },
     });
@@ -83,7 +88,7 @@ export class OperatorAnalysisComponent {
       next: (data) => {
         this.listElements = data;
         this.selected = this.listElements[0];
-        this.getOperatorTrends();
+        this.getOperatorAnalysis();
       },
       error: (error) => console.log(error),
     });
@@ -91,6 +96,54 @@ export class OperatorAnalysisComponent {
 
   select(value: any) {
     this.selected = value;
+    this.getOperatorAnalysis();
+  }
+  getOperatorAnalysis() {
+    this.getOperatorTrends();
+    this.getOperatorCustomerInsights();
+  }
+  getOperatorCustomerInsights() {
+    console.log('Selected id : ', this.selected.id);
+
+    this.httpService.getOperatorCustomerInsights(this.selected.id).subscribe({
+      next: (data: any) => {
+        this.customerData.set([]);
+        console.log('ci data :', data);
+        console.log('Before assigning : ', this.customerData());
+
+        if (this.filter === 'sales') {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][1]),
+          };
+
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][1]),
+          };
+
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        } else {
+          let newCustomer = {
+            name: data[0]['data'][0]['name'],
+            value: Math.round(data[0]['data'][0]['value'][0]),
+          };
+
+          let regularCustomer = {
+            name: data[0]['data'][1]['name'],
+            value: Math.round(data[0]['data'][1]['value'][0]),
+          };
+          console.log('New customer : ', newCustomer);
+          console.log('Repeated  customer : ', regularCustomer);
+
+          // Update the signal value with the extracted data
+          this.customerData.set([regularCustomer, newCustomer]);
+        }
+        console.log('CI : ', this.customerData());
+      },
+      error: (error) => console.log(error),
+    });
     this.getOperatorTrends();
   }
 }
