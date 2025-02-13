@@ -8,6 +8,7 @@ import { HorizontalBarChartComponent } from '../../../shared/horizontal-bar-char
 import { HttpService } from '../../../service/http-service.service';
 import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-down/multi-select-drop-down.component';
 import { ChipsComponent } from '../../../shared/chips/chips.component';
+import { customerData } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
 import { customerInsightsData, timeFrame } from '../../../type';
 @Component({
@@ -107,7 +108,6 @@ export class StoreAnalysisComponent {
       .getTopAndLeastPerformance(this.selectedIds, 'week')
       .subscribe({
         next: (data) => {
-          // console.log(data);
           this.createPerformanceData(data);
         },
         error: (e) => console.log(e),

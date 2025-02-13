@@ -15,7 +15,7 @@ export class LineChartComponent {
   format = '';
   chartData = input.required<LineChartData>();
   yAxisLabel = input.required<'sales' | 'quantity'>();
-  xAxisLabel: 'Month' | 'Week' | 'Year' = 'Month';
+  xAxisLabel: 'Month' | 'Week' | 'Year' | 'Day' = 'Month';
   private httpService = inject(HttpService);
 
   @ViewChild('chart') chart: any;
@@ -71,10 +71,19 @@ export class LineChartComponent {
         this.xAxisLabel = 'Month';
         return this.monthFormatter;
       } else {
-        this.xAxisLabel = 'Year';
-        return this.YearFormatter;
+        if (this.format === 'year') {
+          this.xAxisLabel = 'Year';
+          return this.YearFormatter;
+        }
+        return this.dayFormatter;
       }
     }
+  }
+
+  dayFormatter(date: string) {
+    const hour = new Date(date).getHours();
+    if (hour === 0) return 24;
+    return hour;
   }
 
   weekFormatter(date: string) {
@@ -100,6 +109,7 @@ export class LineChartComponent {
       'NOV',
       'DEC',
     ];
+    console.log(new Date(date).getHours());
     return months[new Date(date).getMonth()];
   }
 

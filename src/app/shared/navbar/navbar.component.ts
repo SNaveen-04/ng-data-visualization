@@ -5,11 +5,9 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
-import { storeId } from '../../../data';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../service/http-service.service';
 import { StoreType, timeFrame } from '../../type';
-import { DropDownComponent } from '../drop-down/drop-down.component';
 
 @Component({
   selector: 'multi-store-app-navbar',
@@ -25,12 +23,13 @@ export class MultiStoreNavbarComponent {
   isListOpen = false;
   filterValue: string = '1';
   isMultiStore = false;
-  navigationPrefix: '/multi' | '/single' = '/single';
+  navigationPrefix: '/multi/store' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
   timeFrame: timeFrame = 'week';
-  timeFrameList: timeFrame[] = ['week', 'month', 'year'];
+  timeFrameList: timeFrame[] = ['day', 'week', 'month', 'year'];
   isTFListOpen = false;
   get domain() {
+    if (this.timeFrame === 'day') return '0:00 - 24:00';
     if (this.timeFrame === 'week') return 'Mon - Sun';
     if (this.timeFrame === 'month') return '1 - 31';
     return 'Feb - Jan';
@@ -41,7 +40,7 @@ export class MultiStoreNavbarComponent {
       if (event instanceof NavigationEnd) {
         if (this.route.url.startsWith('/multi/')) {
           this.isMultiStore = true;
-          this.navigationPrefix = '/multi';
+          this.navigationPrefix = '/multi/store';
         } else {
           this.navigationPrefix = '/single';
           this.isMultiStore = false;
