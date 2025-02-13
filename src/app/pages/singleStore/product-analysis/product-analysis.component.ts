@@ -55,6 +55,7 @@ export class ProductAnalysisComponent {
     this.filter = this.httpService.getTargetValue();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
+        this.filter = d;
         this.yAxisLabel = d;
         this.getProductAnalysis();
       },
@@ -158,6 +159,19 @@ export class ProductAnalysisComponent {
             let regularCustomer = {
               name: data[0]['data'][1]['name'],
               value: Math.round(data[0]['data'][1]['value'][1]),
+            };
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          } else {
+            let newCustomer = {
+              name: data[0]['data'][0]['name'],
+              value: Math.round(data[0]['data'][0]['value'][0]),
+            };
+
+            let regularCustomer = {
+              name: data[0]['data'][1]['name'],
+              value: Math.round(data[0]['data'][1]['value'][0]),
             };
 
             // Update the signal value with the extracted data
