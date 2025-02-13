@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import { CrossSellingProductsComponent } from '../../../shared/cross-selling-products/cross-selling-products.component';
 import { LineChartdata } from '../../../../data';
@@ -30,6 +30,7 @@ import {
 })
 export class ProductAnalysisComponent {
   private httpService = inject(HttpService);
+  private destroyRef = inject(DestroyRef);
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   filter = '';
   customerData = signal<customerInsightsData>([]);
@@ -48,21 +49,30 @@ export class ProductAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
-    this.getProductList();
-    const subscriber = this.httpService.targetValue$.subscribe({
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.yAxisLabel = d;
-        if (this.selected.id !== '') {
-          this.getProductAnalysis();
-        }
+        this.getProductAnalysis();
       },
+    });
+    const storeSubscriber = this.httpService.storeId$.subscribe({
+      next: () => {
+        this.getProductList();
+        this.getProductAnalysis();
+      },
+    });
+    this.destroyRef.onDestroy(() => {
+      targetSubscriber.unsubscribe();
+      storeSubscriber.unsubscribe();
     });
   }
 
   getProductAnalysis() {
-    this.getProductTrends();
-    // this.getCrossSellingProducts();
-    // this.getProductCustomerInsights();
+    if (this.selected.id !== '') {
+      this.getProductTrends();
+      this.getCrossSellingProducts();
+      this.getProductCustomerInsights();
+    }
   }
 
   getProductList() {
@@ -71,7 +81,6 @@ export class ProductAnalysisComponent {
         this.listElements = data;
         this.selected = this.listElements[0];
         this.getProductAnalysis();
-        // this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });
@@ -126,7 +135,6 @@ export class ProductAnalysisComponent {
       .subscribe({
         next: (data) => {
           console.log('filter : ', this.filter);
-
           console.log('CI : ', data);
           this.customerData.set([]);
           data[0].forEach((d, i) => {
