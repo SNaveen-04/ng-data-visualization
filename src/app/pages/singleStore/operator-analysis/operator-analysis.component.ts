@@ -41,9 +41,9 @@ export class OperatorAnalysisComponent {
   }
 
   ngOnInit() {
-    this.filter = this.httpService.getTargetValue();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
+        this.filter = d;
         this.yAxisLabel = d;
       },
     });

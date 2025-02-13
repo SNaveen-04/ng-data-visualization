@@ -133,9 +133,8 @@ export class DepartmentAnalysisComponent {
       .getDepartmentCustomerInsights(this.selected.id, this.timeFrame)
       .subscribe({
         next: (data: any) => {
-          console.log('ci data :', data);
-          console.log('Check filter : ', this.filter);
-
+          this.customerData.set([]);
+          console.log('ci data from dept :', data);
           if (this.filter === 'sales') {
             let newCustomer = {
               name: data[0]['data'][0]['name'],
@@ -163,7 +162,7 @@ export class DepartmentAnalysisComponent {
             // Update the signal value with the extracted data
             this.customerData.set([regularCustomer, newCustomer]);
           }
-          console.log('CI : ', this.customerData());
+          console.log('fdbh', this.customerData());
         },
         error: (e) => console.log(e),
       });

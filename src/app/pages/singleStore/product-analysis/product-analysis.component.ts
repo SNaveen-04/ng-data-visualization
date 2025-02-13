@@ -148,6 +148,7 @@ export class ProductAnalysisComponent {
       .getProductCustomerInsights(this.selected.id, 'month')
       .subscribe({
         next: (data: any) => {
+          this.customerData.set([]);
           console.log('ci data :', data);
 
           if (this.filter === 'sales') {
