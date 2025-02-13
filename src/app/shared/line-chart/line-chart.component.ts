@@ -109,7 +109,6 @@ export class LineChartComponent {
       'NOV',
       'DEC',
     ];
-    console.log(new Date(date).getHours());
     return months[new Date(date).getMonth()];
   }
 
