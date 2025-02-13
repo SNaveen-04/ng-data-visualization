@@ -22,7 +22,7 @@ import { HttpService } from '../../service/http-service.service';
     CustomerInsightsComponent,
     LineChartComponent,
     DropDownComponent,
-    ProductSalesComponent,
+    // ProductSalesComponent,
   ],
   templateUrl: './operator-analysis.component.html',
   styleUrl: './operator-analysis.component.css',
