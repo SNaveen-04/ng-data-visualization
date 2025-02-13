@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Input, SimpleChanges } from '@angular/core';
 import * as d3 from 'd3';
-import { CrossSellingDepartments } from '../../../data';
 
 @Component({
   selector: 'app-cross-selling-bar-chart',
@@ -18,18 +17,16 @@ export class CrossSellingBarChartComponent implements OnInit {
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
   constructor() {}
   ngOnInit(): void {
-    if(window.innerWidth>=1541)
-      {
-         this.brower_width=500;
-      }
+    if(window.innerWidth>=1541) {
+      this.brower_width=500;
+    }
     this.createChart();
   }
-    ngOnChanges(changes: SimpleChanges): void {
-      if (changes['data']) {
-        this.createChart();
-      }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data']) {
+      this.createChart();
     }
-  
+  }
 
   private createChart(): void {
     const element = this.chartContainer.nativeElement;
@@ -61,9 +58,12 @@ export class CrossSellingBarChartComponent implements OnInit {
       .range([0, height])
       .padding(0.1); // Adjust padding as needed
 
-    // Add department names (y-axis labels)
     const offset = 50; // Adjust this value to reduce the space between deptName labels vertically
 
+    // Function to calculate y-coordinate
+    const calculateY = (i: number) => i * offset + y.bandwidth() / 2;
+
+    // Add department names (y-axis labels)
     svg
       .selectAll('.name')
       .data(this.data)
@@ -71,7 +71,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('text')
       .attr('class', 'name')
       .attr('x', -70)
-      .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
+      .attr('y', (d, i) => calculateY(i))
       .attr('alignment-baseline', 'middle')
       .text((d) => d.name)
       .attr('font-size', '15px')
@@ -87,7 +87,7 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('rect')
       .attr('class', 'bar')
       .attr('x', nameWidth + 20)
-      .attr('y', (d, i) => i * offset + y.bandwidth() / 3)
+      .attr('y', (d, i) => calculateY(i) - barHeight / 2)
       .attr('width', 0)
       .attr('height', barHeight)
       .attr('fill', this.color)
@@ -98,7 +98,7 @@ export class CrossSellingBarChartComponent implements OnInit {
         tooltip
           .html(
             `<span style="display: inline-block; width:12px;height:12px; background-color:${'#50C878'}; margin-right: 5px"></span>
-           ${d.name}
+            ${d.name}
               ${d.value}`
           )
           .style('left', event.pageX + 10 + 'px')
@@ -109,8 +109,8 @@ export class CrossSellingBarChartComponent implements OnInit {
       })
       .transition() // Add transition for animation
       .duration(800) // Duration of the animation in milliseconds
-      .attr('width', (d) => x(d.value))
-      
+      .attr('width', (d) => x(d.value));
+
     // Add sales values (x-axis labels)
     svg
       .selectAll('.salesPercent')
@@ -119,19 +119,12 @@ export class CrossSellingBarChartComponent implements OnInit {
       .append('text')
       .attr('class', 'salesPercent')
       .attr('x', (d) => nameWidth + departmentWidth + x(d.value) + 10)
-      .attr('y', (d, i) => i * offset + y.bandwidth() / 2)
+      .attr('y', (d, i) => calculateY(i))
       .attr('alignment-baseline', 'middle')
-      .text((d) =>
-        {
-          
-         d.value= Math.floor( d.value);
-        if(d.value>1000)
-        {
-           return Math.floor(d.value/1000)+"k"
-        }
-         return d.value;
-        }
-        )
+      .text((d) => {
+        d.value = Math.floor(d.value);
+        return d.value > 1000 ? Math.floor(d.value / 1000) + "k" : d.value;
+      })
       .attr('font-size', '15px')
       .attr('fill', '#666666');
   }

@@ -40,7 +40,6 @@ export class DepartmentBarChartComponent implements OnInit {
     } else {
       this.data.sort((a, b) => a.value - b.value);
     }
-
     const element = this.chartContainer.nativeElement;
     const data = this.data;
     const margin = { top: 15, right: 10, bottom: 20, left: 81 }; // Reduced bottom margin
@@ -74,7 +73,7 @@ export class DepartmentBarChartComponent implements OnInit {
       .enter()
       .append('text')
       .attr('x', -80) // Position the names at the start of the x-axis
-      .attr('y', (d) => y(d.name)! + y.bandwidth() / 3)
+      .attr('y', (d) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
       .text((d) => d.name)
       .attr('font-size', '15px')
@@ -87,9 +86,9 @@ export class DepartmentBarChartComponent implements OnInit {
       .append('rect')
       .attr('class', 'bar')
       .attr('x', 20)
-      .attr('y', (d) => (y(d.name) ?? 0) + 5)
+      .attr('y', (d) =>(y(d.name) ?? 0) + y.bandwidth() / 2 - 5)
       .attr('width', 0) // Start with width 0 for animation
-      .attr('height', y.bandwidth() - 15) // adjust for the bar height
+      .attr('height',10) // adjust for the bar height
       .attr('fill', this.color)
       .attr('rx', 5)
       .attr('ry', 5)
@@ -116,10 +115,10 @@ export class DepartmentBarChartComponent implements OnInit {
     labels
       .append('text')
       .attr('class', 'value-label')
-      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 - 2))
-      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 25) // Adjust label position accordingly
+      .attr('y', (d) => (y(d.name) ?? 0) + (y.bandwidth() / 2 ))
+      .attr('x', (d) => (x(d.value) ?? 0) * this.barWidth + 30) // Adjust label position accordingly
       .attr('font-weight', 'lighter')
-      .attr('fill', '#2222222')
+      .attr('fill', '#222222')
       .text((d) => `${this.labelFormatter(d.value)}`)
       .attr('font-family', 'afacad')
       .attr('text-baseline', 'start')
