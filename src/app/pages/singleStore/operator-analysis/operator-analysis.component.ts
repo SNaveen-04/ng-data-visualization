@@ -14,6 +14,7 @@ import {
   operatorResponse,
   timeFrame,
 } from '../../../type';
+
 import { HttpService } from '../../../service/http-service.service';
 
 @Component({
@@ -41,28 +42,29 @@ export class OperatorAnalysisComponent {
     storeId: '',
   };
   timeFrame: timeFrame = 'month';
-  constructor() {
-    Object.assign(this, { LineChartdata });
-  }
-
   ngOnInit() {
-    const targetSubscriber = this.httpService.targetValue$.subscribe({
-      next: (d) => {
-        this.filter = d;
-        this.yAxisLabel = d;
-        this.getOperatorAnalysis();
-      },
-    });
+    this.filter = this.httpService.getTargetValue();
+    this.timeFrame = this.httpService.getTimeFrame();
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
         this.getOperatorList();
+      },
+    });
+    const targetSubscriber = this.httpService.targetValue$.subscribe({
+      next: (d) => {
+        if (this.filter !== d) {
+          console.log('--');
+          this.filter = d;
+          this.yAxisLabel = d;
+          this.getOperatorTrends();
+        }
       },
     });
     const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
       next: (data) => {
         if (this.timeFrame !== data) {
           this.timeFrame = data;
-          this.getOperatorList();
+          this.getOperatorTrends();
         }
       },
     });
@@ -75,7 +77,10 @@ export class OperatorAnalysisComponent {
 
   getOperatorTrends() {
     this.httpService.getOperatorTrends(this.selected.id).subscribe({
-      next: (data) => console.log(data),
+      next: (data) => {
+        this.LineChartdata = data;
+      },
+      error: (e) => console.log(e),
     });
   }
   getOperatorList() {
@@ -140,5 +145,6 @@ export class OperatorAnalysisComponent {
       },
       error: (error) => console.log(error),
     });
+    this.getOperatorTrends();
   }
 }

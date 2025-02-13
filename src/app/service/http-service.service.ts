@@ -99,11 +99,14 @@ export class HttpService {
   }
 
   getOperatorTrends(id: any) {
-    return this.httpClient.post(this.api + 'analysis/trends?_for=operator', {
-      timeFrame: 'day',
-      operatorId: id,
-      targetValue: 'sales',
-    });
+    return this.httpClient.post<LineChartData>(
+      this.api + 'analysis/trends?_for=operator',
+      {
+        timeFrame: this.timeFrame,
+        operatorId: id,
+        targetValue: this.targetValue,
+      }
+    );
   }
 
   getProductPerformance(id: any) {

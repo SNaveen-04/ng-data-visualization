@@ -142,6 +142,7 @@
 }
 
 .filter > .domain {
+  width: 90px;
   padding: 0px 10px;
 }
 

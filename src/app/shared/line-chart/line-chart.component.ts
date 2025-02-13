@@ -29,10 +29,6 @@ export class LineChartComponent {
     return trends + ' trends';
   }
 
-  get data() {
-    return this.chartData();
-  }
-
   ngOnInit() {
     this.colors = [
       '#50c878',
@@ -75,6 +71,7 @@ export class LineChartComponent {
           this.xAxisLabel = 'Year';
           return this.YearFormatter;
         }
+        this.xAxisLabel = 'Day';
         return this.dayFormatter;
       }
     }

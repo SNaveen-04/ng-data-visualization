@@ -153,7 +153,6 @@ export class DepartmentAnalysisComponent {
           // Update the signal value with the extracted data
           this.customerData.set([regularCustomer, newCustomer]);
         }
-        console.log('CI : ', this.customerData());
       },
       error: (e) => console.log(e),
     });

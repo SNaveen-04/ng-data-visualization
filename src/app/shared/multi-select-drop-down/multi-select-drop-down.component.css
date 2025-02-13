@@ -33,6 +33,14 @@ input {
   padding: 4px;
   text-align: center;
   caret-color: #f3f3f3;
+  font-family: "afacad";
+  font-size: 16px;
+  margin: 0px 0px 0px 20px;
+}
+
+input::placeholder {
+  color: #000000;
+  opacity: 1;
 }
 
 input[type="checkbox"] {

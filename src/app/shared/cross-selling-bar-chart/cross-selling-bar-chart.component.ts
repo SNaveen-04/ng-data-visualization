@@ -18,7 +18,7 @@ export class CrossSellingBarChartComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {
     if(window.innerWidth>=1541) {
-      this.brower_width=500;
+      this.brower_width=450;
     }
     this.createChart();
   }

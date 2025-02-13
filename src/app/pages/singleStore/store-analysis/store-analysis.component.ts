@@ -126,6 +126,7 @@ export class StoreAnalysisComponent {
     finalData.sort((a, b) => {
       return a.value - b.value;
     });
+
     this.leastSellingData = finalData.slice(0, 5);
     this.topSellingData = finalData.slice(
       finalData.length - 5,
@@ -238,10 +239,6 @@ export class StoreAnalysisComponent {
               name: 'Repeated Customer',
               value: Math.round(RepeatedCustomerCount),
             };
-
-            console.log('New Customer : ', newCustomer);
-            console.log('Repeated Customer : ', regularCustomer);
-
             // Update the signal value with the extracted data
             this.customerData.set([regularCustomer, newCustomer]);
           } else {
