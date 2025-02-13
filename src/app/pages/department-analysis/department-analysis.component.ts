@@ -1,13 +1,13 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
+import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
   LineChartData,
-} from '../../../shared/line-chart/line-chart.component';
-import { DropDownComponent } from '../../../shared/drop-down/drop-down.component';
-import { HttpService } from '../../../service/http-service.service';
-import { customerInsightsData, listData, timeFrame } from '../../../type';
-import { DepartmentBarChartComponent } from '../../../shared/department-bar-chart/department-bar-chart.component';
+} from '../../shared/line-chart/line-chart.component';
+import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
+import { HttpService } from '../../service/http-service.service';
+import { customerInsightsData, listData, timeFrame } from '../../type';
+import { DepartmentBarChartComponent } from '../../shared/department-bar-chart/department-bar-chart.component';
 
 @Component({
   selector: 'app-department-analysis',
