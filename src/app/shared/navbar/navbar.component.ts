@@ -23,7 +23,7 @@ export class MultiStoreNavbarComponent {
   isListOpen = false;
   filterValue: string = '1';
   isMultiStore = false;
-  navigationPrefix: '/multi' | '/single' = '/single';
+  navigationPrefix: '/multi/store' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
   timeFrame: timeFrame = 'week';
   timeFrameList: timeFrame[] = ['week', 'month', 'year', 'day'];
@@ -39,7 +39,7 @@ export class MultiStoreNavbarComponent {
       if (event instanceof NavigationEnd) {
         if (this.route.url.startsWith('/multi/')) {
           this.isMultiStore = true;
-          this.navigationPrefix = '/multi';
+          this.navigationPrefix = '/multi/store';
         } else {
           this.navigationPrefix = '/single';
           this.isMultiStore = false;
