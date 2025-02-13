@@ -58,11 +58,17 @@ export class OperatorAnalysisComponent {
     });
   }
 
+  getOperatorTrends() {
+    this.httpService.getOperatorTrends(this.selected.id).subscribe({
+      next: (data) => console.log(data),
+    });
+  }
   getOperatorList() {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
         this.listElements = data;
         this.selected = this.listElements[0];
+        this.getOperatorTrends();
       },
       error: (error) => console.log(error),
     });
