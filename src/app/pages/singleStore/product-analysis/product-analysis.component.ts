@@ -53,16 +53,17 @@ export class ProductAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
+    const storeSubscriber = this.httpService.storeId$.subscribe({
+      next: () => {
+        console.log('init');
+        this.getProductList();
+        this.getProductAnalysis();
+      },
+    });
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.filter = d;
         this.yAxisLabel = d;
-        this.getProductAnalysis();
-      },
-    });
-    const storeSubscriber = this.httpService.storeId$.subscribe({
-      next: () => {
-        this.getProductList();
         this.getProductAnalysis();
       },
     });
@@ -130,7 +131,9 @@ export class ProductAnalysisComponent {
             }
             this.crossSellingProducts.set(temp);
           }
-          this.crossSellingProducts.set(d[0].data);
+          this.crossSellingProducts.set(
+            d[0].data.filter((_, index) => index < 5)
+          );
         },
         error: (e) => console.log(e),
       });
