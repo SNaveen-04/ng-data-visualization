@@ -31,6 +31,7 @@ export class MultiStoreNavbarComponent {
   timeFrameList: timeFrame[] = ['week', 'month', 'year'];
   isTFListOpen = false;
   ngOnInit() {
+    this.timeFrame = this.httpService.getTimeFrame();
     const subscriber = this.route.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (this.route.url.startsWith('/multi/')) {

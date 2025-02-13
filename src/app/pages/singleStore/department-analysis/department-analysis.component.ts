@@ -45,6 +45,7 @@ export class DepartmentAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
+    this.timeFrame = this.httpService.getTimeFrame();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.yAxisLabel = d;
@@ -57,9 +58,19 @@ export class DepartmentAnalysisComponent {
         this.getDepartmentAnalysis();
       },
     });
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+          this.getDepartmentAnalysis();
+        }
+      },
+    });
+
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
       storeSubscriber.unsubscribe();
+      timeFrameSubscriber.unsubscribe();
     });
   }
 

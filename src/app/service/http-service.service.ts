@@ -20,7 +20,7 @@ export class HttpService {
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
-  private timeFrame: timeFrame = 'month';
+  private timeFrame: timeFrame = 'year';
   public timeFrame$ = new BehaviorSubject<timeFrame>('week');
   public storeId$ = new BehaviorSubject<number>(1);
 
@@ -30,10 +30,8 @@ export class HttpService {
   }
 
   setTimeFrame(timeFrame: timeFrame) {
-    console.log('---');
-    console.log(timeFrame);
-
     this.timeFrame = timeFrame;
+    this.timeFrame$.next(timeFrame);
   }
 
   getTimeFrame() {
