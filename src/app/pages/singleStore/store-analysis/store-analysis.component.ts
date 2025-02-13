@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CustomerInsightsComponent } from '../../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -10,7 +10,7 @@ import { MultiSelectDropDownComponent } from '../../../shared/multi-select-drop-
 import { ChipsComponent } from '../../../shared/chips/chips.component';
 import { customerData } from '../../../../data';
 import { CrossSellingBarChartComponent } from '../../../shared/cross-selling-bar-chart/cross-selling-bar-chart.component';
-import { timeFrame } from '../../../type';
+import { customerInsightsData, timeFrame } from '../../../type';
 @Component({
   selector: 'app-store-analysis',
   imports: [
@@ -32,7 +32,7 @@ export class StoreAnalysisComponent {
   leastSellingData: any[] = [];
   topSellingData: any[] = [];
   topLeastTotalData: any;
-  customerData = customerData;
+  customerData = signal<customerInsightsData>([]);
   LineChartdata!: LineChartData;
   selectedIds: string[] = [];
   yAxisLabel: 'sales' | 'quantity' = 'sales';
@@ -65,9 +65,9 @@ export class StoreAnalysisComponent {
   }
 
   ngOnInit() {
-    this.filter = this.httpService.getTargetValue();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
+        this.filter = d;
         if (this.yAxisLabel !== d) {
           this.yAxisLabel = d;
           this.getStoreAnalysis();
@@ -77,7 +77,6 @@ export class StoreAnalysisComponent {
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
         this.getDepartmentsList();
-        this.getStoreAnalysis();
       },
     });
     const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
@@ -100,6 +99,7 @@ export class StoreAnalysisComponent {
       this.getDepartmentTrends();
       this.getTopLeastData();
       this.getCrossSellingData();
+      this.getDepartmentComparisonCustomerInsights();
     }
   }
 
@@ -185,9 +185,7 @@ export class StoreAnalysisComponent {
         });
         this.selectedIds = [this.listElements[0].id];
         this.listElements[0].selected = true;
-        this.getDepartmentTrends();
-        this.getTopLeastData();
-        this.getCrossSellingData();
+        this.getStoreAnalysis();
       },
       error: (e) => console.log(e),
     });
@@ -197,6 +195,7 @@ export class StoreAnalysisComponent {
     if (this.selectedIds.length !== 1) {
       this.removeTopLeastData(id);
       this.removeCrossSelingData(id);
+      this.removeCustomerInsights(id);
       this.selectedIds = this.selectedIds.filter((d) => d != id);
       let temp = '';
       this.listElements.map((d) => {
@@ -212,5 +211,59 @@ export class StoreAnalysisComponent {
         }
       });
     }
+  }
+  removeCustomerInsights(id: string) {
+    this.selectedIds = this.selectedIds.filter((d) => d !== id);
+    this.getDepartmentComparisonCustomerInsights();
+  }
+  getDepartmentComparisonCustomerInsights() {
+    this.httpService
+      .getDepartmentComparisonCustomerInsights(this.selectedIds, 'month')
+      .subscribe({
+        next: (data: any) => {
+          this.customerData.set([]);
+          let newCustomerCount = 0;
+          let RepeatedCustomerCount = 0;
+          if (this.filter === 'sales') {
+            data.forEach((element: any) => {
+              newCustomerCount += element['data'][0]['value'][1];
+              RepeatedCustomerCount += element['data'][1]['value'][1];
+            });
+            let newCustomer = {
+              name: 'New Customer',
+              value: Math.round(newCustomerCount),
+            };
+
+            let regularCustomer = {
+              name: 'Repeated Customer',
+              value: Math.round(RepeatedCustomerCount),
+            };
+
+            console.log('New Customer : ', newCustomer);
+            console.log('Repeated Customer : ', regularCustomer);
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          } else {
+            data.forEach((element: any) => {
+              newCustomerCount += element['data'][0]['value'][0];
+              RepeatedCustomerCount += element['data'][1]['value'][0];
+            });
+            let newCustomer = {
+              name: 'New Customer',
+              value: Math.round(newCustomerCount),
+            };
+
+            let regularCustomer = {
+              name: 'Repeated Customer',
+              value: Math.round(RepeatedCustomerCount),
+            };
+
+            // Update the signal value with the extracted data
+            this.customerData.set([regularCustomer, newCustomer]);
+          }
+        },
+        error: (e) => console.log(e),
+      });
   }
 }
