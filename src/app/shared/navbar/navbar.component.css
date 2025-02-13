@@ -3,7 +3,6 @@
   margin: 0;
   padding-left: 70px;
   padding-right: 20px;
-  /* padding-bottom: 5px; */
   padding-top: 5px;
   justify-content: space-between;
   background-color: white;
@@ -26,6 +25,7 @@
   margin-right: 20px;
   cursor: pointer;
   position: relative;
+  padding: 10px;
 }
 
 .store-id p {
@@ -41,6 +41,7 @@
 .drop-down {
   list-style: none;
   position: absolute;
+  top: 100%;
   left: -30px;
   padding: 10px;
   max-height: fit-content;
@@ -53,7 +54,8 @@
   font-size: 15px;
 }
 .drop-down-list {
-  padding: 5px;
+  padding: 6px;
+  font-size: 16px;
   cursor: pointer;
 }
 .drop-down-arrow > img {
