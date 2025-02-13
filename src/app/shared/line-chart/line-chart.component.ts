@@ -75,13 +75,15 @@ export class LineChartComponent {
           this.xAxisLabel = 'Year';
           return this.YearFormatter;
         }
-        return this.YearFormatter;
+        return this.dayFormatter;
       }
     }
   }
 
   dayFormatter(date: string) {
-    return new Date(date).getHours();
+    const hour = new Date(date).getHours();
+    if (hour === 0) return 24;
+    return hour;
   }
 
   weekFormatter(date: string) {
