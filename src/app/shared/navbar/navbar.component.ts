@@ -5,11 +5,9 @@ import {
   RouterLink,
   RouterLinkActive,
 } from '@angular/router';
-import { storeId } from '../../../data';
 import { FormsModule } from '@angular/forms';
 import { HttpService } from '../../service/http-service.service';
 import { StoreType, timeFrame } from '../../type';
-import { DropDownComponent } from '../drop-down/drop-down.component';
 
 @Component({
   selector: 'multi-store-app-navbar',
@@ -28,7 +26,7 @@ export class MultiStoreNavbarComponent {
   navigationPrefix: '/multi' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
   timeFrame: timeFrame = 'week';
-  timeFrameList: timeFrame[] = ['week', 'month', 'year'];
+  timeFrameList: timeFrame[] = ['week', 'month', 'year', 'day'];
   isTFListOpen = false;
   get domain() {
     if (this.timeFrame === 'week') return 'Mon - Sun';

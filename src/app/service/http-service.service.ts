@@ -20,7 +20,7 @@ export class HttpService {
   private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
-  private timeFrame: timeFrame = 'year';
+  private timeFrame: timeFrame = 'day';
   public timeFrame$ = new BehaviorSubject<timeFrame>('week');
   public storeId$ = new BehaviorSubject<number>(1);
 
