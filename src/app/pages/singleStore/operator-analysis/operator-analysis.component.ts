@@ -56,7 +56,7 @@ export class OperatorAnalysisComponent {
           console.log('--');
           this.filter = d;
           this.yAxisLabel = d;
-          this.getOperatorTrends();
+          this.getOperatorAnalysis();
         }
       },
     });
@@ -64,7 +64,7 @@ export class OperatorAnalysisComponent {
       next: (data) => {
         if (this.timeFrame !== data) {
           this.timeFrame = data;
-          this.getOperatorTrends();
+          this.getOperatorAnalysis();
         }
       },
     });
