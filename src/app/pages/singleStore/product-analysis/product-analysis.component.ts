@@ -52,10 +52,8 @@ export class ProductAnalysisComponent {
   }
 
   ngOnInit() {
-    this.filter = this.httpService.getTargetValue();
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
-        console.log('init');
         this.getProductList();
         this.getProductAnalysis();
       },
