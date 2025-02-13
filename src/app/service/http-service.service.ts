@@ -117,7 +117,7 @@ export class HttpService {
       }
     );
   }
-  getDepartmentComparisonCustomerInsights(id: any, timeFrame: string) {
+  getDepartmentComparisonCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
       {
@@ -148,6 +148,17 @@ export class HttpService {
         timeFrame: this.timeFrame,
         productIds: [id],
         storeId: this.storeId,
+        targetValue: 'any',
+      }
+    );
+  }
+
+  getOperatorCustomerInsights(id: any) {
+    return this.httpClient.post<CustomerInsights>(
+      this.api + 'analysis/insights',
+      {
+        timeFrame: this.timeFrame,
+        operatorId: id,
         targetValue: 'any',
       }
     );

@@ -38,6 +38,8 @@ export class DropDownComponent {
   }
 
   select(value: any) {
+    console.log('From drop down : ', value);
+
     this.selected.emit(value);
     this.filterValue.set(value.name);
     this.isListOpen = false;

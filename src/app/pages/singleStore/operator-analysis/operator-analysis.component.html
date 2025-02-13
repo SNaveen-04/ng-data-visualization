@@ -13,13 +13,16 @@
     <div class="customer-insights">
       Customer Insights
       <app-customer-insights
-        [customerInsightsData]="customerData"
+        [customerInsightsData]="customerData()"
         [filter]="filter"
       />
     </div>
     <div class="customer-insights">
       Product sales
-      <app-product-sales [customerInsightsData]="customerData" />
+      <!-- <app-product-sales
+        [customerInsightsData]="customerData()"
+        [filter]="filter"
+      /> -->
     </div>
   </div>
 </div>

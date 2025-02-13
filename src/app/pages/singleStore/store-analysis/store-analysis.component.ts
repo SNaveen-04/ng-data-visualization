@@ -218,7 +218,7 @@ export class StoreAnalysisComponent {
   }
   getDepartmentComparisonCustomerInsights() {
     this.httpService
-      .getDepartmentComparisonCustomerInsights(this.selectedIds, 'month')
+      .getDepartmentComparisonCustomerInsights(this.selectedIds)
       .subscribe({
         next: (data: any) => {
           this.customerData.set([]);
