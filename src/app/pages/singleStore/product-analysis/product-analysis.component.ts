@@ -52,7 +52,9 @@ export class ProductAnalysisComponent {
     const subscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.yAxisLabel = d;
-        this.getProductAnalysis();
+        if(this.selected.id !== ''){
+          this.getProductAnalysis();
+        }
       },
     });
   }
@@ -60,7 +62,7 @@ export class ProductAnalysisComponent {
   getProductAnalysis() {
     this.getProductTrends();
     this.getCrossSellingProducts();
-    this.getCrossSellingProducts();
+    this.getProductCustomerInsights();
   }
 
   getProductList() {
@@ -69,7 +71,7 @@ export class ProductAnalysisComponent {
         this.listElements = data;
         this.selected = this.listElements[0];
         this.getProductAnalysis();
-        this.getProductCustomerInsights();
+        // this.getProductCustomerInsights();
       },
       error: (e) => console.log(e),
     });

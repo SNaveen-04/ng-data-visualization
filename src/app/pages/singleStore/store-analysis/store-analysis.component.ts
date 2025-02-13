@@ -179,6 +179,8 @@ export class StoreAnalysisComponent {
 
   deselect(id: string) {
     if (this.selectedIds.length !== 1) {
+      this.removeTopLeastData(id);
+      this.removeCrossSelingData(id);
       this.selectedIds = this.selectedIds.filter((d) => d != id);
       let temp = '';
       this.listElements.map((d) => {
@@ -194,7 +196,6 @@ export class StoreAnalysisComponent {
         }
       });
     }
-    this.removeTopLeastData(id);
-    this.removeCrossSelingData(id);
+
   }
 }
