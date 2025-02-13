@@ -16,7 +16,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class HttpService {
   private httpClient = inject(HttpClient);
   private api = 'http://172.31.171.161:8080/api/v1/';
-  private storeId = '2';
+  private storeId = '1';
   private targetValue: 'sales' | 'quantity' = 'sales';
   public targetValue$ = new BehaviorSubject<'sales' | 'quantity'>('sales');
   private timeFrame: 'week' | 'month' | 'year' = 'month';
