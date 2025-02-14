@@ -12,7 +12,7 @@ import {
   timeFrame,
 } from '../../type';
 import { HttpService } from '../../service/http-service.service';
-import { DepartmentBarChartComponent } from "../../shared/department-bar-chart/department-bar-chart.component";
+import { DepartmentBarChartComponent } from '../../shared/department-bar-chart/department-bar-chart.component';
 
 @Component({
   selector: 'app-operator-analysis',
@@ -20,8 +20,8 @@ import { DepartmentBarChartComponent } from "../../shared/department-bar-chart/d
     CustomerInsightsComponent,
     LineChartComponent,
     DropDownComponent,
-    DepartmentBarChartComponent
-],
+    DepartmentBarChartComponent,
+  ],
   templateUrl: './operator-analysis.component.html',
   styleUrl: './operator-analysis.component.css',
 })
@@ -83,22 +83,25 @@ export class OperatorAnalysisComponent {
     this.httpService.getOperatorTrends(this.selected.id).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        this.LineChartdata = this.LineChartdata.map((d) => {
+          return {
+            ...d,
+            name: d.name.substring(8),
+          };
+        });
       },
       error: (e) => console.log(e),
     });
   }
-  
+
   getOperatorPerformance() {
     this.httpService.getOperatorPerformance(this.selected.id).subscribe({
       next: (data) => {
-        console.log("operator product perform : ",data);
-        
+        console.log('operator product perform : ', data);
+
         this.SellingProducts = data[0].data
-          .filter((_:any, index:number) => index < 5)
-          .map((d:{
-            name: string;
-            value: number;
-          }) => d);
+          .filter((_: any, index: number) => index < 5)
+          .map((d: { name: string; value: number }) => d);
       },
       error: (e) => console.log(e),
     });
@@ -108,6 +111,12 @@ export class OperatorAnalysisComponent {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
         this.listElements = data;
+        this.listElements = this.listElements.map((d) => {
+          return {
+            ...d,
+            name: d.name.substring(8),
+          };
+        });
         this.selected = this.listElements[0];
         this.getOperatorAnalysis();
       },
