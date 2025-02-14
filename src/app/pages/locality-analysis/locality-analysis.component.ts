@@ -75,7 +75,7 @@ export class LocalityAnalysisComponent {
     if (this.selected.id !== '') {
       this.getProductTrends();
       this.getCrossSellingProducts();
-      this.getProductCustomerInsights();
+      this.getMultiStoreCustomerInsights();
     }
   }
 
@@ -131,8 +131,8 @@ export class LocalityAnalysisComponent {
     }
   }
 
-  getProductCustomerInsights() {
-    this.httpService.getProductCustomerInsights(this.selected.id).subscribe({
+  getMultiStoreCustomerInsights() {
+    this.httpService.getMultiStoreCustomerInsights().subscribe({
       next: (data: any) => {
         console.log('ci data :', data);
 

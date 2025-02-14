@@ -120,6 +120,16 @@ export class HttpService {
       }
     );
   }
+  getMultiStoreCustomerInsights() {
+    return this.httpClient.post<CustomerInsights>(
+      this.api + 'analysis/insights',
+      {
+        timeFrame: this.timeFrame,
+        storeId: 0,
+        targetValue: 'any',
+      }
+    );
+  }
   getDepartmentComparisonCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
