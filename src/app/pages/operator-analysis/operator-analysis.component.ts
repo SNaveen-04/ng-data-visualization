@@ -4,9 +4,6 @@ import {
   LineChartComponent,
   LineChartData,
 } from '../../shared/line-chart/line-chart.component';
-import { ProductSalesComponent } from '../../shared/product-sales/product-sales.component';
-import { customerData } from '../../../data';
-import { LineChartdata } from '../../../data';
 import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
 import {
   customerInsightsData,
@@ -92,11 +89,16 @@ export class OperatorAnalysisComponent {
   }
   
   getOperatorPerformance() {
-    this.httpService.getProductPerformance(this.selected.id).subscribe({
+    this.httpService.getOperatorPerformance(this.selected.id).subscribe({
       next: (data) => {
+        console.log("operator product perform : ",data);
+        
         this.SellingProducts = data[0].data
-          .filter((_, index) => index < 5)
-          .map((d) => d);
+          .filter((_:any, index:number) => index < 5)
+          .map((d:{
+            name: string;
+            value: number;
+          }) => d);
       },
       error: (e) => console.log(e),
     });

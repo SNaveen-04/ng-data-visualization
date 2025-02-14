@@ -159,6 +159,19 @@ export class HttpService {
       }
     );
   }
+ 
+  getOperatorPerformance(id:any)
+  {
+     return this.httpClient.post<any>(
+      this.api+'analysis/performance/product',
+      {
+        timeFrame: this.timeFrame,
+        operatorId: id,
+        targetValue: this.targetValue
+      }
+     )
+  }
+
 
   getOperatorCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(
