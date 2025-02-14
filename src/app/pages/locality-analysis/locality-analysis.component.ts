@@ -66,7 +66,7 @@ export class LocalityAnalysisComponent {
   getProductAnalysis() {
     this.getLocalityTrends();
     // this.getCrossSellingProducts();
-    // this.getProductCustomerInsights();
+    this.getMultiStoreCustomerInsights();
   }
 
   getLocalityTrends() {
