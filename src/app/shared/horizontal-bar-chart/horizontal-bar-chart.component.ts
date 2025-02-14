@@ -40,7 +40,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('*').remove(); // Clear the previous chart
     if (this.title === 'Top selling products') {
-      this.data.sort((a, b) => a.value - b.value);
+      this.data.sort((a, b) => b.value - a.value);
       console.log("This is from Top selling  hori-chart",this.data);
     } else {
       this.data.sort((a, b) => a.value - b.value);
