@@ -132,12 +132,14 @@ export class StoreAnalysisComponent {
       this.topSellingData = finalData.slice(mid, finalData.length);
     } else {
       this.leastSellingData = finalData.slice(0, 5);
-      this.topSellingData = finalData.slice(finalData.length - 5, finalData.length);
+      this.topSellingData = finalData.slice(
+        finalData.length - 5,
+        finalData.length
+      );
     }
-  
-  
-console.log("Top selling" ,this.topLeastTotalData);
-console.log("least selling" ,this.leastSellingData);
+
+    console.log('Top selling', this.topLeastTotalData);
+    console.log('least selling', this.leastSellingData);
   }
 
   removeTopLeastData(id: string) {
@@ -231,40 +233,28 @@ console.log("least selling" ,this.leastSellingData);
           this.customerData.set([]);
           let newCustomerCount = 0;
           let RepeatedCustomerCount = 0;
+          let newCustomer = {
+            name: 'New Customer',
+          } as { name: string; value: number };
+          let repeatedCustomer = {
+            name: 'Repeated Customer',
+          } as { name: string; value: number };
           if (this.filter === 'sales') {
             data.forEach((element: any) => {
               newCustomerCount += element['data'][0]['value'][1];
               RepeatedCustomerCount += element['data'][1]['value'][1];
             });
-            let newCustomer = {
-              name: 'New Customer',
-              value: Math.round(newCustomerCount),
-            };
-
-            let regularCustomer = {
-              name: 'Repeated Customer',
-              value: Math.round(RepeatedCustomerCount),
-            };
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
+            newCustomer['value'] = Math.round(newCustomerCount);
+            repeatedCustomer['value'] = Math.round(RepeatedCustomerCount);
           } else {
             data.forEach((element: any) => {
               newCustomerCount += element['data'][0]['value'][0];
               RepeatedCustomerCount += element['data'][1]['value'][0];
             });
-            let newCustomer = {
-              name: 'New Customer',
-              value: Math.round(newCustomerCount),
-            };
-
-            let regularCustomer = {
-              name: 'Repeated Customer',
-              value: Math.round(RepeatedCustomerCount),
-            };
-
-            // Update the signal value with the extracted data
-            this.customerData.set([regularCustomer, newCustomer]);
+            newCustomer['value'] = Math.round(newCustomerCount);
+            repeatedCustomer['value'] = Math.round(RepeatedCustomerCount);
           }
+          this.customerData.set([repeatedCustomer, newCustomer]);
         },
         error: (e) => console.log(e),
       });

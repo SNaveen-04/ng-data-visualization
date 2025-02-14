@@ -22,8 +22,10 @@ interface Data {
 })
 export class CustomerInsightsComponent implements OnChanges {
   customerInsightsData = input.required<customerInsightsData>();
+
   filter = input.required<string>();
   totalCustomer: number = 0;
+  text: string = '';
   colors: string[] = ['#50C878', '#F4C542'];
 
   @ViewChild('chart', { static: true })
@@ -36,14 +38,13 @@ export class CustomerInsightsComponent implements OnChanges {
   private createDonutChart() {
     this.totalCustomer = 0;
     this.customerInsightsData().forEach((element) => {
-      if (element.name.startsWith('N')) {
-        element.name = 'New Customer';
-      } else {
-        element.name = 'Repeated Customer';
-      }
       this.totalCustomer += element.value;
     });
+    if (this.filter() === 'quantity') {
+      this.text = 'Total Customer';
+    }
     if (this.filter() === 'sales') {
+      this.text = 'Total Revenue';
       this.customerInsightsData().forEach((d) => {
         d.value = Math.round((d.value / this.totalCustomer) * 100);
       });
@@ -83,70 +84,70 @@ export class CustomerInsightsComponent implements OnChanges {
       .enter()
       .append('g')
       .attr('class', 'arc');
-
     arcs
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', (d) => color(d.data.name))
-      .on('mouseover', (event: MouseEvent, d: any) => {
-        const tooltip = d3.select(this.tooltip.nativeElement);
-        tooltip
-          .style('opacity', 1)
-          .style('left', `${event.pageX + 10}px`)
-          .style('top', `${event.pageY + 10}px`)
-          .html(
-            `<span style="display: inline-block; width:12px;height:12px; background-color:${color(
-              d.data.name
-            )}; margin-right: 5px"></span>
-           ${d.data.name}
-              ${d.data.value}%`
-          );
-      })
-      .on('mouseout', () => {
-        const tooltip = d3.select(this.tooltip.nativeElement);
-        tooltip.style('opacity', 0);
-      })
-      .each(function (d) {
-        (this as any)._current = d;
-      })
-      .transition()
-      .duration(1000)
-      .attrTween('d', function (d) {
-        const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
-        return (t) => arc(interpolate(t)) as string;
-      });
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '1.1em')
+      .style('font-size', '15px')
+      .attr('fill', '#666666')
+      .text(this.text);
+    arcs
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '-0.1em')
+      .style('font-size', '20px')
+      .text(this.totalCustomer);
+
+    const legendGroup = svg
+      .selectAll('.legend-group')
+      .data(this.customerInsightsData())
+      .enter()
+      .append('g')
+      .attr('class', 'legend-group')
+      .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
+
+    legendGroup
+      .append('rect')
+      .attr('width', 5)
+      .attr('height', 30)
+      .attr('x', -10)
+      .attr('y', -10)
+      .attr('rx', 3)
+      .attr('ry', 3)
+      .attr('fill', (d) => color(d.name));
 
     if (this.filter() === 'quantity') {
       arcs
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '1.1em')
-        .style('font-size', '15px')
-        .attr('fill', '#666666')
-        .text('Total customer');
-      arcs
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '-0.1em')
-        .style('font-size', '20px')
-        .text(this.totalCustomer);
-      const legendGroup = svg
-        .selectAll('.legend-group')
-        .data(this.customerInsightsData())
-        .enter()
-        .append('g')
-        .attr('class', 'legend-group')
-        .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
-
-      legendGroup
-        .append('rect')
-        .attr('width', 5)
-        .attr('height', 30)
-        .attr('x', -10)
-        .attr('y', -10)
-        .attr('rx', 3)
-        .attr('ry', 3)
-        .attr('fill', (d) => color(d.name));
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', (d) => color(d.data.name))
+        .on('mouseover', (event: MouseEvent, d: any) => {
+          const tooltip = d3.select(this.tooltip.nativeElement);
+          tooltip
+            .style('opacity', 1)
+            .style('left', `${event.pageX + 10}px`)
+            .style('top', `${event.pageY + 10}px`)
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${color(
+                d.data.name
+              )}; margin-right: 5px"></span>
+           ${d.data.name}
+              ${d.data.value}`
+            );
+        })
+        .on('mouseout', () => {
+          const tooltip = d3.select(this.tooltip.nativeElement);
+          tooltip.style('opacity', 0);
+        })
+        .each(function (d) {
+          (this as any)._current = d;
+        })
+        .transition()
+        .duration(1000)
+        .attrTween('d', function (d) {
+          const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+          return (t) => arc(interpolate(t)) as string;
+        });
 
       legendGroup
         .append('text')
@@ -169,36 +170,36 @@ export class CustomerInsightsComponent implements OnChanges {
         });
     } else {
       arcs
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '1.1em')
-        .style('font-size', '15px')
-        .attr('fill', '#666666')
-        .text('Total Revenue');
-      arcs
-        .append('text')
-        .attr('text-anchor', 'middle')
-        .attr('dy', '-0.1em')
-        .style('font-size', '20px')
-        .text(this.totalCustomer);
-
-      const legendGroup = svg
-        .selectAll('.legend-group')
-        .data(this.customerInsightsData())
-        .enter()
-        .append('g')
-        .attr('class', 'legend-group')
-        .attr('transform', (d, i) => `translate(100, ${i * 85 - height / 4})`);
-
-      legendGroup
-        .append('rect')
-        .attr('width', 5)
-        .attr('height', 30)
-        .attr('x', -10)
-        .attr('y', -10)
-        .attr('rx', 3)
-        .attr('ry', 3)
-        .attr('fill', (d) => color(d.name));
+        .append('path')
+        .attr('d', arc)
+        .attr('fill', (d) => color(d.data.name))
+        .on('mouseover', (event: MouseEvent, d: any) => {
+          const tooltip = d3.select(this.tooltip.nativeElement);
+          tooltip
+            .style('opacity', 1)
+            .style('left', `${event.pageX + 10}px`)
+            .style('top', `${event.pageY + 10}px`)
+            .html(
+              `<span style="display: inline-block; width:12px;height:12px; background-color:${color(
+                d.data.name
+              )}; margin-right: 5px"></span>
+           ${d.data.name}
+              ${d.data.value}%`
+            );
+        })
+        .on('mouseout', () => {
+          const tooltip = d3.select(this.tooltip.nativeElement);
+          tooltip.style('opacity', 0);
+        })
+        .each(function (d) {
+          (this as any)._current = d;
+        })
+        .transition()
+        .duration(1000)
+        .attrTween('d', function (d) {
+          const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+          return (t) => arc(interpolate(t)) as string;
+        });
 
       legendGroup
         .append('text')
@@ -220,9 +221,5 @@ export class CustomerInsightsComponent implements OnChanges {
             );
         });
     }
-  }
-
-  formatValue(num: number) {
-    return (num / this.totalCustomer) * 100;
   }
 }

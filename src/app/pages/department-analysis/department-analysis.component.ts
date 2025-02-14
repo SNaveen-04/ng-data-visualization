@@ -126,33 +126,25 @@ export class DepartmentAnalysisComponent {
   getCustomerInsights() {
     this.httpService.getDepartmentCustomerInsights(this.selected.id).subscribe({
       next: (data: any) => {
+        let newCustomer = {
+          name: 'New Customer',
+        } as { name: string; value: number };
+        let repeatedCustomer = {
+          name: 'Repeated Customer',
+        } as { name: string; value: number };
         if (this.filter === 'sales') {
-          let newCustomer = {
-            name: data[0]['data'][0]['name'],
-            value: Math.round(data[0]['data'][0]['value'][1]),
-          };
-
-          let regularCustomer = {
-            name: data[0]['data'][1]['name'],
-            value: Math.round(data[0]['data'][1]['value'][1]),
-          };
-
-          // Update the signal value with the extracted data
-          this.customerData.set([regularCustomer, newCustomer]);
+          newCustomer['value'] = Math.round(data[0]['data'][0]['value'][1]);
+          repeatedCustomer['value'] = Math.round(
+            data[0]['data'][1]['value'][1]
+          );
         } else {
-          let newCustomer = {
-            name: data[0]['data'][0]['name'],
-            value: Math.round(data[0]['data'][0]['value'][0]),
-          };
-
-          let regularCustomer = {
-            name: data[0]['data'][1]['name'],
-            value: Math.round(data[0]['data'][1]['value'][0]),
-          };
-
+          newCustomer['value'] = Math.round(data[0]['data'][0]['value'][0]);
+          repeatedCustomer['value'] = Math.round(
+            data[0]['data'][1]['value'][0]
+          );
           // Update the signal value with the extracted data
-          this.customerData.set([regularCustomer, newCustomer]);
         }
+        this.customerData.set([repeatedCustomer, newCustomer]);
       },
       error: (e) => console.log(e),
     });
