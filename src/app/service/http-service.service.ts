@@ -124,6 +124,17 @@ export class HttpService {
       }
     );
   }
+
+  getDepartmentPerformance() {
+    return this.httpClient.post<productPerformance>(
+      this.api + 'analysis/performance/department',
+      {
+        timeFrame: this.timeFrame,
+        targetValue: this.targetValue,
+      }
+    );
+  }
+
   getMultiStoreCustomerInsights() {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
@@ -169,19 +180,17 @@ export class HttpService {
       }
     );
   }
- 
-  getOperatorPerformance(id:any)
-  {
-     return this.httpClient.post<any>(
-      this.api+'analysis/performance/product',
+
+  getOperatorPerformance(id: any) {
+    return this.httpClient.post<any>(
+      this.api + 'analysis/performance/product',
       {
         timeFrame: this.timeFrame,
         operatorId: id,
-        targetValue: this.targetValue
+        targetValue: this.targetValue,
       }
-     )
+    );
   }
-
 
   getOperatorCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(

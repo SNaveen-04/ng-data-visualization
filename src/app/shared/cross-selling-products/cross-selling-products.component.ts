@@ -15,7 +15,9 @@ interface Data {
 })
 export class CrossSellingProductsComponent {
   crossSellingProductsData = input.required<Data[]>();
-  private httpService = inject(HttpService);
+  filter = input.required<string>();
+  title: string = '';
+  private readonly httpService = inject(HttpService);
   color = '#50C878';
   format: 'sales' | 'quantity' = 'sales';
   @ViewChild('barchart', { static: true })
@@ -34,6 +36,12 @@ export class CrossSellingProductsComponent {
   }
 
   private createSvg(): void {
+    if (this.filter() === 'products') {
+      this.title = 'Name';
+    } else {
+      this.title = 'Store Id';
+    }
+
     this.crossSellingProductsData().sort((a, b) => b.value - a.value);
     d3.select(this.chartContainer.nativeElement).select('svg').remove();
     this.svg = d3
@@ -98,7 +106,7 @@ export class CrossSellingProductsComponent {
         .attr('y', 0) // Adjust the y position as needed
         .attr('font-size', '15px')
         .attr('fill', '#666666')
-        .text('Name');
+        .text(this.title);
 
     this.svg
       .selectAll('.name')
@@ -108,7 +116,7 @@ export class CrossSellingProductsComponent {
       .attr('x', -70) // Position the names at the start of the x-axis
       .attr('y', (d: Data) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d: Data) => d.name)
+      .text((d: Data) => (this.filter() === 'products' ? d.name : d.department))
       .attr('font-size', '15px')
       .attr('fill', '#222222');
 
@@ -128,7 +136,7 @@ export class CrossSellingProductsComponent {
       .attr('x', nameWidth) // Position the department after the name
       .attr('y', (d: Data) => y(d.name)! + y.bandwidth() / 2)
       .attr('alignment-baseline', 'middle')
-      .text((d: Data) => d.department)
+      .text((d: Data) => (this.filter() === 'products' ? d.department : d.name))
       .attr('font-size', '15px')
       .attr('fill', '#222222');
 

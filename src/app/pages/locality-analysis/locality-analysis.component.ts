@@ -1,6 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CrossSellingProductsComponent } from '../../shared/cross-selling-products/cross-selling-products.component';
-import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
 import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -18,7 +17,6 @@ import {
   selector: 'app-locality-analysis',
   imports: [
     CrossSellingProductsComponent,
-    DropDownComponent,
     LineChartComponent,
     CustomerInsightsComponent,
   ],
@@ -26,8 +24,8 @@ import {
   styleUrl: './locality-analysis.component.css',
 })
 export class LocalityAnalysisComponent {
-  private httpService = inject(HttpService);
-  private destroyRef = inject(DestroyRef);
+  private readonly httpService = inject(HttpService);
+  private readonly destroyRef = inject(DestroyRef);
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   filter = '';
   customerData = signal<customerInsightsData>([]);
@@ -74,7 +72,7 @@ export class LocalityAnalysisComponent {
   getProductAnalysis() {
     if (this.selected.id !== '') {
       this.getProductTrends();
-      this.getCrossSellingProducts();
+      this.getDepartmentPerformance();
       this.getMultiStoreCustomerInsights();
     }
   }
@@ -100,25 +98,21 @@ export class LocalityAnalysisComponent {
     });
   }
 
-  getCrossSellingProducts() {
-    this.httpService.getCrossSellingProducts([this.selected.id]).subscribe({
+  getDepartmentPerformance() {
+    this.httpService.getDepartmentPerformance().subscribe({
       next: (d) => {
-        const temp = d[0].data;
-        if (temp.length < 3) {
-          let i = 1;
-          while (temp.length < 3) {
-            temp.push({
-              name: '-',
-              department: '-',
-              value: 0,
-            });
-            i++;
-          }
-          this.crossSellingProducts.set(temp);
-        }
-        this.crossSellingProducts.set(
-          d[0].data.filter((_, index) => index < 5)
-        );
+        let array: any[] = [];
+        let temp = d[0]['data'].slice(0, 5);
+        temp.forEach((data: any) => {
+          let tempFormat = {
+            name: data.name,
+            department: data.store.toString(),
+            value: data.value,
+          };
+          array.push(tempFormat);
+        });
+
+        this.crossSellingProducts.set(array);
       },
       error: (e) => console.log(e),
     });

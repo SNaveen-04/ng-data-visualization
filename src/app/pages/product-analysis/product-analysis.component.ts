@@ -119,6 +119,7 @@ export class ProductAnalysisComponent {
         this.crossSellingProducts.set(
           d[0].data.filter((_, index) => index < 5)
         );
+        console.log('From product : ', this.crossSellingProducts());
       },
       error: (e) => console.log(e),
     });
