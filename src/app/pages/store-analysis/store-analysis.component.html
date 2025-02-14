@@ -16,6 +16,7 @@
       <app-line-chart
         [chartData]="LineChartdata"
         [yAxisLabel]="yAxisLabel"
+        [xAxisLabel]="timeFrame"
       ></app-line-chart>
     </div>
     <div class="selling">
@@ -47,17 +48,15 @@
     <div class="cross-selling">
       <p>Cross selling department</p>
       <div class="scroll">
-        @for (item of crossData; track $index) {
-          @if (item.data.length === 0) {
-            <!-- <p >No data available for {{item.name}}</p> -->
-          } @else {
-            <app-cross-selling-bar-chart
-              [title]="item.name"
-              [data]="item.data"
-            ></app-cross-selling-bar-chart>
-            <br />
-          }
-        }
+        @for (item of crossData; track $index) { @if (item.data.length === 0) {
+        <!-- <p >No data available for {{item.name}}</p> -->
+        } @else {
+        <app-cross-selling-bar-chart
+          [title]="item.name"
+          [data]="item.data"
+        ></app-cross-selling-bar-chart>
+        <br />
+        } }
       </div>
     </div>
   </div>

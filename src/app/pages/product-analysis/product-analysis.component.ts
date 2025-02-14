@@ -134,8 +134,6 @@ export class ProductAnalysisComponent {
   getProductCustomerInsights() {
     this.httpService.getProductCustomerInsights(this.selected.id).subscribe({
       next: (data: any) => {
-        console.log('ci data :', data);
-
         if (this.filter === 'sales') {
           let newCustomer = {
             name: data[0]['data'][0]['name'],
@@ -163,7 +161,6 @@ export class ProductAnalysisComponent {
           // Update the signal value with the extracted data
           this.customerData.set([regularCustomer, newCustomer]);
         }
-        console.log('CI : ', this.customerData());
       },
       error: (e) => console.log(e),
     });

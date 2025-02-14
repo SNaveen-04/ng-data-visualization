@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { StoreAnalysisComponent } from './pages/store-analysis/store-analysis.component';
-import { ProductAnalysisComponent } from './pages/product-analysis/product-analysis.component';
 import { DepartmentAnalysisComponent } from './pages/department-analysis/department-analysis.component';
 import { OperatorAnalysisComponent } from './pages/operator-analysis/operator-analysis.component';
+import { LocalityAnalysisComponent } from './pages/locality-analysis/locality-analysis.component';
 
 export const routes: Routes = [
   {
@@ -14,24 +14,41 @@ export const routes: Routes = [
     path: 'single',
     children: [
       {
+        path: '',
+        redirectTo: 'analysis',
+        pathMatch: 'full',
+      },
+      {
         path: 'analysis',
         component: StoreAnalysisComponent,
       },
       {
         path: 'product',
-        component: ProductAnalysisComponent,
+        loadComponent: () =>
+          import('./pages/product-analysis/product-analysis.component').then(
+            (c) => c.ProductAnalysisComponent
+          ),
       },
       {
         path: 'department',
-        component: DepartmentAnalysisComponent,
+        loadComponent: () =>
+          import(
+            './pages/department-analysis/department-analysis.component'
+          ).then((c) => c.DepartmentAnalysisComponent),
       },
       {
         path: 'operator',
-        component: OperatorAnalysisComponent,
+        loadComponent: () =>
+          import('./pages/operator-analysis/operator-analysis.component').then(
+            (c) => c.OperatorAnalysisComponent
+          ),
       },
       {
         path: '**',
-        component: OperatorAnalysisComponent,
+        loadComponent: () =>
+          import('./pages/operator-analysis/operator-analysis.component').then(
+            (c) => c.OperatorAnalysisComponent
+          ),
       },
     ],
   },
@@ -40,12 +57,12 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'store/analysis',
+        redirectTo: 'overall',
         pathMatch: 'full',
       },
       {
         path: 'overall',
-        component: StoreAnalysisComponent,
+        component: LocalityAnalysisComponent,
       },
       {
         path: 'store',
@@ -56,19 +73,31 @@ export const routes: Routes = [
           },
           {
             path: 'product',
-            component: ProductAnalysisComponent,
+            loadComponent: () =>
+              import(
+                './pages/product-analysis/product-analysis.component'
+              ).then((c) => c.ProductAnalysisComponent),
           },
           {
             path: 'department',
-            component: DepartmentAnalysisComponent,
+            loadComponent: () =>
+              import(
+                './pages/department-analysis/department-analysis.component'
+              ).then((c) => c.DepartmentAnalysisComponent),
           },
           {
             path: 'operator',
-            component: OperatorAnalysisComponent,
+            loadComponent: () =>
+              import(
+                './pages/operator-analysis/operator-analysis.component'
+              ).then((c) => c.OperatorAnalysisComponent),
           },
           {
             path: '**',
-            component: OperatorAnalysisComponent,
+            loadComponent: () =>
+              import(
+                './pages/product-analysis/product-analysis.component'
+              ).then((c) => c.ProductAnalysisComponent),
           },
         ],
       },

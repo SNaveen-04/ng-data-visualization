@@ -8,7 +8,11 @@
 <div class="analysis">
   <div class="trends">
     @if(isLoaded){
-    <app-line-chart [chartData]="LineChartdata" [yAxisLabel]="'sales'" />
+    <app-line-chart
+      [chartData]="LineChartdata"
+      [yAxisLabel]="'sales'"
+      [xAxisLabel]="timeFrame"
+    />
     }
   </div>
   <div class="group-2">
@@ -20,7 +24,7 @@
       />
     </div>
     <div class="cross-selling">
-      Cross selling products
+      High Performing Departments
       <app-cross-selling-products
         [crossSellingProductsData]="crossSellingProducts()"
       />

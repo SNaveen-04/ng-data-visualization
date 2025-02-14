@@ -65,6 +65,10 @@ export class HttpService {
     return this.httpClient.get<operatorResponse[]>(this.api + 'stores');
   }
 
+  getLocalityTrends() {
+    return this.httpClient.get(this.api + '');
+  }
+
   getDepartmentTrends(id: string[]) {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=department',
