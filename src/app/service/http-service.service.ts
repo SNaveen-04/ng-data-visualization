@@ -65,6 +65,10 @@ export class HttpService {
     return this.httpClient.get<operatorResponse[]>(this.api + 'stores');
   }
 
+  getLocalityTrends() {
+    return this.httpClient.get(this.api + '');
+  }
+
   getDepartmentTrends(id: string[]) {
     return this.httpClient.post<LineChartData>(
       this.api + 'analysis/trends?_for=department',
@@ -165,6 +169,19 @@ export class HttpService {
       }
     );
   }
+ 
+  getOperatorPerformance(id:any)
+  {
+     return this.httpClient.post<any>(
+      this.api+'analysis/performance/product',
+      {
+        timeFrame: this.timeFrame,
+        operatorId: id,
+        targetValue: this.targetValue
+      }
+     )
+  }
+
 
   getOperatorCustomerInsights(id: any) {
     return this.httpClient.post<CustomerInsights>(

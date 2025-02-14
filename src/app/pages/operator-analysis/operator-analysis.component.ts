@@ -4,9 +4,6 @@ import {
   LineChartComponent,
   LineChartData,
 } from '../../shared/line-chart/line-chart.component';
-import { ProductSalesComponent } from '../../shared/product-sales/product-sales.component';
-import { customerData } from '../../../data';
-import { LineChartdata } from '../../../data';
 import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
 import {
   customerInsightsData,
@@ -15,6 +12,7 @@ import {
   timeFrame,
 } from '../../type';
 import { HttpService } from '../../service/http-service.service';
+import { DepartmentBarChartComponent } from "../../shared/department-bar-chart/department-bar-chart.component";
 
 @Component({
   selector: 'app-operator-analysis',
@@ -22,8 +20,8 @@ import { HttpService } from '../../service/http-service.service';
     CustomerInsightsComponent,
     LineChartComponent,
     DropDownComponent,
-    // ProductSalesComponent,
-  ],
+    DepartmentBarChartComponent
+],
   templateUrl: './operator-analysis.component.html',
   styleUrl: './operator-analysis.component.css',
 })
@@ -36,6 +34,10 @@ export class OperatorAnalysisComponent {
   LineChartdata!: LineChartData;
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   listElements: operatorResponse[] = [];
+  SellingProducts: {
+    name: string;
+    value: number;
+  }[] = [];
   selected: operatorResponse = {
     id: '',
     name: '',
@@ -74,7 +76,9 @@ export class OperatorAnalysisComponent {
       timeFrameSubscriber.unsubscribe();
     });
   }
-
+  get topSellingProducts() {
+    return this.SellingProducts;
+  }
   getOperatorTrends() {
     this.httpService.getOperatorTrends(this.selected.id).subscribe({
       next: (data) => {
@@ -83,6 +87,23 @@ export class OperatorAnalysisComponent {
       error: (e) => console.log(e),
     });
   }
+  
+  getOperatorPerformance() {
+    this.httpService.getOperatorPerformance(this.selected.id).subscribe({
+      next: (data) => {
+        console.log("operator product perform : ",data);
+        
+        this.SellingProducts = data[0].data
+          .filter((_:any, index:number) => index < 5)
+          .map((d:{
+            name: string;
+            value: number;
+          }) => d);
+      },
+      error: (e) => console.log(e),
+    });
+  }
+
   getOperatorList() {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
@@ -101,6 +122,7 @@ export class OperatorAnalysisComponent {
   getOperatorAnalysis() {
     this.getOperatorTrends();
     this.getOperatorCustomerInsights();
+    this.getOperatorPerformance();
   }
   getOperatorCustomerInsights() {
     this.httpService.getOperatorCustomerInsights(this.selected.id).subscribe({

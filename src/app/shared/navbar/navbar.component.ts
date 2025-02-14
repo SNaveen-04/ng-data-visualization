@@ -23,11 +23,12 @@ export class MultiStoreNavbarComponent {
   isListOpen = false;
   filterValue: string = '1';
   isMultiStore = false;
-  navigationPrefix: '/multi/store' | '/single' = '/single';
+  navigationPrefix: '/multi/store' | '/multi' | '/single' = '/single';
   targetValue: 'sales' | 'quantity' = 'sales';
   timeFrame: timeFrame = 'week';
   timeFrameList: timeFrame[] = ['day', 'week', 'month', 'year'];
   isTFListOpen = false;
+  routesEnabled = false;
   get domain() {
     const date = new Date();
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -74,10 +75,17 @@ export class MultiStoreNavbarComponent {
       if (event instanceof NavigationEnd) {
         if (this.route.url.startsWith('/multi/')) {
           this.isMultiStore = true;
-          this.navigationPrefix = '/multi/store';
+          this.navigationPrefix = '/multi';
+          if (this.route.url.startsWith('/multi/store')) {
+            this.routesEnabled = true;
+            this.navigationPrefix = '/multi/store';
+          } else {
+            this.routesEnabled = false;
+          }
         } else {
           this.navigationPrefix = '/single';
           this.isMultiStore = false;
+          this.routesEnabled = true;
         }
       }
     });

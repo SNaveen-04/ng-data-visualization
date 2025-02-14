@@ -1,4 +1,4 @@
-import { Component, inject, input, ViewChild } from '@angular/core';
+import { Component, DestroyRef, inject, input, ViewChild } from '@angular/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 import { curveCatmullRom } from 'd3-shape';
 import { CustomLinerChartService } from './CustomLineChartService';
@@ -12,17 +12,17 @@ import { HttpService } from '../../service/http-service.service';
 })
 export class LineChartComponent {
   private customLinerChartService = inject(CustomLinerChartService);
-  format = '';
+  timeFrame = '';
   chartData = input.required<LineChartData>();
   yAxisLabel = input.required<'sales' | 'quantity'>();
-  xAxisLabel: 'Month' | 'Week' | 'Year' | 'Day' = 'Month';
+  xAxisLabel = input.required<timeFrame>();
   private httpService = inject(HttpService);
-
+  private destroyRef = inject(DestroyRef);
   @ViewChild('chart') chart: any;
   view: [number, number] = [760, 400];
   colors: string[] = [];
   curve = curveCatmullRom;
-
+  max = 0;
   get Trends() {
     let trends = this.yAxisLabel();
     trends = trends.at(0)?.toUpperCase() + trends.substring(1);
@@ -30,6 +30,16 @@ export class LineChartComponent {
   }
 
   ngOnInit() {
+    const timeFrameSubscriber = this.httpService.timeFrame$.subscribe({
+      next: (data) => {
+        if (this.timeFrame !== data) {
+          this.timeFrame = data;
+        }
+      },
+    });
+    this.destroyRef.onDestroy(() => {
+      timeFrameSubscriber.unsubscribe();
+    });
     this.colors = [
       '#50c878',
       '#e92929',
@@ -44,7 +54,18 @@ export class LineChartComponent {
   }
 
   ngOnChanges() {
-    this.format = this.httpService.getTimeFrame();
+    this.max = 0;
+    this.timeFrame = this.httpService.getTimeFrame();
+    this.chartData().map((d) =>
+      d.series.map((s) => {
+        if (Number(s.value) > this.max) {
+          this.max = Number(s.value);
+        }
+      })
+    );
+    if (this.max < 100) {
+      this.max = 200;
+    }
   }
 
   ngAfterViewChecked() {
@@ -58,23 +79,34 @@ export class LineChartComponent {
     group: ScaleType.Ordinal,
   };
 
-  getFormatter() {
-    if (this.format === 'week') {
-      this.xAxisLabel = 'Week';
+  getXFormatter() {
+    if (this.xAxisLabel() === 'week') {
       return this.weekFormatter;
     } else {
-      if (this.format === 'month') {
-        this.xAxisLabel = 'Month';
+      if (this.xAxisLabel() === 'month') {
         return this.monthFormatter;
       } else {
-        if (this.format === 'year') {
-          this.xAxisLabel = 'Year';
+        if (this.xAxisLabel() === 'year') {
           return this.YearFormatter;
         }
-        this.xAxisLabel = 'Day';
         return this.dayFormatter;
       }
     }
+  }
+
+  getYFormatter() {
+    if (this.yAxisLabel() === 'sales') {
+      return this.salesFormat;
+    }
+    return this.normalFormat;
+  }
+
+  salesFormat(d: number) {
+    return '$' + d;
+  }
+
+  normalFormat(d: number) {
+    return d;
   }
 
   dayFormatter(date: string) {

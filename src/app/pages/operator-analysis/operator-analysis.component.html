@@ -7,7 +7,11 @@
 </div>
 <div class="analysis">
   <div class="trends">
-    <app-line-chart [chartData]="LineChartdata" [yAxisLabel]="yAxisLabel" />
+    <app-line-chart
+      [chartData]="LineChartdata"
+      [yAxisLabel]="yAxisLabel"
+      [xAxisLabel]="timeFrame"
+    />
   </div>
   <div class="group-2">
     <div class="customer-insights">
@@ -19,7 +23,9 @@
     </div>
     <div class="customer-insights">
       Product sales
-      <!-- <app-product-sales [customerInsightsData]="customerData()"   [filter]="filter"/> -->
+      <app-department-bar-chart
+      [data]="topSellingProducts"
+    ></app-department-bar-chart>
     </div>
   </div>
 </div>
