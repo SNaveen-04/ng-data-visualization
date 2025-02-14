@@ -15,6 +15,7 @@ import {
   timeFrame,
 } from '../../type';
 import { HttpService } from '../../service/http-service.service';
+import { DepartmentBarChartComponent } from "../../shared/department-bar-chart/department-bar-chart.component";
 
 @Component({
   selector: 'app-operator-analysis',
@@ -22,8 +23,8 @@ import { HttpService } from '../../service/http-service.service';
     CustomerInsightsComponent,
     LineChartComponent,
     DropDownComponent,
-    // ProductSalesComponent,
-  ],
+    DepartmentBarChartComponent
+],
   templateUrl: './operator-analysis.component.html',
   styleUrl: './operator-analysis.component.css',
 })
@@ -36,6 +37,10 @@ export class OperatorAnalysisComponent {
   LineChartdata!: LineChartData;
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   listElements: operatorResponse[] = [];
+  SellingProducts: {
+    name: string;
+    value: number;
+  }[] = [];
   selected: operatorResponse = {
     id: '',
     name: '',
@@ -74,7 +79,9 @@ export class OperatorAnalysisComponent {
       timeFrameSubscriber.unsubscribe();
     });
   }
-
+  get topSellingProducts() {
+    return this.SellingProducts;
+  }
   getOperatorTrends() {
     this.httpService.getOperatorTrends(this.selected.id).subscribe({
       next: (data) => {
@@ -83,6 +90,18 @@ export class OperatorAnalysisComponent {
       error: (e) => console.log(e),
     });
   }
+  
+  getOperatorPerformance() {
+    this.httpService.getProductPerformance(this.selected.id).subscribe({
+      next: (data) => {
+        this.SellingProducts = data[0].data
+          .filter((_, index) => index < 5)
+          .map((d) => d);
+      },
+      error: (e) => console.log(e),
+    });
+  }
+
   getOperatorList() {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
@@ -101,6 +120,7 @@ export class OperatorAnalysisComponent {
   getOperatorAnalysis() {
     this.getOperatorTrends();
     this.getOperatorCustomerInsights();
+    this.getOperatorPerformance();
   }
   getOperatorCustomerInsights() {
     this.httpService.getOperatorCustomerInsights(this.selected.id).subscribe({

@@ -19,7 +19,9 @@
     </div>
     <div class="customer-insights">
       Product sales
-      <!-- <app-product-sales [customerInsightsData]="customerData()"   [filter]="filter"/> -->
+      <app-department-bar-chart
+      [data]="topSellingProducts"
+    ></app-department-bar-chart>
     </div>
   </div>
 </div>
