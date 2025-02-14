@@ -23,6 +23,7 @@ export class LineChartComponent {
   colors: string[] = [];
   curve = curveCatmullRom;
   max = 0;
+  min = 0;
   get Trends() {
     let trends = this.yAxisLabel();
     trends = trends.at(0)?.toUpperCase() + trends.substring(1);
@@ -55,16 +56,23 @@ export class LineChartComponent {
 
   ngOnChanges() {
     this.max = 0;
+    this.min = 1000;
     this.timeFrame = this.httpService.getTimeFrame();
     this.chartData().map((d) =>
       d.series.map((s) => {
         if (Number(s.value) > this.max) {
           this.max = Number(s.value);
         }
+        if (Number(s.value) < this.min) {
+          this.min = Number(s.value);
+        }
       })
     );
     if (this.max < 100) {
       this.max = 200;
+    }
+    if (this.min == 0) {
+      this.min = -1;
     }
   }
 

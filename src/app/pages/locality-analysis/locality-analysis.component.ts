@@ -1,6 +1,5 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { CrossSellingProductsComponent } from '../../shared/cross-selling-products/cross-selling-products.component';
-import { DropDownComponent } from '../../shared/drop-down/drop-down.component';
 import { CustomerInsightsComponent } from '../../shared/customer-insights/customer-insights.component';
 import {
   LineChartComponent,
@@ -18,7 +17,6 @@ import {
   selector: 'app-locality-analysis',
   imports: [
     CrossSellingProductsComponent,
-    DropDownComponent,
     LineChartComponent,
     CustomerInsightsComponent,
   ],
@@ -43,12 +41,7 @@ export class LocalityAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
-    const storeSubscriber = this.httpService.storeId$.subscribe({
-      next: () => {
-        this.getProductList();
-        this.getProductAnalysis();
-      },
-    });
+    this.getLocalityTrends();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.filter = d;
@@ -66,32 +59,18 @@ export class LocalityAnalysisComponent {
     });
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
-      storeSubscriber.unsubscribe();
       timeFrameSubscriber.unsubscribe();
     });
   }
 
   getProductAnalysis() {
-    if (this.selected.id !== '') {
-      this.getProductTrends();
-      this.getCrossSellingProducts();
-      this.getProductCustomerInsights();
-    }
+    this.getLocalityTrends();
+    // this.getCrossSellingProducts();
+    // this.getProductCustomerInsights();
   }
 
-  getProductList() {
-    this.httpService.getProductList().subscribe({
-      next: (data) => {
-        this.listElements = data;
-        this.selected = this.listElements[0];
-        this.getProductAnalysis();
-      },
-      error: (e) => console.log(e),
-    });
-  }
-
-  getProductTrends() {
-    this.httpService.getProductTrends(this.selected.id).subscribe({
+  getLocalityTrends() {
+    this.httpService.getLocalityTrends().subscribe({
       next: (data) => {
         this.LineChartdata = data;
         this.isLoaded = true;
