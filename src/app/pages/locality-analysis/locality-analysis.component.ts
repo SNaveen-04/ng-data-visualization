@@ -41,12 +41,7 @@ export class LocalityAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
-    const storeSubscriber = this.httpService.storeId$.subscribe({
-      next: () => {
-        this.getProductList();
-        this.getProductAnalysis();
-      },
-    });
+    this.getLocalityTrends();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         this.filter = d;
@@ -64,32 +59,18 @@ export class LocalityAnalysisComponent {
     });
     this.destroyRef.onDestroy(() => {
       targetSubscriber.unsubscribe();
-      storeSubscriber.unsubscribe();
       timeFrameSubscriber.unsubscribe();
     });
   }
 
   getProductAnalysis() {
-    if (this.selected.id !== '') {
-      this.getProductTrends();
-      this.getDepartmentPerformance();
-      this.getMultiStoreCustomerInsights();
-    }
+    this.getLocalityTrends();
+    this.getDepartmentPerformance();
+    this.getMultiStoreCustomerInsights();
   }
 
-  getProductList() {
-    this.httpService.getProductList().subscribe({
-      next: (data) => {
-        this.listElements = data;
-        this.selected = this.listElements[0];
-        this.getProductAnalysis();
-      },
-      error: (e) => console.log(e),
-    });
-  }
-
-  getProductTrends() {
-    this.httpService.getProductTrends(this.selected.id).subscribe({
+  getLocalityTrends() {
+    this.httpService.getLocalityTrends().subscribe({
       next: (data) => {
         this.LineChartdata = data;
         this.isLoaded = true;

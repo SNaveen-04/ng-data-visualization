@@ -1,6 +1,7 @@
 .heading {
   padding: 20px 50px;
   display: flex;
+  font-size: 19px;
   justify-content: space-between;
 }
 

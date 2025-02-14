@@ -66,7 +66,14 @@ export class HttpService {
   }
 
   getLocalityTrends() {
-    return this.httpClient.get(this.api + '');
+    return this.httpClient.post<LineChartData>(
+      this.api + 'analysis/trends?_for=store',
+      {
+        timeFrame: this.timeFrame,
+        storeId: 0,
+        targetValue: this.targetValue,
+      }
+    );
   }
 
   getDepartmentTrends(id: string[]) {
