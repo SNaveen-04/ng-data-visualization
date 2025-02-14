@@ -103,44 +103,27 @@ export class OperatorAnalysisComponent {
     this.getOperatorCustomerInsights();
   }
   getOperatorCustomerInsights() {
-    console.log('Selected id : ', this.selected.id);
-
     this.httpService.getOperatorCustomerInsights(this.selected.id).subscribe({
       next: (data: any) => {
-        this.customerData.set([]);
-        console.log('ci data :', data);
-        console.log('Before assigning : ', this.customerData());
-
+        let newCustomer = {
+          name: 'New Customer',
+        } as { name: string; value: number };
+        let repeatedCustomer = {
+          name: 'Repeated Customer',
+        } as { name: string; value: number };
         if (this.filter === 'sales') {
-          let newCustomer = {
-            name: data[0]['data'][0]['name'],
-            value: Math.round(data[0]['data'][0]['value'][1]),
-          };
-
-          let regularCustomer = {
-            name: data[0]['data'][1]['name'],
-            value: Math.round(data[0]['data'][1]['value'][1]),
-          };
-
-          // Update the signal value with the extracted data
-          this.customerData.set([regularCustomer, newCustomer]);
+          newCustomer['value'] = Math.round(data[0]['data'][0]['value'][1]);
+          repeatedCustomer['value'] = Math.round(
+            data[0]['data'][1]['value'][1]
+          );
         } else {
-          let newCustomer = {
-            name: data[0]['data'][0]['name'],
-            value: Math.round(data[0]['data'][0]['value'][0]),
-          };
-
-          let regularCustomer = {
-            name: data[0]['data'][1]['name'],
-            value: Math.round(data[0]['data'][1]['value'][0]),
-          };
-          console.log('New customer : ', newCustomer);
-          console.log('Repeated  customer : ', regularCustomer);
-
+          newCustomer['value'] = Math.round(data[0]['data'][0]['value'][0]);
+          repeatedCustomer['value'] = Math.round(
+            data[0]['data'][1]['value'][0]
+          );
           // Update the signal value with the extracted data
-          this.customerData.set([regularCustomer, newCustomer]);
         }
-        console.log('CI : ', this.customerData());
+        this.customerData.set([repeatedCustomer, newCustomer]);
       },
       error: (error) => console.log(error),
     });
