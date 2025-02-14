@@ -23,7 +23,6 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
   @ViewChild('chart', { static: true }) private chartContainer!: ElementRef;
 
   constructor() {}
-
   ngOnInit(): void {
     if(window.innerWidth>=1541) {
       this.brower_width = 500;
@@ -38,16 +37,15 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
   }
 
   private createChart(): void {
-    if (this.title === 'Top selling products') {
-      this.data.sort((a, b) => b.value - a.value);
-    } else {
-      this.data.sort((a, b) => a.value - b.value);
-    }
-
     const element = this.chartContainer.nativeElement;
     d3.select(element).selectAll('*').remove(); // Clear the previous chart
-
-    const data = this.data;
+    if (this.title === 'Top selling products') {
+      this.data.sort((a, b) => b.value - a.value);
+      console.log("This is from Top selling  hori-chart",this.data);
+    } else {
+      this.data.sort((a, b) => a.value - b.value);
+      console.log("This is from least selling hori-chart",this.data);
+    }
     const margin = { top: 10, right: 10, bottom: 40, left: 100 }; // Increased left margin to provide space for labels
     const width = this.brower_width - margin.left - margin.right;
     const height = this.browser_height - margin.top - margin.bottom;
@@ -63,12 +61,12 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
 
     const x = d3
       .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value) ?? 0])
+      .domain([0, d3.max(this.data, (d) => d.value) ?? 0])
       .range([0, width + 10]);
 
     const y = d3
       .scaleBand()
-      .domain(data.map((d) => d.name))
+      .domain(this.data.map((d) => d.name))
       .range([0, height])
       .padding(0.2);
 
@@ -76,7 +74,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
 
     svg
       .selectAll('.name')
-      .data(data)
+      .data(this.data)
       .enter()
       .append('text')
       .attr('x', -100) // Align with bar and label
@@ -90,7 +88,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
     {
     svg
       .selectAll('.bar')
-      .data(data)
+      .data(this.data)
       .enter()
       .append('rect')
       .attr('class', 'bar')
@@ -122,7 +120,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
     else{
       svg
       .selectAll('.bar')
-      .data(data)
+      .data(this.data)
       .enter()
       .append('rect')
       .attr('class', 'bar')
@@ -153,7 +151,7 @@ export class HorizontalBarChartComponent implements OnInit, OnChanges {
     }
       svg
       .selectAll('.value-label')
-      .data(data)
+      .data(this.data)
       .enter()
       .append('text')
       .attr('class', 'value-label')

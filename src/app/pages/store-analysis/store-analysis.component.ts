@@ -126,12 +126,18 @@ export class StoreAnalysisComponent {
     finalData.sort((a, b) => {
       return a.value - b.value;
     });
-
-    this.leastSellingData = finalData.slice(0, 5);
-    this.topSellingData = finalData.slice(
-      finalData.length - 5,
-      finalData.length
-    );
+    if (finalData.length <= 10) {
+      const mid = Math.floor(finalData.length / 2);
+      this.leastSellingData = finalData.slice(0, mid);
+      this.topSellingData = finalData.slice(mid, finalData.length);
+    } else {
+      this.leastSellingData = finalData.slice(0, 5);
+      this.topSellingData = finalData.slice(finalData.length - 5, finalData.length);
+    }
+  
+  
+console.log("Top selling" ,this.topLeastTotalData);
+console.log("least selling" ,this.leastSellingData);
   }
 
   removeTopLeastData(id: string) {
