@@ -42,8 +42,9 @@ export class StoreAnalysisComponent {
     name: string;
     selected: boolean;
   }[] = [];
+
   get disabled() {
-    if (this.selectedDepartments.length === 1) return true;
+    if (this.selectedDepartments.length === 2) return true;
     return false;
   }
   get selectedDepartments() {
@@ -137,9 +138,6 @@ export class StoreAnalysisComponent {
         finalData.length
       );
     }
-
-    console.log('Top selling', this.topLeastTotalData);
-    console.log('least selling', this.leastSellingData);
   }
 
   removeTopLeastData(id: string) {
@@ -192,8 +190,9 @@ export class StoreAnalysisComponent {
             selected: false,
           };
         });
-        this.selectedIds = [this.listElements[0].id];
+        this.selectedIds = [this.listElements[0].id, this.listElements[1].id];
         this.listElements[0].selected = true;
+        this.listElements[1].selected = true;
         this.getStoreAnalysis();
       },
       error: (e) => console.log(e),
@@ -201,7 +200,7 @@ export class StoreAnalysisComponent {
   }
 
   deselect(id: string) {
-    if (this.selectedIds.length !== 1) {
+    if (this.selectedIds.length > 2) {
       this.removeTopLeastData(id);
       this.removeCrossSelingData(id);
       this.removeCustomerInsights(id);

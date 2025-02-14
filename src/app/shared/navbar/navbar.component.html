@@ -1,6 +1,19 @@
 <div class="navbar">
   <nav class="primary">
-    @if (isMultiStore) {
+    @if (isMultiStore) { @if(!routesEnabled){
+    <a
+      [routerLink]="navigationPrefix + '/overall'"
+      routerLinkActive="selected"
+      class="navigation"
+      >Analysis</a
+    >
+    <a
+      [routerLink]="navigationPrefix + '/store/analysis'"
+      routerLinkActive="selected"
+      class="navigation"
+      >Departments</a
+    >
+    } @else {
     <div class="store-id">
       <p (click)="toggleVisible()">
         Store ID {{ filterValue }}
@@ -27,7 +40,7 @@
       </div>
       }
     </div>
-    }
+    } } @if(routesEnabled){
     <a
       [routerLink]="navigationPrefix + '/analysis'"
       routerLinkActive="selected"
@@ -52,6 +65,7 @@
       class="navigation"
       >Operator</a
     >
+    }
   </nav>
   <div class="secondary">
     <div class="btn-group">

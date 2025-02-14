@@ -7,7 +7,11 @@
 </div>
 <div class="analysis">
   <div class="trends">
-    <app-line-chart [chartData]="LineChartdata" [yAxisLabel]="yAxisLabel" />
+    <app-line-chart
+      [chartData]="LineChartdata"
+      [yAxisLabel]="yAxisLabel"
+      [xAxisLabel]="timeFrame"
+    />
   </div>
   <div class="group-2">
     <div class="customer-insights">
