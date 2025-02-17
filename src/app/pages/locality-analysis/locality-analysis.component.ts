@@ -65,7 +65,7 @@ export class LocalityAnalysisComponent {
 
   getProductAnalysis() {
     this.getLocalityTrends();
-    // this.getCrossSellingProducts();
+    this.getCrossSellingProducts();
     this.getMultiStoreCustomerInsights();
   }
 
@@ -80,8 +80,9 @@ export class LocalityAnalysisComponent {
   }
 
   getCrossSellingProducts() {
-    this.httpService.getCrossSellingProducts([this.selected.id]).subscribe({
+    this.httpService.getCrossSellingProducts([0]).subscribe({
       next: (d) => {
+        console.log(d);
         const temp = d[0].data;
         if (temp.length < 3) {
           let i = 1;
