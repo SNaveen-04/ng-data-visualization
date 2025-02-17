@@ -1,10 +1,5 @@
 .analysis {
-<<<<<<< HEAD
-  margin: 0px 50px;
-  margin-top: 50px;
-=======
   margin: 50px 50px 0px;
->>>>>>> d3bf52f3ddd78dbbb13e3b5473f8a9fe74203534
   flex: 1;
   display: flex;
   flex-direction: row;
