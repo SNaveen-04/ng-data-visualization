@@ -94,6 +94,7 @@ export class ProductAnalysisComponent {
     this.httpService.getProductTrends(this.selected.id).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        this.LineChartdata[0].name = this.filter;
         this.isLoaded = true;
       },
       error: (error) => console.log(error),

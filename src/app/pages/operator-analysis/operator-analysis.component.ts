@@ -30,7 +30,7 @@ export class OperatorAnalysisComponent {
   private destroyRef = inject(DestroyRef);
 
   customerData = signal<customerInsightsData>([]);
-  filter = '';
+  filter: 'sales' | 'quantity' = 'sales';
   LineChartdata!: LineChartData;
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   listElements: operatorResponse[] = [];
@@ -46,6 +46,7 @@ export class OperatorAnalysisComponent {
   timeFrame: timeFrame = 'month';
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
+    this.yAxisLabel = this.filter;
     this.timeFrame = this.httpService.getTimeFrame();
     const storeSubscriber = this.httpService.storeId$.subscribe({
       next: () => {
@@ -55,7 +56,6 @@ export class OperatorAnalysisComponent {
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
         if (this.filter !== d) {
-          console.log('--');
           this.filter = d;
           this.yAxisLabel = d;
           this.getOperatorAnalysis();
@@ -86,7 +86,7 @@ export class OperatorAnalysisComponent {
         this.LineChartdata = this.LineChartdata.map((d) => {
           return {
             ...d,
-            name: d.name.substring(8),
+            name: this.filter,
           };
         });
       },
@@ -97,8 +97,6 @@ export class OperatorAnalysisComponent {
   getOperatorPerformance() {
     this.httpService.getOperatorPerformance(this.selected.id).subscribe({
       next: (data) => {
-        console.log('operator product perform : ', data);
-
         this.SellingProducts = data[0].data
           .filter((_: any, index: number) => index < 5)
           .map((d: { name: string; value: number }) => d);
