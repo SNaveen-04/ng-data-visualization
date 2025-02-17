@@ -25,7 +25,7 @@ export class DepartmentAnalysisComponent {
   private destroyRef = inject(DestroyRef);
   customerData = signal<customerInsightsData>([]);
   LineChartdata: LineChartData = [];
-  filter = '';
+  filter: 'sales' | 'quantity' = 'sales';
   SellingProducts: {
     name: string;
     value: number;
@@ -45,6 +45,7 @@ export class DepartmentAnalysisComponent {
 
   ngOnInit() {
     this.filter = this.httpService.getTargetValue();
+    this.yAxisLabel = this.filter;
     this.timeFrame = this.httpService.getTimeFrame();
     const targetSubscriber = this.httpService.targetValue$.subscribe({
       next: (d) => {
@@ -95,6 +96,7 @@ export class DepartmentAnalysisComponent {
     this.httpService.getDepartmentTrends([this.selected.id]).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        this.LineChartdata[0].name = this.filter;
         this.isLoaded = true;
       },
       error: (error) => console.log(error),

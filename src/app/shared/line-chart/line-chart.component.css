@@ -3,6 +3,7 @@
   display: flex;
   font-size: 19px;
   justify-content: space-between;
+  /* text-transform: uppercase; */
 }
 
 span {
@@ -21,7 +22,10 @@ span {
   color: #666666;
   cursor: default;
 }
-
+.title{
+  color: #404040;
+    font-size: 19px;
+}
 .x.axis .ng-star-inserted {
   stroke-dasharray: 10, 10 !important;
 }

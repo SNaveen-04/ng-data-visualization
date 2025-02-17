@@ -50,9 +50,10 @@
   width: 120px;
   border-radius: 30px;
   border-radius: 4px;
-  z-index: 1;
+  z-index: 10;
   font-size: 15px;
 }
+
 .drop-down-list {
   padding: 6px;
   font-size: 16px;
