@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, input, ViewChild } from '@angular/core';
 import { Color, NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
-import { curveCatmullRom } from 'd3-shape';
+import { curveCatmullRom, curveBasis } from 'd3-shape';
 import { CustomLinerChartService } from './CustomLineChartService';
 import { timeFrame } from '../../type';
 import { HttpService } from '../../service/http-service.service';
@@ -71,8 +71,8 @@ export class LineChartComponent {
     if (this.max < 100) {
       this.max = 200;
     }
-    if (this.min == 0) {
-      this.min = -1;
+    if (this.min < 200) {
+      this.min = 0;
     }
   }
 

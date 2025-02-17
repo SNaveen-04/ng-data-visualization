@@ -72,7 +72,9 @@ export class LocalityAnalysisComponent {
   getLocalityTrends() {
     this.httpService.getLocalityTrends().subscribe({
       next: (data) => {
+        console.log(data);
         this.LineChartdata = data;
+        this.LineChartdata[0].name = this.yAxisLabel;
         this.isLoaded = true;
       },
       error: (error) => console.log(error),
