@@ -13,11 +13,13 @@
 <div class="analysis">
   <div class="group-1">
     <div class="trends">
+      @if(isLoaded){
       <app-line-chart
         [chartData]="LineChartdata"
         [yAxisLabel]="yAxisLabel"
         [xAxisLabel]="timeFrame"
-      ></app-line-chart>
+      />
+      }
     </div>
     <div class="selling">
       <div class="top">
@@ -31,7 +33,8 @@
         <app-horizontal-bar-chart
           [data]="this.leastSellingData"
           color="#E74C3C"
-          title="Least selling product"></app-horizontal-bar-chart>
+          title="Least selling product"
+        ></app-horizontal-bar-chart>
       </div>
     </div>
   </div>
