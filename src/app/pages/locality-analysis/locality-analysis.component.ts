@@ -24,8 +24,8 @@ import {
   styleUrl: './locality-analysis.component.css',
 })
 export class LocalityAnalysisComponent {
-  private httpService = inject(HttpService);
-  private destroyRef = inject(DestroyRef);
+  private readonly httpService = inject(HttpService);
+  private readonly destroyRef = inject(DestroyRef);
   yAxisLabel: 'sales' | 'quantity' = 'sales';
   filter = '';
   customerData = signal<customerInsightsData>([]);
@@ -65,7 +65,7 @@ export class LocalityAnalysisComponent {
 
   getProductAnalysis() {
     this.getLocalityTrends();
-    this.getCrossSellingProducts();
+    this.getDepartmentPerformance();
     this.getMultiStoreCustomerInsights();
   }
 
@@ -79,26 +79,21 @@ export class LocalityAnalysisComponent {
     });
   }
 
-  getCrossSellingProducts() {
-    this.httpService.getCrossSellingProducts([0]).subscribe({
+  getDepartmentPerformance() {
+    this.httpService.getDepartmentPerformance().subscribe({
       next: (d) => {
-        console.log(d);
-        const temp = d[0].data;
-        if (temp.length < 3) {
-          let i = 1;
-          while (temp.length < 3) {
-            temp.push({
-              name: '-',
-              department: '-',
-              value: 0,
-            });
-            i++;
-          }
-          this.crossSellingProducts.set(temp);
-        }
-        this.crossSellingProducts.set(
-          d[0].data.filter((_, index) => index < 5)
-        );
+        let array: any[] = [];
+        let temp = d[0]['data'].slice(0, 5);
+        temp.forEach((data: any) => {
+          let tempFormat = {
+            name: data.name,
+            department: data.store.toString(),
+            value: data.value,
+          };
+          array.push(tempFormat);
+        });
+
+        this.crossSellingProducts.set(array);
       },
       error: (e) => console.log(e),
     });

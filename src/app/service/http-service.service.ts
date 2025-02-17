@@ -131,6 +131,17 @@ export class HttpService {
       }
     );
   }
+
+  getDepartmentPerformance() {
+    return this.httpClient.post<productPerformance>(
+      this.api + 'analysis/performance/department',
+      {
+        timeFrame: this.timeFrame,
+        targetValue: this.targetValue,
+      }
+    );
+  }
+
   getMultiStoreCustomerInsights() {
     return this.httpClient.post<CustomerInsights>(
       this.api + 'analysis/insights',
