@@ -42,7 +42,7 @@ export class StoreAnalysisComponent {
     name: string;
     selected: boolean;
   }[] = [];
-
+  isLoaded = false;
   get disabled() {
     if (this.selectedDepartments.length === 2) return true;
     return false;
@@ -176,6 +176,7 @@ export class StoreAnalysisComponent {
     this.httpService.getDepartmentTrends(this.selectedIds).subscribe({
       next: (data) => {
         this.LineChartdata = data;
+        this.isLoaded = true;
       },
       error: (error) => console.log(error),
     });
