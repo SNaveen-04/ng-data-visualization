@@ -11,11 +11,9 @@ export class DropDownComponent {
   selectedValue = input.required<string>();
   listElements = input.required<listData>();
   selected = output<any>();
-
   filterValue = signal('');
   image_path = 'assets/images/dropdown.png';
   isListOpen = false;
-
   filteredList = computed(() => {
     if (
       this.listElements()

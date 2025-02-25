@@ -109,12 +109,12 @@ export class OperatorAnalysisComponent {
     this.httpService.getOperatorList().subscribe({
       next: (data) => {
         this.listElements = data;
-        this.listElements = this.listElements.map((d) => {
-          return {
-            ...d,
-            name: d.name.substring(8),
-          };
-        });
+        // this.listElements = this.listElements.map((d) => {
+        //   return {
+        //     ...d,
+        // name: d.name.substring(8),
+        //   };
+        // });
         this.selected = this.listElements[0];
         this.getOperatorAnalysis();
       },

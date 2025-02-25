@@ -29,13 +29,13 @@ export const routes: Routes = [
             (c) => c.ProductAnalysisComponent
           ),
       },
-      {
-        path: 'department',
-        loadComponent: () =>
-          import(
-            './pages/department-analysis/department-analysis.component'
-          ).then((c) => c.DepartmentAnalysisComponent),
-      },
+      // {
+      //   path: 'department',
+      //   loadComponent: () =>
+      //     import(
+      //       './pages/department-analysis/department-analysis.component'
+      //     ).then((c) => c.DepartmentAnalysisComponent),
+      // },
       {
         path: 'operator',
         loadComponent: () =>
@@ -78,13 +78,13 @@ export const routes: Routes = [
                 './pages/product-analysis/product-analysis.component'
               ).then((c) => c.ProductAnalysisComponent),
           },
-          {
-            path: 'department',
-            loadComponent: () =>
-              import(
-                './pages/department-analysis/department-analysis.component'
-              ).then((c) => c.DepartmentAnalysisComponent),
-          },
+          // {
+          //   path: 'department',
+          //   loadComponent: () =>
+          //     import(
+          //       './pages/department-analysis/department-analysis.component'
+          //     ).then((c) => c.DepartmentAnalysisComponent),
+          // },
           {
             path: 'operator',
             loadComponent: () =>

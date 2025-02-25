@@ -44,7 +44,7 @@ export class StoreAnalysisComponent {
   }[] = [];
   isLoaded = false;
   get disabled() {
-    if (this.selectedDepartments.length === 2) return true;
+    // if (this.selectedDepartments.length === 1) return true;
     return false;
   }
   get selectedDepartments() {
@@ -191,9 +191,11 @@ export class StoreAnalysisComponent {
             selected: false,
           };
         });
-        this.selectedIds = [this.listElements[0].id, this.listElements[1].id];
+        // this.selectedIds = [this.listElements[0].id, this.listElements[1].id];
+        this.selectedIds = [this.listElements[0].id];
         this.listElements[0].selected = true;
-        this.listElements[1].selected = true;
+
+        // this.listElements[1].selected = true;
         this.getStoreAnalysis();
       },
       error: (e) => console.log(e),
@@ -201,7 +203,7 @@ export class StoreAnalysisComponent {
   }
 
   deselect(id: string) {
-    if (this.selectedIds.length > 2) {
+    if (this.selectedIds.length > 0) {
       this.removeTopLeastData(id);
       this.removeCrossSelingData(id);
       this.removeCustomerInsights(id);

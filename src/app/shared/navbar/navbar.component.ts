@@ -30,17 +30,11 @@ export class MultiStoreNavbarComponent {
   isTFListOpen = false;
   routesEnabled = false;
   get domain() {
-    const date = new Date();
+    const date = new Date("03-07-2025");
+    const currentMonth = date.getMonth();
+    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const daysOfWeek = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
-    if (this.timeFrame === 'day') {
-      const currentHour = date.getHours();
-      return `${currentHour}:00 - ${currentHour}:00`;
-    }
-    if (this.timeFrame === 'week') {
-      const currentDay = date.getDay();
-      return `${daysOfWeek[(currentDay + 1) % 7]} - ${daysOfWeek[currentDay]}`;
-    }
     const months = [
       'Jan',
       'Feb',
@@ -55,8 +49,29 @@ export class MultiStoreNavbarComponent {
       'Nov',
       'Dec',
     ];
-    const currentMonth = date.getMonth();
-    const prevMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const currentDate = date.getDate();
+    const prevDate = currentDate -1;
+    if (this.timeFrame === 'day') {
+      if(prevDate<1){
+        return `${days[prevMonth]} ${
+          months[prevMonth]
+        }- ${currentDate} ${months[currentMonth]}`;
+      }
+      return `${prevDate} ${
+        months[currentMonth]
+      }- ${currentDate} ${months[currentMonth]}`;
+    }
+    if (this.timeFrame === 'week') {
+      const prevWeekDay = currentDate - 7;
+      if(prevWeekDay < 1){
+        return `${days[prevMonth] +prevWeekDay} ${
+          months[prevMonth]
+        }- ${currentDate} ${months[currentMonth]}`;
+      }
+      return `${prevWeekDay} ${
+        months[currentMonth]
+      }- ${currentDate} ${months[currentMonth]}`;
+    }
     if (this.timeFrame === 'month') {
       const currentDate = date.getDate();
       const startingDate = 30 - currentDate;
@@ -128,3 +143,11 @@ export class MultiStoreNavbarComponent {
     return timeFrame.at(0)?.toUpperCase() + timeFrame.substring(1);
   }
 }
+
+
+// <a
+// [routerLink]="navigationPrefix + '/department'"
+// routerLinkActive="selected"
+// class="navigation"
+// >Departments</a
+// >
